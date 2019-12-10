@@ -6,7 +6,7 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { AccordionModule } from 'primeng/accordion';     //accordion and accordion tab
 import { MenuItem } from 'primeng/api';                 //api
-import { MatSidenavModule, MatTabsModule, MatAutocompleteModule, MatBadgeModule, MatSnackBarModule, MatPaginatorModule, MatSortModule, MatToolbarModule, MatChipsModule, MatIconModule, MatListModule, MatCardModule, MatButtonModule, MatTableModule, MatSelectModule, MatInputModule, MatDialogModule, MatProgressBarModule, MatTooltipModule, MatDatepickerModule, MatCheckboxModule, MatExpansionModule, MatSlideToggleModule, MatProgressSpinnerModule, MatNativeDateModule } from '@angular/material';
+import { MatSidenavModule, MatFormFieldModule, MatTabsModule, MatAutocompleteModule, MatBadgeModule, MatSnackBarModule, MatPaginatorModule, MatSortModule, MatToolbarModule, MatChipsModule, MatIconModule, MatListModule, MatCardModule, MatButtonModule, MatTableModule, MatSelectModule, MatInputModule, MatDialogModule, MatProgressBarModule, MatTooltipModule, MatDatepickerModule, MatCheckboxModule, MatExpansionModule, MatSlideToggleModule, MatProgressSpinnerModule, MatNativeDateModule } from '@angular/material';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { NgScrollbarModule } from 'ngx-scrollbar';
@@ -22,7 +22,7 @@ import {AlertComponent } from './_directives/index';
 import { CheckoutComponent } from './cashier/checkout/checkout.component';
 import { CheckinComponent, CheckinModal } from './cashier/checkin/checkin.component';
 import { CategoriesComponent } from './cashier/categories/categories.component';
-import { ItemsComponent } from './cashier/items/items.component';
+import { ItemsComponent, DetailsModal } from './cashier/items/items.component';
 import {TodoComponent } from './todo/todo.component';
 import {AdminDashboardComponent} from './admin-dashboard/admin-dashboard.component'
 import { AdminHomeComponent} from './admin-dashboard/admin-home/admin-home.component'
@@ -42,7 +42,8 @@ import { AdminHomeComponent} from './admin-dashboard/admin-home/admin-home.compo
     AdminDashboardComponent,
     AdminHomeComponent,
     TodoComponent,
-    CheckinModal
+    CheckinModal,
+    DetailsModal
   ],
   imports: [
     FormsModule, ReactiveFormsModule, HttpClientModule, FlexLayoutModule,
@@ -55,11 +56,11 @@ import { AdminHomeComponent} from './admin-dashboard/admin-home/admin-home.compo
     MatInputModule, MatDialogModule, MatProgressBarModule,
     MatTooltipModule, MatDatepickerModule, MatCheckboxModule,
     MatExpansionModule, MatSlideToggleModule, MatProgressSpinnerModule,
-    MatNativeDateModule, NgScrollbarModule, MatTabsModule
+    MatNativeDateModule, NgScrollbarModule, MatTabsModule, MatFormFieldModule
   ],
   
   entryComponents: [
-    CheckinModal
+    CheckinModal, DetailsModal
   ],
   providers: [LoginService,AlertService, AuthGuard, AdminAuthGuard, TodoService, ItemsService, CheckoutService, CategoriesService],
   bootstrap: [AppComponent]

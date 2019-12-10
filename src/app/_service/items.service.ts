@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
+import { TocheckIn } from '../_model/checkIn';
 
 @Injectable({
   providedIn: 'root'
@@ -51,4 +52,7 @@ export class ItemsService {
     this.category = undefined;
   }
   
+  checkInItem(toChekIn: TocheckIn){
+    return this.http.post(`${environment.baseUrl}/checkin`,toChekIn)
+  }
 }
