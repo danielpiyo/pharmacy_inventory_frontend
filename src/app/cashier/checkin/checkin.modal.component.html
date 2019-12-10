@@ -1,0 +1,52 @@
+<div class="panel panel-primary">
+    <div class="panel-heading">
+        CheckIn Item
+        <div style="text-align: right;"><button mat-button color="warn" (click)="onNoClick()">CLOSE
+                <span matBadge="X" matBadgeColor="warn"></span>
+            </button></div>
+    </div>
+    <mat-card>
+        <hr>
+        <div class="opportunity-container">
+            <mat-form-field appearance="outline">
+                <mat-label>Opportunity Name</mat-label>
+                <input matInput placeholder="Opportunity Name" name="opp_name">
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Opportunity Location</mat-label>
+                <input matInput placeholder="Opportunity location" name="opp_location">
+            </mat-form-field><br>
+
+            <mat-form-field>
+                <mat-label>Skills Required</mat-label>
+                <textarea matInput placeholder="Skill" name="opp_skills"></textarea>
+            </mat-form-field>
+            <mat-form-field>
+                <mat-label>Description</mat-label>
+                <textarea matInput placeholder="Description" name="opp_description"></textarea>
+            </mat-form-field><br>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Start Date</mat-label>
+                <input matInput placeholder="Start Date" [matDatepicker]="picker" (focus)="picker.open()"
+                    name="opp_start" required readonly>
+            </mat-form-field>
+            <mat-datepicker #picker></mat-datepicker>
+
+            <mat-form-field appearance="outline">
+                <mat-label>Opportunity Period:</mat-label>
+                <mat-select placeholder="Select" name="opp_duration">
+                    <mat-option value="3 months">3 Months</mat-option>
+                    <mat-option value="5 months">5 Months</mat-option>
+                    <mat-option value="1 year">1 Year</mat-option>
+                    <mat-option value="2 years">2 Years</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <hr>
+            <mat-card mat-dialog-actions>
+                <button mat-button color="warn" (click)="onNoClick()">CANCEL</button>
+                <button mat-button color="primary" (click)="submitOpportunity()">SUBMIT</button>
+            </mat-card>
+        </div>
+    </mat-card>
+</div>

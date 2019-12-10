@@ -1,0 +1,102 @@
+<div fxLayout="row" class="dashbaordNav" fxHide.lt-sm>
+  <div fxFlex="60" style="margin-left: 20px">
+    <h3 class="panel-title">Pharmacy</h3>
+  </div>
+  <div fxFlex="25">
+
+  </div>
+  <div fxFlex="15">
+    <p style="text-align: right">
+      <img src="../../assets/images/logo.png" alt="" width="90" height="50">
+    </p>
+  </div>
+
+</div>
+<!-- alert position -->
+<div><alert></alert></div>
+<!-- <div> <app-alert></app-alert> </div> -->
+<div class="container panel panel-info">
+
+
+
+  <!-- holder for dasbordard content -->
+
+  <div fxLayout="row" fxLayout.lt-sm="column">
+    <div fxFlex="25" fxFlexOffset="2.5" class="blue-menu blue-background shadow">
+
+      <h2 class="blue-title">
+       
+      </h2>
+
+      <!-- main left menu -->
+
+      <ul class="main-menu" fxHide.lt-sm>
+        <li><a routerLink="/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Dashboard</a>
+        </li>        
+        <li><a routerLink="/dashboard/opportunities" routerLinkActive="active"
+            [routerLinkActiveOptions]="{exact: true}">Users</a>
+        </li>
+        <li><a routerLink="/dashboard/events" routerLinkActive="active"
+            [routerLinkActiveOptions]="{exact: true}">Categories</a>
+        </li>
+        <li><a routerLink="/dashboard/profile" routerLinkActive="active"
+          [routerLinkActiveOptions]="{exact: true}">Products</a>
+       </li>
+        <li><a routerLink="/dashboard/updates" routerLinkActive="active" 
+          [routerLinkActiveOptions]="{exact: true}">Reports</a>
+        </li>
+        <li>
+          <button (click)="logout()">LogOut</button>
+        </li>
+      </ul>
+
+
+      <mat-accordion fxHide fxShow.lt-sm>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              <mat-icon aria-hidden="false" aria-label="Example home icon">menu</mat-icon>
+
+            </mat-panel-title>
+
+          </mat-expansion-panel-header>
+
+          <mat-card >
+            <mat-nav-list>
+              <mat-list-item>
+                <a matLine routerLink="/dashboard" routerLinkActive="active"
+                  [routerLinkActiveOptions]="{exact: true}">Dashboard</a>
+              </mat-list-item>
+              
+              <mat-list-item>
+                <a matLine routerLink="/dashboard/transactions" routerLinkActive="active"
+                  [routerLinkActiveOptions]="{exact: true}">Users</a>
+              </mat-list-item>
+              <mat-list-item>
+                <a matLine routerLink="/dashboard/buy" routerLinkActive="active"
+                  [routerLinkActiveOptions]="{exact: true}">Categories</a>
+              </mat-list-item>
+              <mat-list-item>
+                  <a matLine routerLink="/dashboard/profile" routerLinkActive="active"
+                    [routerLinkActiveOptions]="{exact: true}">Products</a>
+                </mat-list-item>
+              <mat-list-item>
+                <a matLine routerLink="/dashboard/updates" routerLinkActive="active"
+                  [routerLinkActiveOptions]="{exact: true}">Reports</a>
+              </mat-list-item>
+              <mat-list-item>
+                <button (click)="logout()">LogOut</button>
+              </mat-list-item>
+            </mat-nav-list>
+          </mat-card>
+        </mat-expansion-panel>
+      </mat-accordion>
+
+
+    </div>
+    <div fxFlex="75" class="content-holder">
+      <router-outlet></router-outlet>
+
+    </div>
+  </div>
+</div>

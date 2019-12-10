@@ -1,0 +1,28 @@
+<div>
+    <mat-card>
+        <alert></alert>
+    </mat-card>
+    <div class="p-body">
+
+        <div class="login-container">
+            <mat-card class="login-form" [formGroup]="loginForm">
+                    
+                <mat-form-field appearance="outline" >
+                    <mat-label class="login-label">Email:</mat-label>
+                    <input matInput placeholder="Email" formControlName="email" id="email">
+                    <mat-error *ngIf="hasError('email', 'required')" style="color:red">Email is required</mat-error>
+                    <mat-error *ngIf="hasError('email', 'pattern')" style ="color:red">The email address must contain at least the @ character</mat-error>
+                    
+                </mat-form-field>                
+                <mat-form-field appearance="outline" >
+                        <mat-label class="login-label">Password:</mat-label>
+                        <input type="password" matInput placeholder="Password" formControlName="password" id="password">
+                        <mat-error *ngIf="hasError('password', 'required')" style="color:red">Password is required</mat-error>
+                </mat-form-field>
+                <button mat-raised-button color="primary" [disabled]="loading" (click)="loginUser()">Sign-in
+                <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+            </button>
+            </mat-card>
+        </div> 
+    </div>
+</div>

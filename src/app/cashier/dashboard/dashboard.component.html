@@ -1,0 +1,121 @@
+<div fxLayout="row" class="dashbaordNav" fxHide.lt-sm>
+    <div fxFlex="60" style="margin-left: 20px">
+      <h3 class="panel-title">Pharmacy</h3>
+    </div>
+    <div fxFlex="25">
+  
+    </div>
+    <div fxFlex="15">
+      <p style="text-align: right">
+        <img src="../../assets/images/logo.png" alt="" width="90" height="50">
+      </p>
+    </div>
+  
+  </div>
+  <!-- alert position -->
+  <div><alert></alert></div>
+  <!-- <div> <app-alert></app-alert> </div> -->
+  <div class="container panel panel-info">
+  
+    <!-- when overlaped -->
+    <!-- <div fxLayout="row" fxLayout.lt-sm="column">
+      <div fxFlex="20"></div>
+      <div fxFlex="60" fxHide fxShow.lt-sm>
+  
+      </div>
+      <div fxFlex="20" fxHide fxShow.lt-sm>
+        <p style="text-align: center">
+          <img src="../../assets/images/logo.png" alt="" width="90" height="50"><br> <strong><i>(Together we change the
+              world)</i></strong>
+        </p>
+  
+      </div>
+    </div> -->
+  
+    <!-- holder for dasbordard content -->
+  
+    <div fxLayout="row" fxLayout.lt-sm="column">
+      <div fxFlex="20" fxFlexOffset="2.5" class="blue-menu blue-background shadow">
+  
+        <h2 class="blue-title">
+          <span>Welcome</span>
+        </h2>
+  
+        <!-- main left menu -->
+  
+        <ul class="main-menu" fxHide.lt-sm>
+          <li> <a routerLink="/cashier" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"> 
+              <mat-icon class="mat-18">list</mat-icon>
+              Dashboard</a>            
+          </li>        
+          <li> 
+            <a routerLink="/cashier/categories" routerLinkActive="active"
+              [routerLinkActiveOptions]="{exact: true}">
+              <mat-icon class="mat-18">store</mat-icon>
+              Categories</a>
+          </li>
+          <li><a routerLink="/cashier/items" routerLinkActive="active"
+              [routerLinkActiveOptions]="{exact: true}">
+              <mat-icon class="mat-18">receipt</mat-icon>
+              Items</a>
+          </li>
+          <li><a routerLink="/cashier/checkin" routerLinkActive="active"
+            [routerLinkActiveOptions]="{exact: true}">
+            <mat-icon class="mat-18">input</mat-icon>
+            CheckIn</a>
+         </li>        
+          <li>
+            <button mat-raised-button (click)="logout()"> <mat-icon class="mat-19">settings_power</mat-icon>LogOut</button>
+          </li>
+        </ul>
+  
+  
+        <mat-accordion fxHide fxShow.lt-sm>
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                <mat-icon aria-hidden="false" aria-label="Example home icon">menu</mat-icon>
+  
+              </mat-panel-title>
+  
+            </mat-expansion-panel-header>
+  
+            <mat-card >
+              <mat-nav-list>
+                <mat-list-item>
+                  <a matLine routerLink="/cashier" routerLinkActive="active"
+                    [routerLinkActiveOptions]="{exact: true}">Dashboard</a>
+                </mat-list-item>
+                
+                <mat-list-item>
+                  <a matLine routerLink="/cashier/categories" routerLinkActive="active"
+                    [routerLinkActiveOptions]="{exact: true}">Categories</a>
+                </mat-list-item>
+                <mat-list-item>
+                  <a matLine routerLink="/cashier/items" routerLinkActive="active"
+                    [routerLinkActiveOptions]="{exact: true}">Items</a>
+                </mat-list-item>
+                <mat-list-item>
+                    <a matLine routerLink="/cashier/checkin" routerLinkActive="active"
+                      [routerLinkActiveOptions]="{exact: true}">CheckIn</a>
+                  </mat-list-item>
+               
+                <mat-list-item>
+                  <button (click)="logout()">LogOut</button>
+                </mat-list-item>
+              </mat-nav-list>
+            </mat-card>
+          </mat-expansion-panel>
+        </mat-accordion>
+  
+  
+      </div>
+      <div fxFlex="80" class="content-holder">
+        <mat-card>
+            <alert></alert>
+            <router-outlet></router-outlet>
+        </mat-card>
+  
+      </div>
+    </div>
+  </div>

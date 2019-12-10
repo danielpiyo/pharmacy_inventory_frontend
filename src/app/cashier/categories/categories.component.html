@@ -1,0 +1,39 @@
+<div class="panel-primary">
+    <div class="panel-heading">
+        All Active Categories
+    </div>
+        <div *ngFor="let category of allCategories">
+                <mat-accordion>
+                    <mat-expansion-panel>
+                        <mat-expansion-panel-header (click)="getItem(category.id)">
+                            <mat-panel-title>
+                                <mat-card-header>
+                                    {{category.category_name}}
+                                </mat-card-header>
+                            </mat-panel-title>
+                            <mat-panel-description>
+                                <mat-card-content>
+                                    {{category.description}}
+                                </mat-card-content>
+                            </mat-panel-description>
+                        <!-- <mat-chip-list aria-label="Fish selection" *ngIf="view=='not-viewed'">
+                            <mat-chip color="primary" selected >View Products</mat-chip>
+                        </mat-chip-list> -->
+                        <!-- <mat-chip-list aria-label="Fish selection" *ngIf="view=='viewed'">
+                                <mat-chip color="acsent" selected (click)="close()">Close</mat-chip>
+                            </mat-chip-list> -->
+                        </mat-expansion-panel-header>
+                        <mat-card class="panel-info">
+                            <div class="panel-heading"><u>Products in {{category.category_name}}</u></div>
+                                <mat-list *ngFor="let item of allItems">
+                                    <mat-list-item>
+                                            <mat-chip-list aria-label="Fish selection">
+                                        <mat-chip color="primary" selected (click)="close()">{{item.name}} : {{item.quantity}} </mat-chip>
+                                    </mat-chip-list> 
+                                    </mat-list-item>
+                                    </mat-list>
+                        </mat-card>
+                    </mat-expansion-panel>
+                </mat-accordion>
+            </div>
+</div>

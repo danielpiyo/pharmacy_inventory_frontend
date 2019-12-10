@@ -1,0 +1,337 @@
+<div fxLayout="column">
+  <div class="detail-ngo panel">
+    <div class="panel-heading">
+      <h3 class="panel-title"></h3>
+    </div>
+  </div>
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      General Sales Statistics
+    </div>
+
+    <mat-card class="row-float-sections colored-tiles" fxLayout="row" fxLayoutGap="2%" fxLayout.lt-sm="column">
+      <div class="section-1-cnt tile-1 white-color shadow invoice-raised" fxFlex="30" fxFlexOffset="2">
+        <mat-card class="stats1-title " (click)="addOpportunity()">
+          <mat-card-header class="h2-header" matTooltip="View Daily Sales">
+            Daily Sale
+            <!-- <mat-icon aria-hidden="false" aria-label="Example home icon">add</mat-icon> -->
+          </mat-card-header>
+          <mat-card-content>
+            Ksh. 10000.00
+          </mat-card-content>
+        </mat-card>
+      </div> <br>
+      <div class="section-1-cnt blue-solid shadow invoice-due" fxFlex="35">
+        <mat-card class="stats1-title " (click)="addActivity()">
+          <mat-card-header class="h2-header" matTooltip="Click to View all Weekly sales">
+            Weekly Sale
+            <!-- <mat-icon aria-hidden="false" aria-label="Example home icon">add</mat-icon> -->
+          </mat-card-header>
+          <mat-card-content>
+            Ksh. 10000.00
+          </mat-card-content>
+        </mat-card>
+      </div> <br>
+      <div class="section-1-cnt yellow-tile shadow invoice-paid" fxFlex="35">
+        <mat-card class="stats1-title ">
+          <mat-card-header class="h2-header" matTooltip="Click to view all Monthly Sales">
+            Monthly Sale
+            <!-- <mat-icon aria-hidden="false" aria-label="Example home icon">add</mat-icon> -->
+          </mat-card-header>
+          <mat-card-content>
+            Ksh. 10000.00
+          </mat-card-content>
+        </mat-card>
+      </div>
+
+    </mat-card>
+  </div> <br>
+  <hr>
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      General Activity Statistics
+    </div>
+    <hr>
+    <mat-tab-group>
+      <mat-tab label="ToDay">
+        <mat-card class="row-sub-float-sections colored-tiles" fxLayout="row" fxLayoutGap="2%" fxLayout.lt-sm="column">
+          <div class="section-1-cnt tile-1 white-color shadow invoice-raised" fxFlex="20" fxFlexOffset="2">
+            <mat-card class="stats1-title ">
+              <mat-card-header class="h2-subheader" matTooltip="View Daily Sales">
+                New Items
+              </mat-card-header>
+              <mat-card-content>
+                5
+              </mat-card-content>
+            </mat-card>
+          </div> <br>
+          <div class="section-1-cnt blue-solid shadow invoice-due" fxFlex="20">
+            <mat-card class="stats1-title ">
+              <mat-card-header class="h2-subheader" matTooltip="Click to View all Weekly sales">
+                C.In Items
+              </mat-card-header>
+              <mat-card-content>
+                5
+              </mat-card-content>
+            </mat-card>
+          </div> <br>
+          <div class="section-1-cnt yellow-tile shadow invoice-paid" fxFlex="20">
+            <mat-card class="stats1-title ">
+              <mat-card-header class="h2-subheader" matTooltip="Click to view all Monthly Sales">
+                C.Out Items
+              </mat-card-header>
+              <mat-card-content>
+                20
+              </mat-card-content>
+            </mat-card>
+          </div>
+          <div class="section-1-cnt yellow-tile shadow invoice-paid" fxFlex="20">
+            <mat-card class="stats1-title ">
+              <mat-card-header class="h2-subheader" matTooltip="Click to view all Monthly Sales">
+                Ksh 2000
+              </mat-card-header>
+              <mat-card-content>
+                CheckedIn
+              </mat-card-content>
+            </mat-card>
+          </div>
+          <div class="section-1-cnt yellow-tile shadow invoice-paid" fxFlex="20">
+            <mat-card class="stats1-title ">
+              <mat-card-header class="h2-subheader" matTooltip="Click to view all Monthly Sales">
+                Ksh 5000
+              </mat-card-header>
+              <mat-card-content>
+                CheckedOut
+              </mat-card-content>
+            </mat-card>
+          </div>
+
+        </mat-card>
+      </mat-tab>
+      <mat-tab label="This Week">
+          <mat-card class="row-sub-float-sections colored-tiles" fxLayout="row" fxLayoutGap="2%" fxLayout.lt-sm="column">
+              <div class="section-1-cnt tile-1 white-color shadow invoice-raised" fxFlex="20" fxFlexOffset="2">
+                <mat-card class="stats1-title ">
+                  <mat-card-header class="h2-subheader" matTooltip="View Daily Sales">
+                    New Items
+                  </mat-card-header>
+                  <mat-card-content>
+                    5
+                  </mat-card-content>
+                </mat-card>
+              </div> <br>
+              <div class="section-1-cnt blue-solid shadow invoice-due" fxFlex="20">
+                <mat-card class="stats1-title ">
+                  <mat-card-header class="h2-subheader" matTooltip="Click to View all Weekly sales">
+                    C.In Items
+                  </mat-card-header>
+                  <mat-card-content>
+                    5
+                  </mat-card-content>
+                </mat-card>
+              </div> <br>
+              <div class="section-1-cnt yellow-tile shadow invoice-paid" fxFlex="20">
+                <mat-card class="stats1-title ">
+                  <mat-card-header class="h2-subheader" matTooltip="Click to view all Monthly Sales">
+                    C.Out Items
+                  </mat-card-header>
+                  <mat-card-content>
+                    20
+                  </mat-card-content>
+                </mat-card>
+              </div>
+              <div class="section-1-cnt yellow-tile shadow invoice-paid" fxFlex="20">
+                <mat-card class="stats1-title ">
+                  <mat-card-header class="h2-subheader" matTooltip="Click to view all Monthly Sales">
+                    Ksh 2000
+                  </mat-card-header>
+                  <mat-card-content>
+                    CheckedIn
+                  </mat-card-content>
+                </mat-card>
+              </div>
+              <div class="section-1-cnt yellow-tile shadow invoice-paid" fxFlex="20">
+                <mat-card class="stats1-title ">
+                  <mat-card-header class="h2-subheader" matTooltip="Click to view all Monthly Sales">
+                    Ksh 5000
+                  </mat-card-header>
+                  <mat-card-content>
+                    CheckedOut
+                  </mat-card-content>
+                </mat-card>
+              </div>
+    
+            </mat-card>
+          
+      </mat-tab>
+      <mat-tab label="This Month">
+          <mat-card class="row-sub-float-sections colored-tiles" fxLayout="row" fxLayoutGap="2%" fxLayout.lt-sm="column">
+              <div class="section-1-cnt tile-1 white-color shadow invoice-raised" fxFlex="20" fxFlexOffset="2">
+                <mat-card class="stats1-title ">
+                  <mat-card-header class="h2-subheader" matTooltip="View Daily Sales">
+                    New Items
+                  </mat-card-header>
+                  <mat-card-content>
+                    5
+                  </mat-card-content>
+                </mat-card>
+              </div> <br>
+              <div class="section-1-cnt blue-solid shadow invoice-due" fxFlex="20">
+                <mat-card class="stats1-title ">
+                  <mat-card-header class="h2-subheader" matTooltip="Click to View all Weekly sales">
+                    C.In Items
+                  </mat-card-header>
+                  <mat-card-content>
+                    5
+                  </mat-card-content>
+                </mat-card>
+              </div> <br>
+              <div class="section-1-cnt yellow-tile shadow invoice-paid" fxFlex="20">
+                <mat-card class="stats1-title ">
+                  <mat-card-header class="h2-subheader" matTooltip="Click to view all Monthly Sales">
+                    C.Out Items
+                  </mat-card-header>
+                  <mat-card-content>
+                    20
+                  </mat-card-content>
+                </mat-card>
+              </div>
+              <div class="section-1-cnt yellow-tile shadow invoice-paid" fxFlex="20">
+                <mat-card class="stats1-title ">
+                  <mat-card-header class="h2-subheader" matTooltip="Click to view all Monthly Sales">
+                    Ksh 2000
+                  </mat-card-header>
+                  <mat-card-content>
+                    CheckedIn
+                  </mat-card-content>
+                </mat-card>
+              </div>
+              <div class="section-1-cnt yellow-tile shadow invoice-paid" fxFlex="20">
+                <mat-card class="stats1-title ">
+                  <mat-card-header class="h2-subheader" matTooltip="Click to view all Monthly Sales">
+                    Ksh 5000
+                  </mat-card-header>
+                  <mat-card-content>
+                    CheckedOut
+                  </mat-card-content>
+                </mat-card>
+              </div>
+    
+            </mat-card>
+          
+      </mat-tab>
+      <mat-tab label="This Year">
+          <mat-card class="row-sub-float-sections colored-tiles" fxLayout="row" fxLayoutGap="2%" fxLayout.lt-sm="column">
+              <div class="section-1-cnt tile-1 white-color shadow invoice-raised" fxFlex="20" fxFlexOffset="2">
+                <mat-card class="stats1-title ">
+                  <mat-card-header class="h2-subheader" matTooltip="View Daily Sales">
+                    New Items
+                  </mat-card-header>
+                  <mat-card-content>
+                    5
+                  </mat-card-content>
+                </mat-card>
+              </div> <br>
+              <div class="section-1-cnt blue-solid shadow invoice-due" fxFlex="20">
+                <mat-card class="stats1-title ">
+                  <mat-card-header class="h2-subheader" matTooltip="Click to View all Weekly sales">
+                    C.In Items
+                  </mat-card-header>
+                  <mat-card-content>
+                    5
+                  </mat-card-content>
+                </mat-card>
+              </div> <br>
+              <div class="section-1-cnt yellow-tile shadow invoice-paid" fxFlex="20">
+                <mat-card class="stats1-title ">
+                  <mat-card-header class="h2-subheader" matTooltip="Click to view all Monthly Sales">
+                    C.Out Items
+                  </mat-card-header>
+                  <mat-card-content>
+                    20
+                  </mat-card-content>
+                </mat-card>
+              </div>
+              <div class="section-1-cnt yellow-tile shadow invoice-paid" fxFlex="20">
+                <mat-card class="stats1-title ">
+                  <mat-card-header class="h2-subheader" matTooltip="Click to view all Monthly Sales">
+                    Ksh 2000
+                  </mat-card-header>
+                  <mat-card-content>
+                    CheckedIn
+                  </mat-card-content>
+                </mat-card>
+              </div>
+              <div class="section-1-cnt yellow-tile shadow invoice-paid" fxFlex="20">
+                <mat-card class="stats1-title ">
+                  <mat-card-header class="h2-subheader" matTooltip="Click to view all Monthly Sales">
+                    Ksh 5000
+                  </mat-card-header>
+                  <mat-card-content>
+                    CheckedOut
+                  </mat-card-content>
+                </mat-card>
+              </div>
+    
+            </mat-card>
+          
+      </mat-tab>
+      <mat-tab label="All Times">
+          <mat-card class="row-sub-float-sections colored-tiles" fxLayout="row" fxLayoutGap="2%" fxLayout.lt-sm="column">
+              <div class="section-1-cnt tile-1 white-color shadow invoice-raised" fxFlex="20" fxFlexOffset="2">
+                <mat-card class="stats1-title ">
+                  <mat-card-header class="h2-subheader" matTooltip="View Daily Sales">
+                    New Items
+                  </mat-card-header>
+                  <mat-card-content>
+                    5
+                  </mat-card-content>
+                </mat-card>
+              </div> <br>
+              <div class="section-1-cnt blue-solid shadow invoice-due" fxFlex="20">
+                <mat-card class="stats1-title ">
+                  <mat-card-header class="h2-subheader" matTooltip="Click to View all Weekly sales">
+                    C.In Items
+                  </mat-card-header>
+                  <mat-card-content>
+                    5
+                  </mat-card-content>
+                </mat-card>
+              </div> <br>
+              <div class="section-1-cnt yellow-tile shadow invoice-paid" fxFlex="20">
+                <mat-card class="stats1-title ">
+                  <mat-card-header class="h2-subheader" matTooltip="Click to view all Monthly Sales">
+                    C.Out Items
+                  </mat-card-header>
+                  <mat-card-content>
+                    20
+                  </mat-card-content>
+                </mat-card>
+              </div>
+              <div class="section-1-cnt yellow-tile shadow invoice-paid" fxFlex="20">
+                <mat-card class="stats1-title ">
+                  <mat-card-header class="h2-subheader" matTooltip="Click to view all Monthly Sales">
+                    Ksh 2000
+                  </mat-card-header>
+                  <mat-card-content>
+                    CheckedIn
+                  </mat-card-content>
+                </mat-card>
+              </div>
+              <div class="section-1-cnt yellow-tile shadow invoice-paid" fxFlex="20">
+                <mat-card class="stats1-title ">
+                  <mat-card-header class="h2-subheader" matTooltip="Click to view all Monthly Sales">
+                    Ksh 5000
+                  </mat-card-header>
+                  <mat-card-content>
+                    CheckedOut
+                  </mat-card-content>
+                </mat-card>
+              </div>
+    
+            </mat-card>
+          
+      </mat-tab>
+    </mat-tab-group>
+  </div>  
+</div>
