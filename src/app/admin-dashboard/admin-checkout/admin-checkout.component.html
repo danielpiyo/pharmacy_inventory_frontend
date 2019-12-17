@@ -1,0 +1,47 @@
+<div class="opacity">
+        <div fxLayout="row">
+            <div fxFlex="100" class="step-cancel-btn" (click)="closeStep()">
+                <mat-icon aria-hidden="false" aria-label="Example home icon">clear</mat-icon>
+            </div>
+        </div>
+        <div class="float-content panel-primary" fxLayout="column">
+            <div class="panel-heading"> Checking Out: {{dataToCheckOut.name}}</div>
+            <form class="container panel-info " name="form" (ngSubmit)="checkOutNow()" #f="ngForm" novalidate>
+    
+                <div fxLayout="row" fxLayoutGap="2%" class="step-form-holder1 shadow" class="panel-heading">
+    
+                    <div class="section-1-cnt shadow " fxFlex="25" fxFlexOffset="2">
+                        <div> Category: <p style="color: black; font-weight:bold">{{dataToCheckOut.category}}</p>
+                        </div>
+                    </div>
+    
+                        <div class="section-1-cnt shadow " fxFlex="25">
+                            <div> Product Name:<p style="color: black; font-weight:bold">{{dataToCheckOut.name}}</p>                           
+                            </div>
+                        </div>
+                        <div class="section-1-cnt shadow " fxFlex="10">
+                            <div> Price: <p style="color: black; font-weight:bold">{{dataToCheckOut.item_price}}</p>                          
+                            </div>
+                        </div>
+                        <div class="section-1-cnt shadow " fxFlex="20">
+                            <div> Quantity To checkOut: <br>
+                                <input style="background-color: white; height: 5vh;" matInput type="number"  class="form-control" name="tosale" placeholder="How many"
+                                [(ngModel)]="amountToSale.tosale">                           
+                            </div>
+                        </div>
+                        <div class="section-1-cnt shadow " fxFlex="20">
+                                <button mat-raised-button color="accent" [disabled]="loading" class="btn btn-primary"> <i class="material-icons">
+                                    print
+                                  </i>CheckOut
+                                        <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="
+                                        />
+                                </button>
+                            </div>
+    
+                </div>
+              
+    
+    
+            </form>
+        </div>
+    </div>

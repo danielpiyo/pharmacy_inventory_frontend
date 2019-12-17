@@ -1,0 +1,26 @@
+
+<mat-card class="panel panel-primary">
+    <div class="panel-heading">                
+                Adding New Category
+        </div>
+    <hr>
+    <div class="opportunity-container">
+        <mat-form-field appearance="outline">
+            <mat-label>Category Name</mat-label>
+            <input matInput placeholder="Category Name" [(ngModel)]="categoryModel.category_name" #category_name="ngModel"
+                name="category_name">
+        </mat-form-field> <br>  <hr>          
+
+        <mat-form-field>
+            <mat-label>Description</mat-label>
+            <textarea matInput placeholder="description" cols="38" rows="5" [(ngModel)]="categoryModel.description" #description="ngModel"
+                name="description"></textarea>
+        </mat-form-field>
+        
+        <hr>
+        <mat-card mat-dialog-actions>
+            <button mat-button color="warn" (click)="onNoClick()">CANCEL</button>
+            <button mat-button color="primary" (click)="submit()">SUBMIT</button>
+        </mat-card>
+    </div>
+</mat-card>

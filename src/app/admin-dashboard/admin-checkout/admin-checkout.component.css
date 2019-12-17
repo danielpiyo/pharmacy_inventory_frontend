@@ -1,0 +1,66 @@
+.opacity {
+    width: 100% !important;
+    height: 20vh !important;
+    z-index: 3;
+    background: white !important;
+    position: absolute;
+    margin-top: 10px;
+    top: 0;
+    left: 10;
+  }
+  
+  .company-form, .business-form {
+
+    padding-left: 1vw !important;
+    margin-top: 5vh !important;
+
+}
+.company-form h3, .business-form h3{
+
+    color: #FFD387;
+    font-weight: 700 !important
+
+}
+
+.company-form {
+    border-right: 1px solid #D6D6D6;
+}
+.stp-btn .mat-icon {
+    font-size: 1.3em !important;
+}
+
+.company-form .mat-form-field {
+    width: 90% !important;
+}
+.business-form .mat-form-field {
+
+    width: 48% !important;
+    margin-left: 1% !important;
+}
+
+.stp-btn button {
+    display: block;
+    margin: auto;
+    margin-top: 5vh !important;
+  }
+
+  mat-form-field-appearance-legacy .mat-form-field-underline {
+    background-color: #D6D6D6 !important;
+  }
+  
+  /* /deep/  */
+  .mat-form-field-underline {
+    background-color: #D6D6D6 !important;
+  
+  }
+  
+  /* /deep/  */
+  .mat-form-field-placeholder {
+  
+    color: #D6D6D6 !important;
+  }
+  
+  .placeholder {
+    color: #D6D6D6 !important;
+    font-weight: 500 !important;
+  }
