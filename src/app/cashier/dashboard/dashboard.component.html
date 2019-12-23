@@ -44,7 +44,12 @@
             [routerLinkActiveOptions]="{exact: true}">
             <mat-icon class="mat-18">input</mat-icon>
             CheckIn</a>
-         </li>        
+         </li>      
+         <li><a routerLink="/cashier/todo" routerLinkActive="active"
+          [routerLinkActiveOptions]="{exact: true}">
+          <mat-icon class="mat-18">input</mat-icon>
+          My Task</a>
+       </li>   
           <li>
             <button mat-raised-button (click)="logout()"> <mat-icon class="mat-19">settings_power</mat-icon>LogOut</button>
           </li>

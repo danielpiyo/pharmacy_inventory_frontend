@@ -1,11 +1,19 @@
 <div class="admin-child-container">
 
-        <div class="float-content panel-primary" fxLayout="column">
+        <div class="float-content panel-info" fxLayout="column">
             <div class="panel-heading" fxLayout="row">
-                <div fxFlex="50"><h4 class="panel-title">All Users</h4></div>
-                <div fxFlex="50"><mat-form-field style="text-align: right;">
+                <div fxFlex="30"><h4 class="panel-title">All Users</h4></div>
+                <div fxFlex="50">
+                  <!-- <mat-form-field style="text-align: right;">
                     <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search Here">
-                  </mat-form-field></div>
+                  </mat-form-field> -->
+                </div>
+                <div fxFlex="20">
+                <button mat-raised-button color="primary" (click)="addNew()">
+                    <mat-icon class="mat-19">add</mat-icon> Add Item
+                </button>                
+              </div>
+
             </div>
             
             <ng-scrollbar> 

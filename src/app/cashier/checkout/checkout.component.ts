@@ -66,7 +66,7 @@ export class CheckoutComponent implements OnInit {
       this.closeStep();
       console.log('CheckoutResponce', response);
       this.alertService.success('CheckOut was Succesfull', true);
-      this.router.navigate(['/cashier']);
+      // this.router.navigate(['/cashier']);
       location.reload();
     },
     error =>{

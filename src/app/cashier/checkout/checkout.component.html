@@ -6,7 +6,7 @@
     </div>
     <div class="float-content panel-primary" fxLayout="column">
         <div class="panel-heading"> Checking Out: {{dataToCheckOut.name}}</div>
-        <form class="container panel-info " name="form" (ngSubmit)="checkOutNow()" #f="ngForm" novalidate>
+        <form class="container panel-info " name="form" (ngSubmit)="checkOutNow(); generatePdf()" #f="ngForm" novalidate>
 
             <div fxLayout="row" fxLayoutGap="2%" class="step-form-holder1 shadow" class="panel-heading">
 

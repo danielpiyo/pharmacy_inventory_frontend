@@ -67,46 +67,6 @@
 
     <hr>
 
-    <div class="row-float-sections" fxLayout="row">
-
-        <div class="slider shadow panel panel-info" fxFlex="100" fxFlexOffset="2">
-
-            <mat-card class="panel panel-primary">
-             <div class="panel-heading">
-                    Can Delete These tasks Once you are done with them
-             </div>
-
-                <mat-card-content>
-                    <div fxLayoutAlign="space-between">
-                        <mat-form-field class="w-100">
-                            <input matInput placeholder="Add Task to do..." (keyup)="addToDoItem($event)"
-                                [(ngModel)]="newTodoText">
-                        </mat-form-field>
-                        <button mat-mini-fab color="primary" (click)="addToDoItem($event)">
-                            <mat-icon>add</mat-icon>
-                        </button>
-                    </div>
-
-                    <div class="todo-list">
-                        <mat-selection-list>
-                            <mat-list-option *ngFor="let item of getNotDeleted()" checkboxPosition="before"
-                                (mouseenter)="item.isActive=true" (mouseleave)="item.isActive=false">
-                                <div fxLayoutAlign="space-between center">
-                                    <span class="text-truncate">{{ item.text }}</span>
-                                    <button mat-icon-button (click)="item.deleted = true" color="warn"
-                                        *ngIf="item.isActive">
-                                        <mat-icon>delete_forever</mat-icon>
-                                    </button>
-                                </div>
-                            </mat-list-option>
-                        </mat-selection-list>
-
-                    </div>
-                </mat-card-content>
-            </mat-card>
-
-        </div>
-    </div>
 
 </div>
 <app-checkout *ngIf="itemService.showOpacity"></app-checkout>

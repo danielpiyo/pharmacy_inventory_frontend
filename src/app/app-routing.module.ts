@@ -17,12 +17,14 @@ import { AdminReportsComponent } from './admin-dashboard/admin-reports/admin-rep
 import { AdminCheckinComponent } from './admin-dashboard/admin-checkin/admin-checkin.component';
 import { AdminCheckoutComponent } from './admin-dashboard/admin-checkout/admin-checkout.component';
 import { InfoCardsComponent } from './admin-dashboard/info-cards/info-cards.component';
+import { TodoComponent } from './cashier/todo/todo.component';
 
 
 const routes: Routes = [
   {path:'', component: LoginComponent},
   {path:'cashier', component:DashboardComponent, canActivate:[AuthGuard], children:[
-    {path:'', component:HomeComponent},    
+    {path:'', component:HomeComponent},  
+    {path:'todo', component:TodoComponent, canActivate:[AuthGuard]},  
     {path:'checkout', component:CheckoutComponent, canActivate:[AuthGuard]},
     {path:'checkin', component: CheckinComponent, canActivate:[AuthGuard]},
     {path:'categories', component:CategoriesComponent, canActivate:[AuthGuard]},

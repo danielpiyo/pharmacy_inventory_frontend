@@ -99,6 +99,9 @@ export class AdminHomeComponent implements OnInit {
       })
   }
 
+  onSelect(event){
+
+  }
 
   // Object.assign(this.multi_sales); 
 // Chart

@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http'
 import { Login } from '../_model/login.model';
 import { environment } from 'src/environments/environment';
 import { UserToken } from '../_model/user';
+import { NewUser } from '../_model/addUser.model';
 
 @Injectable({
   providedIn: 'root'
@@ -24,5 +25,9 @@ export class LoginService {
 
   getUsers(userModel: UserToken){
     return this.http.post(`${environment.baseUrl}/users`, userModel)
+  }
+
+  addNewUser(newUser: NewUser){
+    return this.http.post(`${environment.baseUrl}/register`,newUser);
   }
 }

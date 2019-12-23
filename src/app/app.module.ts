@@ -24,10 +24,10 @@ import { CheckoutComponent } from './cashier/checkout/checkout.component';
 import { CheckinComponent, CheckinModal } from './cashier/checkin/checkin.component';
 import { CategoriesComponent } from './cashier/categories/categories.component';
 import { ItemsComponent, DetailsModal } from './cashier/items/items.component';
-import {TodoComponent } from './todo/todo.component';
+import {TodoComponent } from './cashier/todo/todo.component';
 import {AdminDashboardComponent} from './admin-dashboard/admin-dashboard.component'
 import { AdminHomeComponent} from './admin-dashboard/admin-home/admin-home.component';
-import { UsersComponent } from './admin-dashboard/users/users.component';
+import { UsersComponent, NewUserModal } from './admin-dashboard/users/users.component';
 import { AdminCategoriesComponent, CategoryModal, NewCategoryModal } from './admin-dashboard/admin-categories/admin-categories.component';
 import { AdminItemsComponent, AdminDetailsModal, NewItemModal, AdminEditDetailsModal } from './admin-dashboard/admin-items/admin-items.component';
 import { AdminReportsComponent } from './admin-dashboard/admin-reports/admin-reports.component';
@@ -35,6 +35,16 @@ import { AdminCheckinComponent, AdminCheckinModal } from './admin-dashboard/admi
 import { AdminCheckoutComponent } from './admin-dashboard/admin-checkout/admin-checkout.component'
 import { AppSettings } from './admin-dashboard/admin-home/app.settings';
 import { InfoCardsComponent } from './admin-dashboard/info-cards/info-cards.component';
+import {BubbleComponent} from './admin-dashboard/bubble/bubble.component';
+
+import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
+import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
+import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
+import { NgxDonutChartModule } from 'ngx-doughnut-chart';
+ 
+const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
+  suppressScrollX: true
+};
 
 
 @NgModule({
@@ -51,13 +61,13 @@ import { InfoCardsComponent } from './admin-dashboard/info-cards/info-cards.comp
     AdminDashboardComponent,
     AdminHomeComponent,
     TodoComponent,
-    CheckinModal,
+    CheckinModal,NewUserModal,
     DetailsModal,
     UsersComponent,
     AdminCategoriesComponent,
     AdminItemsComponent,
     AdminReportsComponent,
-    AdminCheckinComponent,
+    AdminCheckinComponent,BubbleComponent,
     AdminCheckoutComponent, InfoCardsComponent,
     CategoryModal, AdminDetailsModal, AdminCheckinModal, NewItemModal, AdminEditDetailsModal, NewCategoryModal
   ],
@@ -71,15 +81,19 @@ import { InfoCardsComponent } from './admin-dashboard/info-cards/info-cards.comp
     MatButtonModule, MatTableModule, MatSelectModule,
     MatInputModule, MatDialogModule, MatProgressBarModule,
     MatTooltipModule, MatDatepickerModule, MatCheckboxModule,
-    MatExpansionModule, MatSlideToggleModule, MatProgressSpinnerModule,
-    MatNativeDateModule, NgScrollbarModule, MatTabsModule, MatFormFieldModule
+    MatExpansionModule, MatSlideToggleModule, MatProgressSpinnerModule,NgxDonutChartModule,
+    MatNativeDateModule, NgScrollbarModule, MatTabsModule, MatFormFieldModule, PerfectScrollbarModule
   ],
   
   entryComponents: [
     CheckinModal, DetailsModal, CategoryModal, AdminDetailsModal, AdminCheckinModal, 
-    NewItemModal, AdminEditDetailsModal, NewCategoryModal
+    NewItemModal, AdminEditDetailsModal, NewCategoryModal,NewUserModal
   ],
-  providers: [AppSettings, LoginService,AlertService, AuthGuard, AdminAuthGuard, TodoService, ItemsService, CheckoutService, CategoriesService],
+  providers: [ {
+    provide: PERFECT_SCROLLBAR_CONFIG,
+    useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG
+            }, 
+  AppSettings, LoginService,AlertService, AuthGuard, AdminAuthGuard, TodoService, ItemsService, CheckoutService, CategoriesService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -35,5 +35,18 @@ export class ReportsService {
   getMonthCheckoutReportChart(userToken: UserToken){
     return this.http.post(`${environment.baseUrl}/checkOutMonthChart`, userToken)
   }
-  
+
+  // weekly reports with date
+  getWeekCheckoutReportChartDate(userToken: UserToken){
+    return this.http.post(`${environment.baseUrl}/productReportCheckOutWeekly`, userToken)
+  }
+  // get date independatly
+  getMonthCheckoutChartByDate(userToken: UserToken){
+    return this.http.post(`${environment.baseUrl}/productCheckOutMonthly`, userToken)
+  }
+
+  // userperformance
+  getUserPerformance(userToken: UserToken){
+    return this.http.post(`${environment.baseUrl}/userPerfomance`, userToken)
+  }
 }

@@ -105,7 +105,10 @@ getDetails(item_id, category_id, quantity_from,item_price, name, category, descr
 }
 
 addNew(){
-  this.dialog.open(NewItemModal)
+  this.dialog.open(NewItemModal) 
+}
+deleteNow(id, name){
+
 }
 
 editNow(id, category_id, quantity, price, category, name, description){

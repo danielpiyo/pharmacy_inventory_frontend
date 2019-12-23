@@ -1,179 +1,133 @@
-export const single = [
+
+export const bubble = [
   {
-    name: 'Primary',
-    value: 10632
+    name: 'Germany',
+    series: [
+      {
+        name: '2009',
+        x: new Date(2009, 0, 1),
+        y: 80.3,
+        r: 80.4
+      },
+      {
+        name: '2006',
+        x: new Date(2006, 0, 1),
+        y: 80.3,
+        r: 78
+      },
+      {
+        name: '1995',
+        x: new Date(1995, 0, 1),
+        y: 77.7,
+        r: 58.1 
+      },
+      {
+        name: '1990',
+        x: new Date(1990, 0, 1),
+        y: 75.4,
+        r: 79
+      }
+    ]
   },
   {
-    name: 'Secondary',
-    value: 5737
+    name: 'United States',
+    series: [
+      {
+        name: '2010',
+        x: new Date(2010, 0, 1),
+        y: 78.8,
+        r: 310
+      },
+      {
+        name: '2005',
+        x: new Date(2005, 0, 1),
+        y: 76.9,
+        r: 283
+      },
+      {
+        name: '1996',
+        x: new Date(1996, 0, 1),
+        y: 78.7,
+        r: 59.1
+      },
+      {
+        name: '1990',
+        x: new Date(1990, 0, 1),
+        y: 75.4,
+        r: 253
+      }
+    ]
   },
   {
-    name: 'Collage',
-    value: 3745
+    name: 'France',
+    series: [
+      {
+        name: '2008',
+        x: new Date(2008, 0, 1),
+        y: 81.4,
+        r: 63
+      },
+      {
+        name: '2000',
+        x: new Date(2000, 0, 1),
+        y: 79.1,
+        r: 59.4
+      },
+      {
+        name: '1994',
+        x: new Date(1994, 0, 1),
+        y: 76.7,
+        r: 58.1
+      },
+      {
+        name: '1990',
+        x: new Date(1990, 0, 1),
+        y: 77.2,
+        r: 56.9
+      }
+    ]
   },
   {
-    name: 'University',
-    value: 740
-  },
-  {
-    name:'TVET',
-    value: 400
+    name: 'United Kingdom',
+    series: [
+      {
+        name: '2007',
+        x: new Date(2007, 0, 1),
+        y: 80.2,
+        r: 62.7
+      },
+      {
+        name: '2003',
+        x: new Date(2003, 0, 1),
+        y: 77.8,
+        r: 58.9
+      },
+      {
+        name: '1995',
+        x: new Date(1995, 0, 1),
+        y: 78.7,
+        r: 59.1
+      },
+      {
+        name: '1990',
+        x: new Date(1990, 0, 1),
+        y: 75.7,
+        r: 57.1
+      }
+    ]
   }
 ];
-
-// multiple entry
-export const multi_public = [
+export const disk_space = [
   {
-    name: 'Today',
-    series: [
-      {
-        name: 'Panadol',
-        value: 760
-      },
-      {
-        name: 'Bruffain',
-        value: 1000
-      },
-      {
-        name: 'Amoxil',
-        value: 500
-      },
-      {
-        name: 'blades',
-        value: 200
-      }
-    ]
+    'name': 'User One:',
+    'value': 178
   },
   {
-    name: 'This Week',
-    series: [
-      {
-        name: 'Panadol',
-        value: 2030
-      },
-      {
-        name: 'Bruffain',
-        value: 1600
-      },
-      {
-        name: 'Amoxil',
-        value: 659
-      },
-      {
-        name: 'blades',
-        value: 200
-      }
-    ]
+    'name': 'User Two:',
+    'value': 340
   },
   {
-    name: 'This Month',
-    series: [
-      {
-        name: 'Panadol',
-        value: 5000
-      },
-      {
-        name: 'Bruffain',
-        value: 3600
-      },
-      {
-        name: 'Amoxil',
-        value: 1780
-      },
-      {
-        name: 'blades',
-        value: 700
-      }
-    ]
-  }  
-];
-
-export const multi_private = [
-  {
-    name: 'Primary',
-    series: [
-      {
-        name: 'Normal Mixed-Day',
-        value: 2632
-      },
-      {
-        name: 'Normal Mixed-Bording',
-        value: 900
-      },
-      {
-        name: 'Special Mixed-Day',
-        value: 159
-      },
-      {
-        name: 'Special Mixed-Boarding',
-        value: 100
-      }, 
-      {
-        name: 'Special Boys Bording',
-        value: 50
-      },
-      {
-        name: 'Special Girls-Boarding',
-        value: 20
-      }
-    ]
-  },
-  {
-    name: 'Secondary',
-    series: [
-      {
-        name: 'Normal Mixed-Day',
-        value: 1800
-      },
-      {
-        name: 'Normal Mixed-Bording',
-        value: 900
-      },
-      {
-        name: 'Special Mixed-Day',
-        value: 50
-      },
-      {
-        name: 'Special Mixed-Boarding',
-        value: 0
-      }, 
-      {
-        name: 'Special Boys Bording',
-        value: 20
-      },
-      {
-        name: 'Special Girls-Boarding',
-        value: 10
-      }
-    ]
-  },
-  {
-    name: 'College',
-    series: [
-      {
-        name: 'Normal Mixed-Day',
-        value: 2002
-      },
-      {
-        name: 'Normal Mixed-Bording',
-        value: 800
-      },
-      {
-        name: 'Special Mixed-Day',
-        value: 15
-      },
-      {
-        name: 'Special Mixed-Boarding',
-        value: 75
-      }, 
-      {
-        name: 'Special Boys Bording',
-        value: 50
-      },
-      {
-        name: 'Special Girls-Boarding',
-        value: 20
-      }
-    ]
-  }  
+    'name': 'User Three:',
+    'value': 280
+  }
 ];

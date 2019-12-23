@@ -17,6 +17,8 @@ export interface AllCategories {
   styleUrls: ['./admin-categories.component.css']
 })
 export class AdminCategoriesComponent implements OnInit {
+
+  interval:any;
   allCategories: any;
   userToken: UserToken = new UserToken;
 
@@ -39,7 +41,12 @@ export class AdminCategoriesComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getCategories();
+    this.getCategories();  
+    this.interval = setInterval(() => { 
+      this.getCategories(); 
+        }, 10000);
+    this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
   }
 
   getCategories() {

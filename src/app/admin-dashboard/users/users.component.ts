@@ -1,7 +1,9 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, Inject } from '@angular/core';
 import { UserToken } from 'src/app/_model/user';
-import { LoginService } from 'src/app/_service';
-import { MatTableDataSource, MatSort, MatPaginator } from '@angular/material';
+import { LoginService, AlertService, ItemsService } from 'src/app/_service';
+import { MatTableDataSource, MatSort, MatPaginator, MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { Router } from '@angular/router';
+import { NewUser } from 'src/app/_model/addUser.model';
 
 
 export interface AllUser {
@@ -23,6 +25,7 @@ export interface AllUser {
 export class UsersComponent implements OnInit {
   userToken: UserToken = new UserToken;
   allUsers: any;
+  interval: any;
 
 
   public displayedColumns = ['number', 'UserId', 'Email', 'Username',
@@ -37,13 +40,17 @@ export class UsersComponent implements OnInit {
 
 
   constructor(
-    private loginServices: LoginService
+    private loginServices: LoginService,
+    public dialog: MatDialog
   ) {
     this.userToken.token = JSON.parse(localStorage.getItem('currentToken'));
   }
 
   ngOnInit() {
     this.getUsers();
+    this.interval = setInterval(() => { 
+      this.getUsers(); 
+        }, 10000);
   }
 
   getUsers() {
@@ -59,6 +66,57 @@ export class UsersComponent implements OnInit {
 
   applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+  
+  addNew(){
+    this.dialog.open(NewUserModal) 
+  }
+}
+
+
+
+// child component for opportunity modal
+@Component({
+  // tslint:disable-next-line: component-selector
+  selector: 'new-user-modal',
+  templateUrl: 'new-user.modal.component.html',
+})
+// tslint:disable-next-line: component-class-suffix
+export class NewUserModal {
+  newUserModel: NewUser = new NewUser()
+  loading = false;  
+  currentToken: any;
+
+  constructor(
+    public dialogRef: MatDialogRef<NewUserModal>,
+    private alertService: AlertService,
+    private registerService: LoginService,
+    private router: Router,         
+    @Inject(MAT_DIALOG_DATA) public data: any) {     
+      this.currentToken = JSON.parse(localStorage.getItem('currentToken'));     
+  }
+
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
+
+  addNewUser(){
+    this.loading = true;
+    if(this.newUserModel.cpassword !== this.newUserModel.password){
+      this.alertService.error('passwords dont match');
+      this.loading = false;
+    }
+    this.newUserModel.token = this.currentToken;
+    console.log('newUser', this.newUserModel);
+    this.registerService.addNewUser(this.newUserModel)
+    .subscribe((response)=>{
+      this.alertService.success('User Succesfully added');
+      this.loading = false;
+      this.onNoClick();
+    },error =>{
+      this.loading = false;
+      console.log(error);
+    });
   }
   
 }

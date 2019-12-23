@@ -29,4 +29,9 @@ export class CategoriesService {
   createNewCategory(newCategory:NewCategory){
     return this.http.post(`${environment.baseUrl}/newCategory`, newCategory)
   }
+  // special product report
+  getProductReportCheckOut(userToken: UserToken){
+    return this.http.post(`${environment.baseUrl}/productReportCheckOut`,userToken);
+  }
+
 }
