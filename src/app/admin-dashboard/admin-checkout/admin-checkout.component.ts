@@ -73,6 +73,7 @@ export class AdminCheckoutComponent implements OnInit {
     this.checkOutModel.quantity_from = this.dataToCheckOut.quantity_from;
     this.checkOutModel.quantity_to = this.dataToCheckOut.quantity_from - this.amountToSale.tosale;
     this.checkOutModel.token = this.userToken;
+    this.checkOutModel.discounted = 'N';
     console.log('CheckOutModel', this.checkOutModel);
     this.checkoutService.checkOut(this.checkOutModel)
     .subscribe((response)=>{

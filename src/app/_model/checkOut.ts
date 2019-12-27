@@ -4,6 +4,7 @@ export class TocheckOut{
     quantity_from: Number;
     quantity_to: Number;
     item_price: any;
+    discounted: String;
     token: String
 }
 

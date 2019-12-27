@@ -108,7 +108,7 @@
       <mat-card>
           <div fxFlex="100" class="international panel-info">
               <div class="panel-heading">Products Realtime Sales Satatistics</div> <br>
-              <ngx-charts-line-chart                    
+              <ngx-charts-bar-vertical-2d                    
               [scheme]="colorScheme"
               [results]="multi_sales"
               [gradient]="gradient"
@@ -118,11 +118,9 @@
               [showXAxisLabel]="showXAxisLabel"
               [showYAxisLabel]="showYAxisLabel"
               [xAxisLabel]="xAxisLabel"
-              [yAxisLabel]="yAxisLabel"
-              [autoScale]="autoScale"
-              [roundDomains]="roundDomains"
+              [yAxisLabel]="yAxisLabel"             
               (select)="onSelect($event)">
-          </ngx-charts-line-chart> 
+          </ngx-charts-bar-vertical-2d> 
           </div>
       </mat-card>
   </div>   

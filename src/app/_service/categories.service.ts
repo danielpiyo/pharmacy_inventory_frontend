@@ -31,10 +31,10 @@ export class CategoriesService {
   }
   // special product report
   getProductReportCheckOutWeek(userToken: UserToken){
-    return this.http.post(`${environment.baseUrl}/userWeeklyAdminView`,userToken);
+    return this.http.post(`${environment.baseUrl}/userWeeklyAdminViewGeneral`,userToken);
   }
   getProductReportCheckOutMonth(userToken: UserToken){
-    return this.http.post(`${environment.baseUrl}/userMonthlyAdminView`,userToken);
+    return this.http.post(`${environment.baseUrl}/userMonthlyAdminViewGeneral`,userToken);
   }
 
 }

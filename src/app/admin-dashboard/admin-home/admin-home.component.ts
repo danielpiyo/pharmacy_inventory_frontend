@@ -264,7 +264,7 @@ export class CheckedInModel {
   allCheckedIn: any;
 
   public displayedColumns = ['number','Category', 'Name','InitialQuantity',
-  'FinalQuantity', 'Value','CreatedBy', 'CreadtedDate']
+  'FinalQuantity','Value','CreatedBy', 'CreadtedDate']
 
 public dataSource = new MatTableDataSource<AllItems>();
   
@@ -319,5 +319,6 @@ export interface AllItems {
   finalItemsNumber: Number
   valueOfItems: Number
   created_date: Date
+  differance: Number
 
 }

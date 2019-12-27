@@ -2,11 +2,21 @@
 
     <div class="float-content panel-primary" fxLayout="column">
         <div class="panel-heading" fxLayout="row">
-            <div fxFlex="50"><h4 class="panel-title">Checked In Items</h4></div>
-            <div fxFlex="50"><mat-form-field style="text-align: right;">
-                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search Here">
-              </mat-form-field></div>
+            <div fxFlex="30">
+                <h4 class="panel-title">Checked In Items</h4>
+            </div>
+            <div fxFlex="50">
+                <mat-form-field style="text-align: right;">
+                    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search Here">
+                </mat-form-field>
+            </div>
+            <div fxFlex="20">
+                <div style="text-align: right;">
+                    <img src="../../../assets/images/close.png" alt="" height="20" width="20" (click)="onNoClick()">
+                </div>
+            </div>
         </div>
+       
         
         <ng-scrollbar> 
           
@@ -39,16 +49,16 @@
                    
                     <ng-container matColumnDef="FinalQuantity">
                       <th mat-header-cell *matHeaderCellDef mat-sort-header > Quantity After</th>
-                      <td mat-cell *matCellDef="let element"> {{element.finalItemsNumber}} </td>
+                      <td mat-cell *matCellDef="let element"> {{element.finalItemsNumber}} </td> 
                     </ng-container>
                    
                     <ng-container matColumnDef="Value">
-                      <th mat-header-cell *matHeaderCellDef > Value Added </th>
+                      <th mat-header-cell *matHeaderCellDef > Value of Added </th>
                       <td mat-cell *matCellDef="let element"> {{element.valueOfItems}} </td>
                     </ng-container>                
                     
                      <ng-container matColumnDef="CreatedBy">
-                      <th mat-header-cell *matHeaderCellDef> User </th>                      
+                      <th mat-header-cell *matHeaderCellDef> User  </th>                      
                         <td mat-cell *matCellDef="let element"> {{element.createdBy}} </td>                      
                     </ng-container>  
                     <ng-container matColumnDef="CreadtedDate">
