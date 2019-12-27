@@ -4,3 +4,4 @@ export * from './todo.service';
 export * from './items.service';
 export * from './categories.service';
 export * from './checkout.service';
+export * from './reports.service';

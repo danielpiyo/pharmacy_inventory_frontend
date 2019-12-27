@@ -14,4 +14,9 @@ export class CheckoutService {
     return this.http.post(`${environment.baseUrl}/checkOut`, checkOutModel);
   }
 
+  checkOutDiscounted(checkOutModel: TocheckOut){
+    return this.http.post(`${environment.baseUrl}/checkOut`, checkOutModel);
+  }
+
+
 }

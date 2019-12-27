@@ -45,11 +45,11 @@ export class LoginComponent implements OnInit {
       password: formData.password
     }
 
-    console.log("Login", payload);
+    // console.log("Login", payload);
     this.loginService.logIn(payload)
     .subscribe((data: LoginResponse) => {
-      console.log(data)
-      console.log(data.user)
+      // console.log(data)
+      // console.log(data.user)
       this.currentPerson = data.user;
       if (data.token) {
         // storing the token

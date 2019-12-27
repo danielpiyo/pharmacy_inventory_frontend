@@ -22,6 +22,12 @@
   margin-bottom: 0 !important;
   margin-left: 1% !important;
 }
+.international{
+  background-color: whitesmoke;
+  border-radius: 1.5px;
+  min-height: 18vh;
+  /* max-height: 50vh; */
+}
 
 .h2-subheader {
   font-weight: bold !important;
@@ -61,7 +67,8 @@
 }
 
 .row-float-sections {
-  height: 10vh;
+  min-height: 8vh;
+  max-height: auto;
 }
 
 .section-1-cnt {

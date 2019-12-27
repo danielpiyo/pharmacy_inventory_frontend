@@ -1,7 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, Inject } from '@angular/core';
 import { CategoriesService } from 'src/app/_service/categories.service';
 import { UserToken } from 'src/app/_model/user';
 import { ItemCategory } from 'src/app/_model/item.model';
+import { MatTableDataSource, MatPaginator, MatSort, MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+
+
+export interface AllCategories {
+  id: Number;
+  category_name: String;
+  description: String;
+
+}
 
 @Component({
   selector: 'app-categories',
@@ -14,35 +23,116 @@ export class CategoriesComponent implements OnInit {
   allCategories: any;
   allItems: any;
   view='not-viewed';
+  interval: any;
 
-  constructor(private coategoriesService: CategoriesService) { 
+  public displayedColumns = ['number','CategoryName', 'Description','Action']
+
+  public dataSource = new MatTableDataSource<AllCategories>();
+
+
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
+
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+
+
+
+  constructor(private categoryService: CategoriesService, public dialog: MatDialog,  ) { 
     this.usertoken.token = JSON.parse(localStorage.getItem('currentToken'));
   }
 
   ngOnInit() {
-    this.getAllCategories(); 
+    this.getCategories();  
+    this.interval = setInterval(() => { 
+      this.getCategories(); 
+        }, 10000);
+    this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
   }
 
-  getAllCategories(){
-    this.coategoriesService.getAllCategories(this.usertoken)
-    .subscribe((response)=>{
-      this.allCategories = response
+  getCategories() {
+    this.categoryService.getAllCategories(this.usertoken)
+      .subscribe((response) => {
+        this.allCategories = response;
+        this.dataSource.data = this.allCategories as AllCategories[];
+      },
+        error => {
+          console.log(error);
+        })
+  }
+
+  applyFilter(filterValue: string) {
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+  
+
+  viewNow(id){
+    this,this.dialog.open(MoreCategoriesModal, {
+      data:{
+        id: id
+      }, width:'70%'
     })
   }
+}
 
-  getItem(id){
-    this.itemModel.category_id = id;
+// child component l
+@Component({
+  // tslint:disable-next-line: component-selector
+  selector: 'more-category-modal',
+  templateUrl: 'more-category.modal.component.html',
+  styleUrls: ['./categories.component.css']
+})
+// tslint:disable-next-line: component-class-suffix
+export class MoreCategoriesModal {  
+  allItems: any;
+  usertoken: UserToken = new UserToken()
+  itemModel: ItemCategory = new ItemCategory();
+
+  public displayedColumns = ['number','ProductName', 'Description']
+
+  public dataSource = new MatTableDataSource<AllItems>();
+
+
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
+
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+
+  constructor(
+    public dialogRef: MatDialogRef<MoreCategoriesModal>,    
+    private categoryService: CategoriesService,
+         
+    @Inject(MAT_DIALOG_DATA) public data: any) {     
+      this.usertoken.token = JSON.parse(localStorage.getItem('currentToken'));
+      this.getItem()
+  }
+  ngOnInit() {  ;
+    this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
+  }
+
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
+
+
+  getItem(){
+    this.itemModel.category_id = this.data.id;
     this.itemModel.token = this.usertoken.token;
-    this.coategoriesService.getItems(this.itemModel)
+    this.categoryService.getItems(this.itemModel)
     .subscribe((response)=>{
       this.allItems = response
-      // this.view ='viewed';
+      this.dataSource.data = this.allItems as AllItems[];;
     },
     error =>{
       console.log(error);
     })
   }
-  close(){
-    this.view='not-viewed';
-  }
+  
+}
+
+
+export interface AllItems {
+  id: Number;
+  name: String;
+  description: String;
+
 }

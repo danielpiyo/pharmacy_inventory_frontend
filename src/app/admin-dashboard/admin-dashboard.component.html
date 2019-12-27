@@ -7,46 +7,75 @@
   </div>
   <div fxFlex="15">
     <p style="text-align: right">
-      <img src="../../assets/images/logo.png" alt="" width="90" height="50">
+      <!-- <img src="../../assets/images/logo.png" alt="" width="90" height="50"> -->
     </p>
   </div>
 
 </div>
-<!-- alert position -->
-<div><alert></alert></div>
+<div>
+  <app-item-balance></app-item-balance>
+</div>
 <!-- <div> <app-alert></app-alert> </div> -->
 <div class="container panel panel-info">
 
-
-
-  <!-- holder for dasbordard content -->
-
   <div fxLayout="row" fxLayout.lt-sm="column">
-    <div fxFlex="25" fxFlexOffset="2.5" class="blue-menu blue-background shadow">
+    <div fxFlex="20" fxFlexOffset="2.5" class="blue-menu blue-background shadow">
 
       <h2 class="blue-title">
-       
+        <span>Welcome</span>
       </h2>
 
       <!-- main left menu -->
 
       <ul class="main-menu" fxHide.lt-sm>
-        <li><a routerLink="/dashboard" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Dashboard</a>
-        </li>        
-        <li><a routerLink="/dashboard/opportunities" routerLinkActive="active"
-            [routerLinkActiveOptions]="{exact: true}">Users</a>
-        </li>
-        <li><a routerLink="/dashboard/events" routerLinkActive="active"
-            [routerLinkActiveOptions]="{exact: true}">Categories</a>
-        </li>
-        <li><a routerLink="/dashboard/profile" routerLinkActive="active"
-          [routerLinkActiveOptions]="{exact: true}">Products</a>
-       </li>
-        <li><a routerLink="/dashboard/updates" routerLinkActive="active" 
-          [routerLinkActiveOptions]="{exact: true}">Reports</a>
+        <li> <a routerLink="/admin" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+            <mat-icon class="mat-18">account_balance</mat-icon>
+            Dashboard
+          </a>
         </li>
         <li>
-          <button (click)="logout()">LogOut</button>
+          <a routerLink="/admin/users" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+            <mat-icon class="mat-18">supervisor_account</mat-icon>
+            Users
+          </a>
+        </li>
+        <li>
+          <a routerLink="/admin/categories" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+            <mat-icon class="mat-18">store</mat-icon>
+            Categories
+          </a>
+        </li>
+        <li><a routerLink="/admin/items" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+            <mat-icon class="mat-18">receipt</mat-icon>
+            Items 
+          </a>
+        </li>
+        <li><a routerLink="/admin/item_discount" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+          <mat-icon class="mat-18">receipt</mat-icon>
+          Discountable Items 
+        </a>
+      </li>
+        <li>
+            <a routerLink="/admin/changePrice" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+              <mat-icon class="mat-18">settings</mat-icon>
+              Change Prices
+            </a>
+          </li> 
+        <li>
+          <a routerLink="/admin/checkin" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+            <mat-icon class="mat-18">trending_down</mat-icon>
+            CheckIn
+          </a>
+        </li>        
+        <li><a routerLink="/admin/reports" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+            <mat-icon class="mat-18">date_range</mat-icon>
+            Reports
+          </a>
+        </li>
+        <li>
+          <button mat-raised-button (click)="logout()">
+            <mat-icon class="mat-19">settings_power</mat-icon>LogOut
+          </button>
         </li>
       </ul>
 
@@ -61,29 +90,31 @@
 
           </mat-expansion-panel-header>
 
-          <mat-card >
+          <mat-card>
             <mat-nav-list>
               <mat-list-item>
-                <a matLine routerLink="/dashboard" routerLinkActive="active"
+                <a matLine routerLink="/cashier" routerLinkActive="active"
                   [routerLinkActiveOptions]="{exact: true}">Dashboard</a>
               </mat-list-item>
-              
+
               <mat-list-item>
-                <a matLine routerLink="/dashboard/transactions" routerLinkActive="active"
+                <a matLine routerLink="/cashier/categories" routerLinkActive="active"
                   [routerLinkActiveOptions]="{exact: true}">Users</a>
               </mat-list-item>
+
               <mat-list-item>
-                <a matLine routerLink="/dashboard/buy" routerLinkActive="active"
-                  [routerLinkActiveOptions]="{exact: true}">Categories</a>
-              </mat-list-item>
-              <mat-list-item>
-                  <a matLine routerLink="/dashboard/profile" routerLinkActive="active"
-                    [routerLinkActiveOptions]="{exact: true}">Products</a>
+                  <a matLine routerLink="/cashier/categories" routerLinkActive="active"
+                    [routerLinkActiveOptions]="{exact: true}">Categories</a>
                 </mat-list-item>
               <mat-list-item>
-                <a matLine routerLink="/dashboard/updates" routerLinkActive="active"
-                  [routerLinkActiveOptions]="{exact: true}">Reports</a>
+                <a matLine routerLink="/cashier/items" routerLinkActive="active"
+                  [routerLinkActiveOptions]="{exact: true}">Items</a>
               </mat-list-item>
+              <mat-list-item>
+                <a matLine routerLink="/cashier/checkin" routerLinkActive="active"
+                  [routerLinkActiveOptions]="{exact: true}">CheckIn</a>
+              </mat-list-item>
+
               <mat-list-item>
                 <button (click)="logout()">LogOut</button>
               </mat-list-item>
@@ -94,8 +125,12 @@
 
 
     </div>
-    <div fxFlex="75" class="content-holder">
-      <router-outlet></router-outlet>
+    <div fxFlex="80" class="content-holder">
+      <mat-card>
+        <alert></alert>
+        <hr>
+        <router-outlet></router-outlet>
+      </mat-card>
 
     </div>
   </div>
