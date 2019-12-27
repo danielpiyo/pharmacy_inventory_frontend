@@ -23,7 +23,7 @@ import { CategoriesComponent, MoreCategoriesModal } from './cashier/categories/c
 import { ItemsComponent, DetailsModal } from './cashier/items/items.component';
 import {TodoComponent } from './cashier/todo/todo.component';
 import {AdminDashboardComponent} from './admin-dashboard/admin-dashboard.component'
-import { AdminHomeComponent} from './admin-dashboard/admin-home/admin-home.component';
+import { AdminHomeComponent, CheckedInModel} from './admin-dashboard/admin-home/admin-home.component';
 import { UsersComponent, NewUserModal, ResetUserModal } from './admin-dashboard/users/users.component';
 import { AdminCategoriesComponent, CategoryModal, NewCategoryModal } from './admin-dashboard/admin-categories/admin-categories.component';
 import { AdminItemsComponent, AdminDetailsModal, NewItemModal, AdminEditDetailsModal } from './admin-dashboard/admin-items/admin-items.component';
@@ -76,7 +76,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     CategoryModal, AdminDetailsModal, AdminCheckinModal, 
     NewItemModal, AdminEditDetailsModal, NewCategoryModal,
      ChangePriceComponent,ChangePriceModal, ItemBalanceComponent,
-     MoreItemModal, DiscountedItemComponentChashier,
+     MoreItemModal, DiscountedItemComponentChashier, CheckedInModel,
      SalesReportComponent, MoreCategoriesModal, DiscountedItemComponent, CheckoutDiscountedItemComponent
   ],
   imports: [
@@ -96,7 +96,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   entryComponents: [
     CheckinModal, DetailsModal, CategoryModal, AdminDetailsModal, AdminCheckinModal, 
     NewItemModal, AdminEditDetailsModal, NewCategoryModal,NewUserModal,ResetUserModal,
-     ChangePriceModal, MoreItemModal,MoreCategoriesModal
+     ChangePriceModal, MoreItemModal,MoreCategoriesModal, CheckedInModel
   ],
   providers: [ {
     provide: PERFECT_SCROLLBAR_CONFIG,

@@ -35,3 +35,15 @@ export class AllMonth {
     created_date: Date
     days: Number
 }
+
+export class AllCheckin{
+    id: Number
+    createdBy: String
+    category: String
+    item: String    
+    initialItemsNumber:Number
+    finalItemsNumber: Number
+    valueOfItems: Number
+    created_date:Date
+    days: Number
+}

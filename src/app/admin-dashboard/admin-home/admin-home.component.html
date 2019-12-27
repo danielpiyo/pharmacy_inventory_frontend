@@ -29,7 +29,7 @@
           </mat-card-content>
         </div>
       </div>
-      <div class="section-1-cnt yellow-tile shadow invoice-paid" fxFlex="35">
+      <div class="section-1-cnt shadow invoice-paid" fxFlex="35">
         <div class="stats1-title ">
           <mat-card-header class="h2-header" matTooltip="All Monthly Sales">
             Month's Sale
@@ -49,34 +49,34 @@
     <div class="row-float-sections colored-tiles" fxLayout="row" fxLayoutGap="2%" fxLayout.lt-sm="column">
       <div class="section-1-cnt tile-1 white-color shadow invoice-raised " fxFlex="30" fxFlexOffset="2">        
           <mat-card class="panel-info">
-            <button mat-raised-button color="primary" class=" panel-heading" matBadge="10" matBadgePosition="before"
-              matBadgeColor="accent">
+            <button mat-raised-button color="primary" class=" panel-heading" matBadge="{{totalDayCheckInItems}}" matBadgePosition="before"
+              matBadgeColor="accent" (click)="viewCheckedIn()">
               Checked-In Items
             </button>
             <mat-card-content>
-              Value:: Ksh. {{totalWeek}}.00
+              Value:: Ksh. {{totalDayCheckIn}}.00 
             </mat-card-content>
           </mat-card>
       </div> 
       <div class="section-1-cnt blue-solid shadow invoice-due panel-info" fxFlex="35">
         <mat-card class="panel-info">
-          <button mat-raised-button color="primary" class=" panel-heading" matBadge="10" matBadgePosition="before"
+          <button mat-raised-button color="primary" class=" panel-heading" matBadge="{{totalCheckOutToday}}" matBadgePosition="before"
             matBadgeColor="accent">
             Checked-Out Items
           </button>
           <mat-card-content>
-            Value:: Ksh. {{totalWeek}}.00
+            Value:: Ksh. {{totalCheckOutTodayValue}}.00
           </mat-card-content>
         </mat-card>
       </div>
       <div class="section-1-cnt yellow-tile shadow invoice-paid panel-info" fxFlex="35">
         <mat-card class="panel-info">
-          <button mat-raised-button color="primary" class=" panel-heading" matBadge="10" matBadgePosition="before"
+          <button mat-raised-button color="primary" class=" panel-heading" matBadge="{{allDiscount}}" matBadgePosition="before"
             matBadgeColor="accent">
             Discounted Items
           </button>
           <mat-card-content>
-            Value:: Ksh. {{totalWeek}}.00
+            Value:: Ksh. {{totalDayDiscount}}.00
           </mat-card-content>
         </mat-card>
       </div>

@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject, ViewChild, ElementRef } from '@angular/core';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatTableDataSource, MatSort, MatPaginator } from '@angular/material';
 import { AlertService, ReportsService } from 'src/app/_service';
 import { Router } from '@angular/router';
 import { Settings } from './app.settings.model';
@@ -17,7 +17,15 @@ export class AdminHomeComponent implements OnInit {
   interval: any;
   userToken: UserToken = new UserToken();
   allDay: AllDay[];
+  allDayCheckin: any;
+  allDayDiscount: AllDay[];
   totalDay: any;
+  totalDayCheckIn: any;
+  totalDayCheckInItems: any;
+  totalDayDiscount: any;
+  totalCheckOutToday: any;
+  totalCheckOutTodayValue: any;
+  allDiscount: any;
   allWeek: AllWeek[];
   totalWeek: any;
   allMonth: AllMonth[];
@@ -28,12 +36,13 @@ export class AdminHomeComponent implements OnInit {
   @ViewChild('resizedDiv', null) resizedDiv: ElementRef;
   public previousWidthOfResizedDiv = 0;
 
-  constructor(public appSettings: AppSettings, private router: Router, private reportService: ReportsService) {
+  constructor(public appSettings: AppSettings, public dialog: MatDialog, private router: Router, private reportService: ReportsService) {
     this.settings = this.appSettings.settings;
     this.userToken.token = JSON.parse(localStorage.getItem('currentToken'));
     this.getDailyReports();
     this.getWeeklyReports();
     this.getMonthlyReports();
+    this.getDailyReportsDiscount();
 
   }
 
@@ -43,14 +52,37 @@ export class AdminHomeComponent implements OnInit {
       this.getDailyReports();
       this.getWeeklyReports();
       this.getMonthlyReports();
+      this.getDailyReportsDiscount();
     }, 10000);
     //  
     this.getChartData();
     this.getChartsWeek();
     this.getChartsMonth();
+    this.getDailyCheckinReports();
   }
 
 // Sales calculations
+
+// checkin
+getDailyCheckinReports() {
+  this.reportService.getCheckInReportsDay(this.userToken)
+    .subscribe((response) => {
+      this.allDayCheckin = response;
+      console.log('responce', this.allDayCheckin)
+      var total = 0;
+      if (this.allDayCheckin != null && this.allDayCheckin.length > 0) {
+        this.allDayCheckin.forEach(x => total += x.valueOfItems);
+      }
+      console.log(total);
+      this.totalDayCheckIn = total; 
+      this.totalDayCheckInItems = this.allDayCheckin.length;    
+    },
+      error => {
+        console.log(error);
+      })
+}
+
+
   getDailyReports() {
     this.reportService.getCheckoutReportsDay(this.userToken)
       .subscribe((response: any[]) => {
@@ -61,7 +93,38 @@ export class AdminHomeComponent implements OnInit {
           this.allDay.forEach(x => total += x.amountSOld);
         }
         console.log(total);
-        this.totalDay = total;
+        this.totalDay = total;        
+      },
+        error => {
+          console.log(error);
+        })
+  }
+
+  getDailyReportsDiscount() {
+    this.reportService.getCheckoutReportsDayDiscount(this.userToken)
+      .subscribe((response: any[]) => {
+        this.allDayDiscount = response;
+        console.log('responce', this.allDayDiscount)
+        var total = 0;
+        if (this.allDayDiscount != null && this.allDayDiscount.length > 0) {
+          this.allDayDiscount.forEach(x => total += x.amountSOld);
+        }
+        console.log(total);
+        this.allDiscount = this.allDayDiscount.length;
+        this.totalDayDiscount = total;
+
+        if(this.allDay != null && this.allDayDiscount != null){
+          this.totalCheckOutToday = this.allDiscount + this.allDay.length;
+          this.totalCheckOutTodayValue = this.totalDayDiscount + this.totalDay;
+        }
+        else if(this.allDay != null && this.allDayDiscount == null){
+          this.totalCheckOutToday = this.allDay.length;
+          this.totalCheckOutTodayValue = this.totalDay;
+        }
+        else if(this.allDay == null && this.allDayDiscount != null){
+          this.totalCheckOutToday = this.allDiscount;
+          this.totalCheckOutTodayValue = this.totalDayDiscount;
+        }
       },
         error => {
           console.log(error);
@@ -181,5 +244,80 @@ export class AdminHomeComponent implements OnInit {
     ]
   }
 
+  viewCheckedIn(){
+    this.dialog.open(CheckedInModel,{width:'70%'});
+  }
+
 }
 
+
+// child component checkedIn
+@Component({
+  // tslint:disable-next-line: component-selector
+  selector: 'admin-allcheckin-modal',
+  templateUrl: 'admin-allcheckin.modal.component.html',
+  styleUrls: ['../admin-checkin/admin-checkin.component.css']
+})
+// tslint:disable-next-line: component-class-suffix
+export class CheckedInModel {
+  userToken: UserToken = new UserToken();  
+  allCheckedIn: any;
+
+  public displayedColumns = ['number','Category', 'Name','InitialQuantity',
+  'FinalQuantity', 'Value','CreatedBy', 'CreadtedDate']
+
+public dataSource = new MatTableDataSource<AllItems>();
+  
+
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
+
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+
+  constructor(
+    public dialogRef: MatDialogRef<CheckedInModel>,
+    private reportService: ReportsService,
+    @Inject(MAT_DIALOG_DATA) public data: any) {     
+      this.userToken.token = JSON.parse(localStorage.getItem('currentToken'));
+  }
+
+  ngOnInit() {
+    this.getDailyCheckinReports();
+    this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
+  }
+
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
+
+ // checkin
+getDailyCheckinReports() {
+  this.reportService.getAllCheckInReport(this.userToken)
+    .subscribe((response) => {
+      this.allCheckedIn = response;
+      this.dataSource.data = this.allCheckedIn as AllItems[];
+      console.log('responceCheckIn', this.allCheckedIn)        
+    },
+      error => {
+        console.log(error);
+      })
+}
+
+applyFilter(filterValue: string) {
+  this.dataSource.filter = filterValue.trim().toLowerCase();
+}
+  
+}
+
+export interface AllItems {
+
+  id: Number
+  createdBy: String
+  category: String
+  item: String
+  initialItemsNumber: Number
+  finalItemsNumber: Number
+  valueOfItems: Number
+  created_date: Date
+
+}
