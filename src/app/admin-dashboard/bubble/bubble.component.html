@@ -12,11 +12,8 @@
 
 
 <div fxLayout="row wrap">
-    <div fxFlex="100" fxFlex.gt-sm="70" class="flex-p panel-info">
-        <div fxLayoutAlign="left" class="panel-heading">
-            <h3>Weekly User's Sale's Statistics</h3>
-        </div>
-        <div class="w-100 h-200p" #resizedDiv>
+    <div fxFlex="100" fxFlex.gt-sm="70" class="flex-p">       
+        <div class="w-100" #resizedDiv>
             <ngx-charts-pie-chart [scheme]="colorScheme" [results]="disk_space" [legend]="showLegend"
                 [explodeSlices]="explodeSlices" [labels]="showLabels" [doughnut]="doughnut" [gradient]="gradient"
                 (select)="onSelect($event)">
@@ -27,10 +24,7 @@
 
     <div fxFlex="100" fxFlex.gt-sm="2" fxLayout="column"></div>
 
-    <div fxFlex="100" fxFlex.gt-sm="28" fxLayout="column" class="h-200p panel-info">
-        <div fxLayoutAlign="left" class="panel-heading">
-            <h3>Weekly User's Sale</h3>
-        </div>
+    <div fxFlex="100" fxFlex.gt-sm="28" fxLayout="column" class="">
         <div fxFlex="100" class="flex-p">
             <mat-card>
                 <div fxLayout="row" fxLayoutAlign="space-around">

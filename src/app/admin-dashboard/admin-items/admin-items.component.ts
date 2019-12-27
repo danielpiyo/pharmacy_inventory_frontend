@@ -13,10 +13,12 @@ export interface AllItems {
   category: String
   name: string
   quantity: Number
-  price: Number,
+  buying_price: Number;
+  price: Number
   description: String
   createdBy: String
   created_date: Date
+  discount_yn:String
   
 }
 
@@ -34,12 +36,10 @@ export class AdminItemsComponent implements OnInit {
   public todoList:Array<any>;
   public newTodoText:string = '';
 
-  // items functionality
-  allMyAssignedREquest: any;
   
 
   public displayedColumns = ['number','Category', 'Name','Description',
-  'Quantity', 'Price','details', 'edit', 'delete']
+  'Quantity', 'Buying_Price', 'Price','details', 'edit', 'delete']
 
 public dataSource = new MatTableDataSource<AllItems>();
   
@@ -63,14 +63,14 @@ public dataSource = new MatTableDataSource<AllItems>();
     this.getAllItems()
     this.interval = setInterval(() => { 
       this.getAllItems(); 
-        }, 10000);
+        }, 20000);
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
   }
 
 // get Items
 getAllItems(){  
-  this.itemService.getAllItems({token:this.userToken})
+  this.itemService.getAllItemsIn({token:this.userToken})
   .subscribe((response)=>{
     this.allItems = response
     this.dataSource.data = this.allItems as AllItems[]; 
@@ -87,19 +87,21 @@ applyFilter(filterValue: string) {
 }
 
 // check out
-getDetails(item_id, category_id, quantity_from,item_price, name, category, description, createdBy, created_date){
+getDetails(item_id, category_id, quantity_from, item_buying_price,item_price, name, category, description, createdBy, created_date,discount_yn){
   // console.log('selected',{item_id, category_id, quantity_from,item_price, name, category});
   this.dialog.open(AdminDetailsModal, {
     data: {
      category_id: category_id,
      item_id: item_id,
-     quantity_from: quantity_from,     
+     quantity_from: quantity_from,
+     item_buying_price:item_buying_price,     
      item_price:item_price,
      name: name,
      category: category,
      description: description,
      createdBy:createdBy,
-     created_date: created_date
+     created_date: created_date,
+     discount_yn:discount_yn
     }
   });
 }
@@ -111,7 +113,7 @@ deleteNow(id, name){
 
 }
 
-editNow(id, category_id, quantity, price, category, name, description){
+editNow(id, category_id, quantity,buying_price, price, category, name, description,discount_yn){
   this.dialog.open(AdminEditDetailsModal, {
     data: {
      category_id: category_id,
@@ -124,7 +126,11 @@ editNow(id, category_id, quantity, price, category, name, description){
      item_name_to: name,
      category: category,  
      description_from: description,
-     description_to: description
+     description_to: description,
+     buying_price_from: buying_price,
+     buying_price_to: buying_price,
+     discount_yn_before:discount_yn,
+     discount_yn_after: discount_yn
    
     }
   });
@@ -160,27 +166,6 @@ export class AdminDetailsModal {
     this.dialogRef.close();
   }
 
-  submitCheckIn(){
-    this.dataToCheckIn.category_id = this.data.category_id;
-    this.dataToCheckIn.item_id = this.data.item_id;
-    this.dataToCheckIn.item_price = this.data.item_price;
-    this.dataToCheckIn.quantity_from = this.data.quantity_from;
-    this.dataToCheckIn.quantity_to = this.data.quantity_from + this.checkInModel.toadd;
-    this.dataToCheckIn.token = this.currentToken;
-    // console.log('data ato checkin', this.dataToCheckIn);
-    this.itemService.checkInItem(this.dataToCheckIn)
-    .subscribe((response)=>{
-      // console.log('responseCheckin', response);
-      this.alertService.success(`You have Succesfully CheckedIn additional  ${this.checkInModel.toadd} item for ${this.data.name}`);
-      this.onNoClick();
-      this.router.navigate(['/cashier/checkin']);
-    },
-    error=>{
-      console.log(error);
-      this.alertService.error(error.error.message);
-    })
-  }
-  
 }
 
 
@@ -230,7 +215,7 @@ getCategories(){
 addNewItem(){
   this.loading = true;
   this.newItemModel.token = this.currentToken;
-  // console.log('NewItem', this.newItemModel);
+  console.log('NewItem', this.newItemModel);
   this.itemService.addNewItem(this.newItemModel)
   .subscribe((response)=>{
     this.loading = false;
@@ -289,14 +274,24 @@ export class AdminEditDetailsModal {
 
   updateItem(){
     this.loading = true;
-    this.editItemModel.category_id_from = this.data.category_id;
-    this.editItemModel.description_from = this.data.description_from;
-    this.editItemModel.description_to = this.data.description_to;
-    this.editItemModel.item_name_from = this.data.item_name_from;
-    this.editItemModel.item_name_to = this.data.item_name_to;
-    this.editItemModel.quantity_from = this.data.quantity_from;
-    this.editItemModel.quantity_to = this.data.quantity_to
-    this.editItemModel.item_id = this.data.item_id;
+    // if(this.editItemModel.category_id == null){
+    //   this.alertService.error('Please Select the category of this Item first');
+    //   this.loading = false;
+    // }
+    this.editItemModel = this.data;
+    // this.editItemModel.category_id_from = this.data.category_id;
+    // this.editItemModel.category_id = this.data.category_id;
+    // this.editItemModel.description_from = this.data.description_from;
+    // this.editItemModel.description_to = this.data.description_to;
+    // this.editItemModel.item_name_from = this.data.item_name_from;
+    // this.editItemModel.item_name_to = this.data.item_name_to;
+    // this.editItemModel.quantity_from = this.data.quantity_from;
+    // this.editItemModel.quantity_to = this.data.quantity_to
+    // this.editItemModel.item_id = this.data.item_id;
+    // this.editItemModel.buying_price_from = this.data.buying_price_from;
+    // this.editItemModel.buying_price_to = this.data.buying_price_to;
+    // this.editItemModel.discount_yn_before = this.data.discount_yn_before;
+    // this.editItemModel.discount_yn_after = this.data.discount_yn_after;
     this.editItemModel.token = this.currentToken;
     console.log('EditedModel', this.editItemModel);
     this.itemService.editItem(this.editItemModel)

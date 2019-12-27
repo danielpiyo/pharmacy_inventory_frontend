@@ -48,7 +48,7 @@ export class BubbleComponent implements OnInit, AfterViewChecked {
   }
 
   getUserPerformance(){
-    this.reportService.getUserPerformance(this.userToken)
+    this.reportService.getUserPerformanceWeek(this.userToken)
     .subscribe((response:any[]) => {
       this.userPerformance = response;       
      console.log('users',this.userPerformance)

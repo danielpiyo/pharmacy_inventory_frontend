@@ -1,0 +1,15 @@
+<!-- less products available -->
+<div *ngIf="available=='yes'">
+  <div class="item-alert panel-danger">
+    <mat-card class="panel-heading">
+      <button mat-raised-button color="primary" (click)="viewMore()" matBadge="{{totaNumber}}" matBadgePosition="before"
+        matBadgeColor="warn">
+        Stock running out
+      </button>
+    </mat-card>
+  </div>
+</div>
+<!-- no less products -->
+<div *ngIf="available=='no'">
+
+</div>

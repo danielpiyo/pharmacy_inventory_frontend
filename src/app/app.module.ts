@@ -2,10 +2,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
-
-
-import { AccordionModule } from 'primeng/accordion';     //accordion and accordion tab
-import { MenuItem } from 'primeng/api';                 //api
+               //api
 import { MatSidenavModule, MatFormFieldModule, MatTabsModule, MatAutocompleteModule, MatBadgeModule, MatSnackBarModule, MatPaginatorModule, MatSortModule, MatToolbarModule, MatChipsModule, MatIconModule, MatListModule, MatCardModule, MatButtonModule, MatTableModule, MatSelectModule, MatInputModule, MatDialogModule, MatProgressBarModule, MatTooltipModule, MatDatepickerModule, MatCheckboxModule, MatExpansionModule, MatSlideToggleModule, MatProgressSpinnerModule, MatNativeDateModule } from '@angular/material';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -22,12 +19,12 @@ import {AdminAuthGuard, AuthGuard} from './_guard/index';
 import {AlertComponent } from './_directives/index';
 import { CheckoutComponent } from './cashier/checkout/checkout.component';
 import { CheckinComponent, CheckinModal } from './cashier/checkin/checkin.component';
-import { CategoriesComponent } from './cashier/categories/categories.component';
+import { CategoriesComponent, MoreCategoriesModal } from './cashier/categories/categories.component';
 import { ItemsComponent, DetailsModal } from './cashier/items/items.component';
 import {TodoComponent } from './cashier/todo/todo.component';
 import {AdminDashboardComponent} from './admin-dashboard/admin-dashboard.component'
 import { AdminHomeComponent} from './admin-dashboard/admin-home/admin-home.component';
-import { UsersComponent, NewUserModal } from './admin-dashboard/users/users.component';
+import { UsersComponent, NewUserModal, ResetUserModal } from './admin-dashboard/users/users.component';
 import { AdminCategoriesComponent, CategoryModal, NewCategoryModal } from './admin-dashboard/admin-categories/admin-categories.component';
 import { AdminItemsComponent, AdminDetailsModal, NewItemModal, AdminEditDetailsModal } from './admin-dashboard/admin-items/admin-items.component';
 import { AdminReportsComponent } from './admin-dashboard/admin-reports/admin-reports.component';
@@ -41,6 +38,13 @@ import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
 import { PerfectScrollbarConfigInterface } from 'ngx-perfect-scrollbar';
 import { NgxDonutChartModule } from 'ngx-doughnut-chart';
+import { ChangePriceComponent, ChangePriceModal } from './admin-dashboard/change-price/change-price.component';
+import { ItemBalanceComponent, MoreItemModal } from './item-balance/item-balance.component';
+import { SalesReportComponent } from './cashier/sales-report/sales-report.component';
+import { DiscountedItemComponentChashier } from './cashier/discounted-item/discounted-item.component';
+import { DiscountedItemComponent } from './admin-dashboard/discounted-item/discounted-item.component';
+import { CheckoutDiscountedItemComponent } from './checkout-discounted-item/checkout-discounted-item.component';
+
  
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true
@@ -63,17 +67,21 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     TodoComponent,
     CheckinModal,NewUserModal,
     DetailsModal,
-    UsersComponent,
+    UsersComponent, ResetUserModal,
     AdminCategoriesComponent,
     AdminItemsComponent,
     AdminReportsComponent,
     AdminCheckinComponent,BubbleComponent,
     AdminCheckoutComponent, InfoCardsComponent,
-    CategoryModal, AdminDetailsModal, AdminCheckinModal, NewItemModal, AdminEditDetailsModal, NewCategoryModal
+    CategoryModal, AdminDetailsModal, AdminCheckinModal, 
+    NewItemModal, AdminEditDetailsModal, NewCategoryModal,
+     ChangePriceComponent,ChangePriceModal, ItemBalanceComponent,
+     MoreItemModal, DiscountedItemComponentChashier,
+     SalesReportComponent, MoreCategoriesModal, DiscountedItemComponent, CheckoutDiscountedItemComponent
   ],
   imports: [
     FormsModule, ReactiveFormsModule, HttpClientModule, FlexLayoutModule,
-    BrowserModule, AppRoutingModule, AccordionModule,
+    BrowserModule, AppRoutingModule, 
     BrowserAnimationsModule, MatSidenavModule, MatAutocompleteModule,
     MatBadgeModule, MatSnackBarModule, MatPaginatorModule,
     MatSortModule, MatToolbarModule, MatChipsModule,
@@ -87,7 +95,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   
   entryComponents: [
     CheckinModal, DetailsModal, CategoryModal, AdminDetailsModal, AdminCheckinModal, 
-    NewItemModal, AdminEditDetailsModal, NewCategoryModal,NewUserModal
+    NewItemModal, AdminEditDetailsModal, NewCategoryModal,NewUserModal,ResetUserModal,
+     ChangePriceModal, MoreItemModal,MoreCategoriesModal
   ],
   providers: [ {
     provide: PERFECT_SCROLLBAR_CONFIG,

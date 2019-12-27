@@ -9,11 +9,12 @@
     
         </div>
         <mat-card>
+            <alert></alert>
             <hr>
             <div class="opportunity-container">
                 <mat-form-field appearance="outline">
                     <mat-label>Product Category</mat-label>
-                    <mat-select placeholder="Select" [(ngModel)]="editItemModel.category_id" name="category_id">
+                    <mat-select placeholder="Select" [(ngModel)]="data.category_id" name="category_id">
                         <mat-option *ngFor="let cat of allCategories" value={{cat.id}}>{{cat.category_name}}</mat-option>
                     </mat-select>
                 </mat-form-field>
@@ -28,9 +29,22 @@
                 </mat-form-field>
 
                 <mat-form-field appearance="outline">
+                    <mat-label>Buying Price</mat-label>
+                    <input matInput type="number" name="buying_price_to" [(ngModel)]="data.buying_price_to">
+                </mat-form-field> <br>
+
+                <mat-form-field appearance="outline">
                     <mat-label>Description</mat-label>
                     <textarea matInput placeholder="Description" name="description_to" [(ngModel)]="data.description_to" cols="40"></textarea>
                 </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                        <mat-label>Allow Discount </mat-label>
+                        <mat-select placeholder="Select" [(ngModel)]="data.discount_yn_after" name="discount_yn_after">
+                            <mat-option value='N'>NO</mat-option>
+                            <mat-option value='Y'>YES</mat-option>
+                        </mat-select>
+                    </mat-form-field>
                     
                 <hr>
                 <mat-card mat-dialog-actions>

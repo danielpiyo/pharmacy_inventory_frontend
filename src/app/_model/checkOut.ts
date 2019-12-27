@@ -3,7 +3,7 @@ export class TocheckOut{
     item_id: Number;
     quantity_from: Number;
     quantity_to: Number;
-    item_price: Number;
+    item_price: any;
     token: String
 }
 

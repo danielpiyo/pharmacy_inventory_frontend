@@ -14,8 +14,13 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 export interface AllItems {
   item: String;
-  category: String;
-  total: Number;
+  category: String; 
+  id: Number;
+  createdBy: String;  
+  initialItemsNumber: Number
+  finalItemsNumber: Number;
+  amountSOld: Number;
+  created_date: Date;
 
 }
 
@@ -27,7 +32,8 @@ export interface AllItems {
 export class AdminReportsComponent implements OnInit {
   
   interval: any;
-  userPerformance: any;
+  userPerformanceWeek: any;
+  userPerformanceMonth: any;
   public state = 'weekly'
   panelOpenState = false;
   userToken: UserToken = new UserToken();
@@ -37,7 +43,8 @@ export class AdminReportsComponent implements OnInit {
     joint: '0'
   };
   public settings: Settings;
-  public allProducts : any;
+  public allProductsWeekly : any;
+  public allProductsMonthly : any;
   public analytics: any[];
   public showXAxis = true;
   public showYAxis = true;
@@ -56,14 +63,17 @@ export class AdminReportsComponent implements OnInit {
   @ViewChild('resizedDiv', null) resizedDiv: ElementRef;
   public previousWidthOfResizedDiv = 0;
 
-  public displayedColumns = ['number', 'Category', 'Item', 'Total']
+  public displayedColumns = ['number', 'Item','createdBy', 'initialItemsNumber', 'finalItemsNumber',  'created_date','Total']
 
   public dataSource = new MatTableDataSource<AllItems>();
+  public dataSourceMonth = new MatTableDataSource<AllItems>();
 
 
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+
+  @ViewChild(MatPaginator, { static: true }) paginatorMonth: MatPaginator;
  
 
   constructor(public appSettings: AppSettings,
@@ -75,31 +85,45 @@ export class AdminReportsComponent implements OnInit {
    }
 
   ngOnInit() {
-    this.getCategories()
+    this.getWeeklyProduct();
+    this.getMonthlyProduct();
     this.interval = setInterval(() => { 
-      this.getCategories(); 
-        }, 10000);
+      this.getWeeklyProduct(); 
+      this.getMonthlyProduct();
+        }, 20000);
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
+    this.dataSourceMonth.paginator = this.paginatorMonth;
     this.analytics = analytics; 
     // this.getChartData();
     this.getChartsWeek();   
     this.getChartsMonth();    
-    this.getUserPerformance(); 
+    this.getUserPerformanceWeek(); 
+    this.getUserPerformanceMonth(); 
     setTimeout(() => this.dataSource.paginator = this.paginator);   
   }
 
-  getCategories() {
-    this.categoryService.getProductReportCheckOut(this.userToken)
+  getWeeklyProduct() {
+    this.categoryService.getProductReportCheckOutWeek(this.userToken)
       .subscribe((response) => {
-        this.allProducts = response;
-        this.dataSource.data = this.allProducts as AllItems[];
+        this.allProductsWeekly = response;
+        this.dataSource.data = this.allProductsWeekly as AllItems[];
       },
         error => {
           console.log(error);
         })
   }
 
+  getMonthlyProduct() {
+    this.categoryService.getProductReportCheckOutMonth(this.userToken)
+      .subscribe((response) => {
+        this.allProductsMonthly = response;
+        this.dataSourceMonth.data = this.allProductsMonthly as AllItems[];
+      },
+        error => {
+          console.log(error);
+        })
+  }
 
   onSelect(event) {
     console.log(event);
@@ -176,11 +200,21 @@ export class AdminReportsComponent implements OnInit {
       })
   }
 
-getUserPerformance(){
-  this.reportService.getUserPerformance(this.userToken)
+getUserPerformanceWeek(){
+  this.reportService.getUserPerformanceWeek(this.userToken)
   .subscribe((response) => {
-    this.userPerformance = response;       
-   console.log('users',this.userPerformance)
+    this.userPerformanceWeek = response;       
+   console.log('users',this.userPerformanceWeek)
+  },error=>{
+    console.log(error.error.message);
+  })
+}
+
+getUserPerformanceMonth(){
+  this.reportService.getUserPerformanceMonth(this.userToken)
+  .subscribe((response) => {
+    this.userPerformanceMonth = response;       
+   console.log('users',this.userPerformanceMonth)
   },error=>{
     console.log(error.error.message);
   })
@@ -222,6 +256,7 @@ getUserPerformance(){
 // filtering
   applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
+    this.dataSourceMonth.filter = filterValue.trim().toLowerCase();
   }
 
   ngAfterViewInit() {

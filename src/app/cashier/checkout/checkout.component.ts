@@ -53,6 +53,18 @@ export class CheckoutComponent implements OnInit {
 
   checkOutNow(){
     this.loading = true;
+    if(this.amountToSale.tosale == null){
+      this.loading = false;
+      this.alertService.error('The Items to checkOut can not be empty');
+    }
+    else if(this.amountToSale.tosale < 1){
+      this.loading = false;
+      this.alertService.error('The Items to checkOut can not be less than one');
+    }
+    else if(this.amountToSale.tosale > this.dataToCheckOut.quantity_from){
+      this.loading = false;
+      this.alertService.error('Sorry the amount You want to CheckOut is greater than the  available Quantity');
+    }
     this.checkOutModel.category_id = this.dataToCheckOut.category_id;
     this.checkOutModel.item_id = this.dataToCheckOut.item_id;
     this.checkOutModel.item_price = this.dataToCheckOut.item_price;
@@ -67,7 +79,7 @@ export class CheckoutComponent implements OnInit {
       console.log('CheckoutResponce', response);
       this.alertService.success('CheckOut was Succesfull', true);
       // this.router.navigate(['/cashier']);
-      location.reload();
+      // location.reload();
     },
     error =>{
       this.loading = false;

@@ -1,0 +1,63 @@
+<div class="admin-child-container">
+
+        <div class="float-content panel-primary" fxLayout="column">
+            <div class="panel-heading" fxLayout="row">
+                <div fxFlex="30">
+                    <h4 class="panel-title">Items with Low stock Levels</h4>
+                </div>
+                <div fxFlex="50">
+                    <mat-form-field style="text-align: right;">
+                        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search Here">
+                    </mat-form-field>
+                </div>
+                <div fxFlex="20">
+                        <div style="text-align: right;">
+                                <img src="../../../assets/images/close.png"  alt="" height="20" width="20" (click)="onNoClick()">
+                       </div>               
+                </div>
+            </div>
+    
+            <ng-scrollbar>
+    
+                <table mat-table [dataSource]="dataSource" matSort>
+                    <ng-container matColumnDef="number">
+                        <th mat-header-cell *matHeaderCellDef> No </th>
+                        <td mat-cell *matCellDef="let element; let pager = index;"> {{pager + 1}} </td>
+                    </ng-container>
+    
+    
+                    <ng-container matColumnDef="Name">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Product Name </th>
+                        <td mat-cell *matCellDef="let element"> {{element.name }} </td>
+                    </ng-container>
+    
+                    <ng-container matColumnDef="Description">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Discription </th>
+                        <td mat-cell *matCellDef="let element"> {{element.description }} </td>
+                    </ng-container>
+    
+                    <ng-container matColumnDef="Quantity">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Quantity</th>
+                        <td mat-cell *matCellDef="let element"> {{element.quantity}} </td>
+                    </ng-container>
+    
+                    <ng-container matColumnDef="Buying_Price">
+                            <th mat-header-cell *matHeaderCellDef>Buying Price </th>
+                            <td mat-cell *matCellDef="let element"> {{element.buying_price}} </td>
+                        </ng-container>                
+        
+                    <ng-container matColumnDef="Selling_Price">
+                        <th mat-header-cell *matHeaderCellDef>Selling Price </th>
+                        <td mat-cell *matCellDef="let element"> {{element.price}} </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    
+                </table>
+                <mat-paginator [pageSizeOptions]="[5, 10, 15]" showFirstLastButtons></mat-paginator>
+            </ng-scrollbar>
+    
+    
+        </div>
+    </div>

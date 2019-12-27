@@ -6,3 +6,10 @@ export class NewUser{
     cpassword: String;
     token: String;
 }
+
+export class ResetPassWord{
+    id: Number;
+    password: String;
+    cpassword: String;
+    token: String;
+}

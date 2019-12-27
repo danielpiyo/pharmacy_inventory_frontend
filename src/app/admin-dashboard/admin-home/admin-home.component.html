@@ -44,17 +44,59 @@
     </div>
   </div>
   <hr>
-  <div class="panel panel-primary">
+  <!-- product activity checkins/checkouts -->
+  <div class="panel panel-primary">   
+    <div class="row-float-sections colored-tiles" fxLayout="row" fxLayoutGap="2%" fxLayout.lt-sm="column">
+      <div class="section-1-cnt tile-1 white-color shadow invoice-raised " fxFlex="30" fxFlexOffset="2">        
+          <mat-card class="panel-info">
+            <button mat-raised-button color="primary" class=" panel-heading" matBadge="10" matBadgePosition="before"
+              matBadgeColor="accent">
+              Checked-In Items
+            </button>
+            <mat-card-content>
+              Value:: Ksh. {{totalWeek}}.00
+            </mat-card-content>
+          </mat-card>
+      </div> 
+      <div class="section-1-cnt blue-solid shadow invoice-due panel-info" fxFlex="35">
+        <mat-card class="panel-info">
+          <button mat-raised-button color="primary" class=" panel-heading" matBadge="10" matBadgePosition="before"
+            matBadgeColor="accent">
+            Checked-Out Items
+          </button>
+          <mat-card-content>
+            Value:: Ksh. {{totalWeek}}.00
+          </mat-card-content>
+        </mat-card>
+      </div>
+      <div class="section-1-cnt yellow-tile shadow invoice-paid panel-info" fxFlex="35">
+        <mat-card class="panel-info">
+          <button mat-raised-button color="primary" class=" panel-heading" matBadge="10" matBadgePosition="before"
+            matBadgeColor="accent">
+            Discounted Items
+          </button>
+          <mat-card-content>
+            Value:: Ksh. {{totalWeek}}.00
+          </mat-card-content>
+        </mat-card>
+      </div>
+
+    </div>
+  </div>
+
+  <hr>
+<!-- pie charts representatio of user sales -->
+  <!-- <div class="panel panel-primary">
     <div class="panel-heading">
-      Buble Statistics
+      Users Performance
     </div>
     <hr>
-      <mat-card  >
+      <div>
           <div fxFlex="100" class="international panel-info">
               <app-bubble></app-bubble>
           </div>
-         </mat-card>
-  </div>
+     </div>
+  </div> -->
 
  
   <hr>
@@ -66,7 +108,7 @@
       <mat-card>
           <div fxFlex="100" class="international panel-info">
               <div class="panel-heading">Products Realtime Sales Satatistics</div> <br>
-              <ngx-charts-bar-vertical-2d                   
+              <ngx-charts-line-chart                    
               [scheme]="colorScheme"
               [results]="multi_sales"
               [gradient]="gradient"
@@ -77,8 +119,10 @@
               [showYAxisLabel]="showYAxisLabel"
               [xAxisLabel]="xAxisLabel"
               [yAxisLabel]="yAxisLabel"
+              [autoScale]="autoScale"
+              [roundDomains]="roundDomains"
               (select)="onSelect($event)">
-          </ngx-charts-bar-vertical-2d> 
+          </ngx-charts-line-chart> 
           </div>
       </mat-card>
   </div>   

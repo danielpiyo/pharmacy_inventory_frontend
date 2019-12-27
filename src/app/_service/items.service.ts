@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { TocheckIn } from '../_model/checkIn';
-import { NewItem, EditItem } from '../_model/itemNew.model';
+import { NewItem, EditItem, PriceChange } from '../_model/itemNew.model';
+import { UserToken } from '../_model/user';
 
 @Injectable({
   providedIn: 'root'
@@ -27,6 +28,14 @@ export class ItemsService {
     return this.http.post(`${environment.baseUrl}/items`,userToken);
   }
 
+  getAllItemsIn(userToken:any){
+    return this.http.post(`${environment.baseUrl}/allitems`,userToken);
+  }
+
+  getAllDiscountedItemsIn(userToken:any){
+    return this.http.post(`${environment.baseUrl}/allitemsDiscount`,userToken);
+  }
+
   setDataToCheckOut(item_id, category_id, quantity_from,item_price,name, category){
     this.item_id = item_id;
     this.category_id = category_id;
@@ -43,6 +52,26 @@ export class ItemsService {
     this.clearDataToCheckOut();
     return temp;
   }
+
+  // discount data
+
+
+  setDataToCheckOutDiscount(item_id, category_id, quantity_from,name, category){
+    this.item_id = item_id;
+    this.category_id = category_id;
+    this.quatity_from = quantity_from;    
+    this.name = name;
+    this.category = category;
+  }
+
+  getDataToCheckOutDiscount(){
+    let temp = {'item_id':this.item_id, 'category_id':this.category_id,
+               'quantity_from':this.quatity_from,
+               'name':this.name, 'category':this.category}
+    this.clearDataToCheckOut();
+    return temp;
+  }
+
 
   clearDataToCheckOut(){
     this.item_id = undefined;
@@ -63,5 +92,12 @@ export class ItemsService {
 
   editItem(editModel:EditItem){
     return this.http.post(`${environment.baseUrl}/updateItem`,editModel)
+  }
+
+  changePrice(price: PriceChange){
+    return this.http.post(`${environment.baseUrl}/priceChange`,price)
+  }
+  getItemBalanceAlert(userToken: UserToken){
+    return this.http.post(`${environment.baseUrl}/itemsTopup`,userToken);
   }
 }

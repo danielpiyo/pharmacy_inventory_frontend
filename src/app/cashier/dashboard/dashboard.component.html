@@ -7,11 +7,14 @@
     </div>
     <div fxFlex="15">
       <p style="text-align: right">
-        <img src="../../assets/images/logo.png" alt="" width="90" height="50">
+        <!-- <img src="../../assets/images/logo.png" alt="" width="90" height="50"> -->
       </p>
     </div>
   
   </div>  
+  <div>
+      <app-item-balance></app-item-balance>
+  </div>
   <!-- <div> <app-alert></app-alert> </div> -->
   <div class="container panel panel-info">  
   
@@ -40,16 +43,26 @@
               <mat-icon class="mat-18">receipt</mat-icon>
               Items</a>
           </li>
+          <li><a routerLink="/cashier/discount" routerLinkActive="active"
+            [routerLinkActiveOptions]="{exact: true}">
+            <mat-icon class="mat-18">receipt</mat-icon>
+            Discounted Items</a>
+        </li>
           <li><a routerLink="/cashier/checkin" routerLinkActive="active"
             [routerLinkActiveOptions]="{exact: true}">
-            <mat-icon class="mat-18">input</mat-icon>
+            <mat-icon class="mat-18">trending_down</mat-icon>
             CheckIn</a>
          </li>      
          <li><a routerLink="/cashier/todo" routerLinkActive="active"
           [routerLinkActiveOptions]="{exact: true}">
           <mat-icon class="mat-18">input</mat-icon>
           My Task</a>
-       </li>   
+       </li>  
+       <li><a routerLink="/cashier/user_report" routerLinkActive="active"
+        [routerLinkActiveOptions]="{exact: true}">
+        <mat-icon class="mat-18">date_range</mat-icon>
+        My Reports</a>
+     </li>  
           <li>
             <button mat-raised-button (click)="logout()"> <mat-icon class="mat-19">settings_power</mat-icon>LogOut</button>
           </li>

@@ -3,7 +3,7 @@ import { UserToken } from 'src/app/_model/user';
 import { LoginService, AlertService, ItemsService } from 'src/app/_service';
 import { MatTableDataSource, MatSort, MatPaginator, MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Router } from '@angular/router';
-import { NewUser } from 'src/app/_model/addUser.model';
+import { NewUser, ResetPassWord } from 'src/app/_model/addUser.model';
 
 
 export interface AllUser {
@@ -29,7 +29,7 @@ export class UsersComponent implements OnInit {
 
 
   public displayedColumns = ['number', 'UserId', 'Email', 'Username',
-    'Role', 'Date Added']
+    'Role', 'Date Added', 'reset']
 
   public dataSource = new MatTableDataSource<AllUser>();
 
@@ -50,7 +50,7 @@ export class UsersComponent implements OnInit {
     this.getUsers();
     this.interval = setInterval(() => { 
       this.getUsers(); 
-        }, 10000);
+        }, 60000);
   }
 
   getUsers() {
@@ -70,6 +70,15 @@ export class UsersComponent implements OnInit {
   
   addNew(){
     this.dialog.open(NewUserModal) 
+  }
+
+  resetPassword(id, username){
+    this.dialog.open(ResetUserModal,{
+      data:{
+        id: id,
+        username: username
+      }
+    }) 
   }
 }
 
@@ -111,6 +120,54 @@ export class NewUserModal {
     this.registerService.addNewUser(this.newUserModel)
     .subscribe((response)=>{
       this.alertService.success('User Succesfully added');
+      this.loading = false;
+      this.onNoClick();
+    },error =>{
+      this.loading = false;
+      console.log(error);
+    });
+  }
+  
+}
+
+
+// child component for opportunity modal
+@Component({
+  // tslint:disable-next-line: component-selector
+  selector: 'reset-user-modal',
+  templateUrl: 'reset-user.modal.component.html',
+})
+// tslint:disable-next-line: component-class-suffix
+export class ResetUserModal {
+  resetUserModel: ResetPassWord = new ResetPassWord()
+  loading = false;  
+  currentToken: any;
+
+  constructor(
+    public dialogRef: MatDialogRef<ResetUserModal>,
+    private alertService: AlertService,
+    private registerService: LoginService,
+    private router: Router,         
+    @Inject(MAT_DIALOG_DATA) public data: any) {     
+      this.currentToken = JSON.parse(localStorage.getItem('currentToken'));     
+  }
+
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
+
+  resetNow(){
+    this.loading = true;   
+    if(this.resetUserModel.cpassword !== this.resetUserModel.password){
+      this.alertService.error('passwords dont match');
+      this.loading = false;
+    } 
+    this.resetUserModel.token = this.currentToken;
+    this.resetUserModel.id = this.data.id;
+    console.log('newUser', this.resetUserModel);
+    this.registerService.resetPassword(this.resetUserModel)
+    .subscribe((response)=>{
+      this.alertService.success('Password Reset Succesfull');
       this.loading = false;
       this.onNoClick();
     },error =>{

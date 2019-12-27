@@ -45,8 +45,28 @@ export class ReportsService {
     return this.http.post(`${environment.baseUrl}/productCheckOutMonthly`, userToken)
   }
 
-  // userperformance
-  getUserPerformance(userToken: UserToken){
-    return this.http.post(`${environment.baseUrl}/userPerfomance`, userToken)
+  // userperformance week
+  getUserPerformanceWeek(userToken: UserToken){
+    return this.http.post(`${environment.baseUrl}/userPerfomanceWeek`, userToken)
   }
+
+    // userperformance Month
+    getUserPerformanceMonth(userToken: UserToken){
+      return this.http.post(`${environment.baseUrl}/userPerfomanceMonth`, userToken)
+    }
+  // daily user report
+  getUserDailyReport(userToken: UserToken){
+    return this.http.post(`${environment.baseUrl}/userDaily`, userToken)
+  }
+
+  // weekly User report
+  getUserWeeklyReport(userToken: UserToken){
+    return this.http.post(`${environment.baseUrl}/userWeekly`, userToken)
+  }
+
+  // monthly user report
+  getUserMonthlyReport(userToken: UserToken){
+    return this.http.post(`${environment.baseUrl}/userMonthly`, userToken)
+  }
+
 }

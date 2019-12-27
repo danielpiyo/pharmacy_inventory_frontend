@@ -43,7 +43,7 @@ export class AdminHomeComponent implements OnInit {
       this.getDailyReports();
       this.getWeeklyReports();
       this.getMonthlyReports();
-    }, 3000);
+    }, 10000);
     //  
     this.getChartData();
     this.getChartsWeek();
@@ -123,7 +123,8 @@ export class AdminHomeComponent implements OnInit {
   public xAxisLabel = 'Sales';
   public showYAxisLabel = true;
   public yAxisLabel = 'Amount in Ksh';
-  public autoScale = true;
+  public autoScale = true;  
+  public roundDomains = true;
 
   allmonthChart: any;
   allweekChart: any;

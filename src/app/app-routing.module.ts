@@ -18,6 +18,10 @@ import { AdminCheckinComponent } from './admin-dashboard/admin-checkin/admin-che
 import { AdminCheckoutComponent } from './admin-dashboard/admin-checkout/admin-checkout.component';
 import { InfoCardsComponent } from './admin-dashboard/info-cards/info-cards.component';
 import { TodoComponent } from './cashier/todo/todo.component';
+import { ChangePriceComponent } from './admin-dashboard/change-price/change-price.component';
+import { SalesReportComponent } from './cashier/sales-report/sales-report.component';
+import { DiscountedItemComponent } from './admin-dashboard/discounted-item/discounted-item.component';
+import { DiscountedItemComponentChashier } from './cashier/discounted-item/discounted-item.component';
 
 
 const routes: Routes = [
@@ -29,6 +33,8 @@ const routes: Routes = [
     {path:'checkin', component: CheckinComponent, canActivate:[AuthGuard]},
     {path:'categories', component:CategoriesComponent, canActivate:[AuthGuard]},
     {path:'items', component:ItemsComponent, canActivate:[AuthGuard]},
+    {path:'user_report', component:SalesReportComponent, canActivate:[AuthGuard]},
+    {path:'discount', component:DiscountedItemComponentChashier, canActivate:[AuthGuard]},
     // otherwise redirect to Cashier dashboard
     {path: '**', redirectTo: '' }
   ]},
@@ -41,6 +47,8 @@ const routes: Routes = [
     {path:'checkin', component:AdminCheckinComponent, canActivate:[AdminAuthGuard]},
     {path:'checkout', component:AdminCheckoutComponent, canActivate:[AdminAuthGuard]},
     {path:'info', component:InfoCardsComponent, canActivate:[AdminAuthGuard]},
+    {path:'changePrice', component: ChangePriceComponent, canActivate:[AdminAuthGuard]},
+    {path:'item_discount', component:DiscountedItemComponent, canActivate:[AdminAuthGuard]},
     // otherwise redirect to AdminDashboard
     {path: '**', redirectTo: '' }
   ]},

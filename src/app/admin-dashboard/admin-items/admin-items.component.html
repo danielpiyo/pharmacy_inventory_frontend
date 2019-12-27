@@ -47,38 +47,43 @@
                 </ng-container>
 
                 <ng-container matColumnDef="Quantity">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header> No</th>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Quantity</th>
                     <td mat-cell *matCellDef="let element"> {{element.quantity}} </td>
                 </ng-container>
 
+                <ng-container matColumnDef="Buying_Price">
+                        <th mat-header-cell *matHeaderCellDef>Buying Price </th>
+                        <td mat-cell *matCellDef="let element"> {{element.buying_price}} </td>
+                    </ng-container>                
+    
                 <ng-container matColumnDef="Price">
-                    <th mat-header-cell *matHeaderCellDef> Price </th>
+                    <th mat-header-cell *matHeaderCellDef>Selling Price </th>
                     <td mat-cell *matCellDef="let element"> {{element.price}} </td>
                 </ng-container>                
 
                 <ng-container matColumnDef="details">
-                    <th mat-header-cell *matHeaderCellDef>Action(View) </th>
+                    <th mat-header-cell *matHeaderCellDef>View</th>
                     <td mat-cell *matCellDef="let element">
                         <button mat-icon-button color="primary"
-                            (click)="getDetails(element.id, element.category_id, element.quantity, element.price, element.name, element.category, element.description, element.createdBy, element.created_date)">
-                            <mat-icon class="mat-18">visibility</mat-icon>View
+                            (click)="getDetails(element.id, element.category_id, element.quantity, element.buying_price, element.price, element.name, element.category, element.description, element.createdBy, element.created_date, element.discount_yn)">
+                            <mat-icon class="mat-18">visibility</mat-icon>
                         </button>
                     </td>
                 </ng-container>
                 <ng-container matColumnDef="edit">
-                        <th mat-header-cell *matHeaderCellDef> Action(Edit) </th>
+                        <th mat-header-cell *matHeaderCellDef> Edit</th>
                         <td mat-cell *matCellDef="let element">
                                 <button mat-icon-button color="primary"
-                                (click)="editNow(element.id, element.category_id, element.quantity, element.price, element.category, element.name, element.description)">
-                                <mat-icon class="mat-18">edit</mat-icon> Edit
+                                (click)="editNow(element.id, element.category_id, element.quantity,element.buying_price, element.price, element.category, element.name, element.description, element.discount_yn)">
+                                <mat-icon class="mat-18">edit</mat-icon> 
                             </button> 
                         </td>
                     </ng-container>
                     <ng-container matColumnDef="delete">
-                            <th mat-header-cell *matHeaderCellDef> Action(Delete) </th>
+                            <th mat-header-cell *matHeaderCellDef>Delete</th>
                             <td mat-cell *matCellDef="let element">
                                     <button mat-icon-button color="primary" (click)="deleteNow(element.id, element.category_name)">
-                                            <mat-icon class="mat-18">delete_sweep</mat-icon>Delete
+                                            <mat-icon class="mat-18">delete_sweep</mat-icon>
                                         </button>
                             </td>
                         </ng-container>

@@ -28,14 +28,28 @@
             </mat-form-field>
 
             <mat-form-field appearance="outline">
-                <mat-label>Price</mat-label>
+                <mat-label>Buying Price</mat-label>
+                <input type="number" matInput name="buying_price" [(ngModel)]="newItemModel.buying_price">
+            </mat-form-field>
+            <br>
+            <mat-form-field appearance="outline">
+                <mat-label>Selling Price</mat-label>
                 <input type="number" matInput name="price" [(ngModel)]="newItemModel.price">
             </mat-form-field>
-                    <br>
+                    
             <mat-form-field appearance="outline">
                 <mat-label>Description</mat-label>
                 <textarea matInput placeholder="Description" name="description" [(ngModel)]="newItemModel.description" cols="40"></textarea>
-            </mat-form-field>
+            </mat-form-field> <br>
+
+            <mat-form-field appearance="outline">
+                    <mat-label>Allow Discount </mat-label>
+                    <mat-select placeholder="Select" [(ngModel)]="newItemModel.discount_yn" name="discount_yn">
+                        <mat-option value='N'>NO</mat-option>
+                        <mat-option value='Y'>YES</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                
                 
             <hr>
             <mat-card mat-dialog-actions>

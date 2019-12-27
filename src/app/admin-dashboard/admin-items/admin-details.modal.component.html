@@ -15,9 +15,17 @@
                     </mat-card-header> <br>
                     <mat-card-content>
                         Product Name: {{data.name}}
+                        <hr><br>
+                        Product Buying Price: {{data.item_buying_price}}
                         <hr> <br>
-                        Product Price: {{data.item_price}}
+                        Product Selling Price: {{data.item_price}}
                         <hr> <br>
+                        <div *ngIf="data.discount_yn=='N'">
+                            Discount Allowed: NO <hr> <br>
+                        </div>
+                        <div *ngIf="data.discount_yn=='Y'">
+                                Discount Allowed: YES <hr> <br>
+                            </div>
                         Product Quantity: {{data.quantity_from}}
                     </mat-card-content> 
                     <textarea name="" id="" cols="38" rows="5" readonly>{{data.description}}</textarea>

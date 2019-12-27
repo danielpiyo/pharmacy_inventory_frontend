@@ -52,6 +52,21 @@ export class AdminCheckoutComponent implements OnInit {
 
   checkOutNow(){
     this.loading = true;
+    console.log(this.amountToSale.tosale);
+    if(this.amountToSale.tosale == null){      
+      this.alertService.error('Quantity to checkOut can not be empty');
+      this.loading = false; 
+    }
+    else{
+     if(Number(this.amountToSale.tosale) < 1 ){       
+        this.alertService.error('The Items to checkOut can not be less than one');
+        this.loading = false;
+      }
+      else if(Number(this.amountToSale.tosale) > Number(this.dataToCheckOut.quantity_from)){
+        this.alertService.error('The Items to checkOut can not be greater than the available Quantity');
+        this.loading = false;
+      }
+      else{
     this.checkOutModel.category_id = this.dataToCheckOut.category_id;
     this.checkOutModel.item_id = this.dataToCheckOut.item_id;
     this.checkOutModel.item_price = this.dataToCheckOut.item_price;
@@ -63,6 +78,7 @@ export class AdminCheckoutComponent implements OnInit {
     .subscribe((response)=>{
       this.loading = false;
       this.closeStep();
+      this.generatePdf()
       console.log('CheckoutResponce', response);
       this.alertService.success('CheckOut was Succesfull', true);
       this.router.navigate(['/admin/checkin']);     
@@ -72,6 +88,11 @@ export class AdminCheckoutComponent implements OnInit {
       this.alertService.error(error.error.message)
       console.log(error)
     })
+      }
+      
+      
+
+    }
   }
   // generate pdf
   generatePdf(){

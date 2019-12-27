@@ -6,15 +6,16 @@
         </div>
         <mat-card>
 
-            <mat-card-content class="panel panel-success">
+            <mat-card-content class="panel panel">
                 <div fxLayoutAlign="space-between" class="panel-heading">
+                   
                     <mat-form-field class="w-100" appearance="outline">
                         <mat-label>Add Task to do...</mat-label>
-                        <input matInput placeholder="Add Task to do..." (keyup)="addToDoItem($event)"
-                            [(ngModel)]="newTodoText">
+                        <textarea matInput placeholder="Add Task to do..." (keyup)="addToDoItem($event)"
+                            [(ngModel)]="newTodoText" cols="30"> </textarea>
                     </mat-form-field>
                     <button mat-mini-fab color="primary" (click)="addToDoItem($event)">
-                        <mat-icon>add</mat-icon>
+                        <mat-icon>add</mat-icon> 
                     </button>
                 </div>
 

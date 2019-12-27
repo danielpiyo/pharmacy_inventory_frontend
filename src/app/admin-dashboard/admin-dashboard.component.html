@@ -12,6 +12,9 @@
   </div>
 
 </div>
+<div>
+  <app-item-balance></app-item-balance>
+</div>
 <!-- <div> <app-alert></app-alert> </div> -->
 <div class="container panel panel-info">
 
@@ -44,9 +47,20 @@
         </li>
         <li><a routerLink="/admin/items" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
             <mat-icon class="mat-18">receipt</mat-icon>
-            Items
+            Items 
           </a>
         </li>
+        <li><a routerLink="/admin/item_discount" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+          <mat-icon class="mat-18">receipt</mat-icon>
+          Discountable Items 
+        </a>
+      </li>
+        <li>
+            <a routerLink="/admin/changePrice" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+              <mat-icon class="mat-18">settings</mat-icon>
+              Change Prices
+            </a>
+          </li> 
         <li>
           <a routerLink="/admin/checkin" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
             <mat-icon class="mat-18">trending_down</mat-icon>

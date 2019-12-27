@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http'
 import { Login } from '../_model/login.model';
 import { environment } from 'src/environments/environment';
 import { UserToken } from '../_model/user';
-import { NewUser } from '../_model/addUser.model';
+import { NewUser, ResetPassWord } from '../_model/addUser.model';
 
 @Injectable({
   providedIn: 'root'
@@ -29,5 +29,8 @@ export class LoginService {
 
   addNewUser(newUser: NewUser){
     return this.http.post(`${environment.baseUrl}/register`,newUser);
+  }
+  resetPassword(reset:ResetPassWord){
+    return this.http.post(`${environment.baseUrl}/resetPassoword`, reset)
   }
 }
