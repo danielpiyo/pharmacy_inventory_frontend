@@ -135,6 +135,7 @@ export class AdminReportsComponent implements OnInit {
         this.dataSource.data = this.allProductsWeekly as AllItems[];
       },
         error => {
+          this.alertService.error(error.error.message, false);
           console.log(error);
         })
   }
@@ -146,6 +147,7 @@ export class AdminReportsComponent implements OnInit {
         this.dataSourceMonth.data = this.allProductsMonthly as AllItems[];
       },
         error => {
+          this.alertService.error(error.error.message, false);
           console.log(error);
         })
   }
@@ -195,7 +197,7 @@ export class AdminReportsComponent implements OnInit {
       .subscribe((response) => {
         this.alldayChart = response;
       }, error => {
-        console.log(error.error.detailed_message);
+        console.log(error);
         this.alldayChart = [
           {
             name: 'No sales',
@@ -210,7 +212,8 @@ export class AdminReportsComponent implements OnInit {
         this.allweekChart = response;
         this.ChartWeekly();
       }, error => {
-        console.log(error.error.message);
+        // this.alertService.error(error.error.message, true);
+        console.log(error);
         this.allweekChart = [
           {
             name: 'No sales',
@@ -224,7 +227,7 @@ export class AdminReportsComponent implements OnInit {
     this.reportService.getMonthCheckoutChartByDate(this.userToken)
       .subscribe((response) => {
         this.allmonthChart = response;
-        console.log('month', this.allmonthChart)
+        // console.log('month', this.allmonthChart)
         this.ChartMonthly();
       })
   }
@@ -233,7 +236,7 @@ export class AdminReportsComponent implements OnInit {
     this.reportService.getUserPerformanceWeek(this.userToken)
       .subscribe((response) => {
         this.userPerformanceWeek = response;
-        console.log('users', this.userPerformanceWeek)
+        // console.log('users', this.userPerformanceWeek)
       }, error => {
         console.log(error.error.message);
       })
@@ -243,7 +246,7 @@ export class AdminReportsComponent implements OnInit {
     this.reportService.getUserPerformanceMonth(this.userToken)
       .subscribe((response) => {
         this.userPerformanceMonth = response;
-        console.log('users', this.userPerformanceMonth)
+        // console.log('users', this.userPerformanceMonth)
       }, error => {
         console.log(error.error.message);
       })
@@ -303,7 +306,7 @@ export class AdminReportsComponent implements OnInit {
        
       }),
       error =>{
-        this.alertService.error(error, true)
+        this.alertService.error(error.error.message, false);
         console.log(error)
       }
   }

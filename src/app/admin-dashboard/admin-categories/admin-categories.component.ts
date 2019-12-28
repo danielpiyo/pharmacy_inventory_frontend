@@ -94,7 +94,7 @@ export class AdminCategoriesComponent implements OnInit {
 
 }
 
-// child component for opportunity modal
+// child component for updating category modal
 @Component({
   // tslint:disable-next-line: component-selector
   selector: 'category-modal',
@@ -125,20 +125,21 @@ export class CategoryModal {
     this.categoryModel.description = this.data.description;
     this.categoryModel.id = this.data.id;
     this.categoryModel.token = this.currentToken;
-    console.log('categoryEdit', this.categoryModel);
+    // console.log('categoryEdit', this.categoryModel);
     this.categoryService.updateCategory(this.categoryModel)
     .subscribe((response)=>{
-      console.log(response);
+      // console.log(response);
       this.alertService.success('You have successfuly updated category');
       this.onNoClick();
     },error=>{
+      this.alertService.error(error.error.message, false);
       console.log(error);
     })
   }
 }
 
 
-// child component for opportunity modal
+// child component for New category modal
 @Component({
   // tslint:disable-next-line: component-selector
   selector: 'new-category-modal',
@@ -166,13 +167,14 @@ export class NewCategoryModal {
 
   submit(){      
     this.categoryModel.token = this.currentToken;
-    console.log('categoryNew', this.categoryModel);
+    // console.log('categoryNew', this.categoryModel);
     this.categoryService.createNewCategory(this.categoryModel)
     .subscribe((response)=>{
-      console.log(response);
+      // console.log(response);
       this.alertService.success(`You have successfuly Added category ${this.categoryModel.category_name}`);
       this.onNoClick();
     },error=>{
+      this.alertService.error(error.error.message);
       console.log(error);
     })
   }

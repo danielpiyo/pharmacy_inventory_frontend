@@ -68,7 +68,7 @@ public dataSource = new MatTableDataSource<AllItems>();
 
 // get Items
 getAllItems(){
-  console.log(this.userToken);
+  // console.log(this.userToken);
   this.itemService.getAllItems({token:this.userToken})
   .subscribe((response)=>{
     this.allItems = response
@@ -76,7 +76,7 @@ getAllItems(){
      
     }),
     error =>{
-      this.alertService.error(error, true)
+      this.alertService.error(error.error.message, false);
       console.log(error)
     }
 }
@@ -88,7 +88,7 @@ applyFilter(filterValue: string) {
 // check in
 
 checkinNow(item_id, category_id, quantity_from,item_price, name, category){
-  console.log('selected',{item_id, category_id, quantity_from,item_price, name, category});  
+  // console.log('selected',{item_id, category_id, quantity_from,item_price, name, category});  
   this.dialog.open(AdminCheckinModal, {
     data: {
      category_id: category_id,
@@ -102,7 +102,7 @@ checkinNow(item_id, category_id, quantity_from,item_price, name, category){
 
 // checkout
 checkOutNow(item_id, category_id, quantity_from,item_price, name, category){
-  console.log('selected',{item_id, category_id, quantity_from,item_price, name, category});
+  // console.log('selected',{item_id, category_id, quantity_from,item_price, name, category});
   this.itemService.setDataToCheckOut(item_id, category_id, quantity_from,item_price, name, category);
   this.itemService.showOpacity = true;
   setTimeout(() => {  // timeout for smooth transition
@@ -112,7 +112,7 @@ checkOutNow(item_id, category_id, quantity_from,item_price, name, category){
 
 }
 
-// child component for opportunity modal
+// child component for Checkin modal
 @Component({
   // tslint:disable-next-line: component-selector
   selector: 'admin-checkin-modal',
@@ -157,17 +157,17 @@ export class AdminCheckinModal {
     this.dataToCheckIn.quantity_from = this.data.quantity_from;
     this.dataToCheckIn.quantity_to = this.data.quantity_from + this.checkInModel.toadd;
     this.dataToCheckIn.token = this.currentToken;
-    console.log('data ato checkin', this.dataToCheckIn);
+    // console.log('data ato checkin', this.dataToCheckIn);
     this.itemService.checkInItem(this.dataToCheckIn)
-    .subscribe((response)=>{
-      console.log('responseCheckin', response);
+    .subscribe(()=>{
+      // console.log('responseCheckin', response);
       this.alertService.success(`You have Succesfully CheckedIn additional  ${this.checkInModel.toadd} item for ${this.data.name}`);
       this.onNoClick();
       this.router.navigate(['/admin/checkin']);      
     },
     error=>{
       console.log(error);
-      this.alertService.error(error.error.message);
+      this.alertService.error(error.error.message, false);
     })
    }
   }

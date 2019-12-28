@@ -62,7 +62,7 @@ public dataSource = new MatTableDataSource<AllItems>();
        
       }),
       error =>{
-        this.alertService.error(error, true)
+        this.alertService.error(error.error.message, false);
         console.log(error)
       }
   }
@@ -92,7 +92,7 @@ public dataSource = new MatTableDataSource<AllItems>();
 
 // checkout
 checkOutNow(item_id, category_id, quantity_from,item_price, name, category){
-  console.log('selected',{item_id, category_id, quantity_from,item_price, name, category});
+  // console.log('selected',{item_id, category_id, quantity_from,item_price, name, category});
   this.itemService.setDataToCheckOutDiscount(item_id, category_id, quantity_from,name, category);
   this.itemService.showOpacity = true;
   setTimeout(() => {  // timeout for smooth transition

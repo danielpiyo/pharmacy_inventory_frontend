@@ -52,7 +52,7 @@ export class AdminCheckoutComponent implements OnInit {
 
   checkOutNow(){
     this.loading = true;
-    console.log(this.amountToSale.tosale);
+    // console.log(this.amountToSale.tosale);
     if(this.amountToSale.tosale == null){      
       this.alertService.error('Quantity to checkOut can not be empty');
       this.loading = false; 
@@ -74,19 +74,19 @@ export class AdminCheckoutComponent implements OnInit {
     this.checkOutModel.quantity_to = this.dataToCheckOut.quantity_from - this.amountToSale.tosale;
     this.checkOutModel.token = this.userToken;
     this.checkOutModel.discounted = 'N';
-    console.log('CheckOutModel', this.checkOutModel);
+    // console.log('CheckOutModel', this.checkOutModel);
     this.checkoutService.checkOut(this.checkOutModel)
-    .subscribe((response)=>{
+    .subscribe(()=>{
       this.loading = false;
       this.closeStep();
       this.generatePdf()
-      console.log('CheckoutResponce', response);
+      // console.log('CheckoutResponce', response);
       this.alertService.success('CheckOut was Succesfull', true);
       this.router.navigate(['/admin/checkin']);     
     },
     error =>{
       this.loading = false;
-      this.alertService.error(error.error.message)
+      this.alertService.error(error.error.message, false);
       console.log(error)
     })
       }

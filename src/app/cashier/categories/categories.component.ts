@@ -3,6 +3,7 @@ import { CategoriesService } from 'src/app/_service/categories.service';
 import { UserToken } from 'src/app/_model/user';
 import { ItemCategory } from 'src/app/_model/item.model';
 import { MatTableDataSource, MatPaginator, MatSort, MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { AlertService } from 'src/app/_service';
 
 
 export interface AllCategories {
@@ -36,7 +37,7 @@ export class CategoriesComponent implements OnInit {
 
 
 
-  constructor(private categoryService: CategoriesService, public dialog: MatDialog,  ) { 
+  constructor(private categoryService: CategoriesService, public dialog: MatDialog, private alertService: AlertService ) { 
     this.usertoken.token = JSON.parse(localStorage.getItem('currentToken'));
   }
 
@@ -56,6 +57,7 @@ export class CategoriesComponent implements OnInit {
         this.dataSource.data = this.allCategories as AllCategories[];
       },
         error => {
+          this.alertService.error(error.error.message, false);
           console.log(error);
         })
   }
@@ -99,7 +101,7 @@ export class MoreCategoriesModal {
   constructor(
     public dialogRef: MatDialogRef<MoreCategoriesModal>,    
     private categoryService: CategoriesService,
-         
+         private alertService: AlertService,
     @Inject(MAT_DIALOG_DATA) public data: any) {     
       this.usertoken.token = JSON.parse(localStorage.getItem('currentToken'));
       this.getItem()
@@ -123,6 +125,7 @@ export class MoreCategoriesModal {
       this.dataSource.data = this.allItems as AllItems[];;
     },
     error =>{
+      this.alertService.error(error.error.message, false);
       console.log(error);
     })
   }

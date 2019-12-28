@@ -64,6 +64,7 @@ export class UsersComponent implements OnInit {
         this.dataSource.data = this.allUsers as AllUser[];
       },
         error => {
+          this.alertService.error(error.error.message, false);
           console.log(error);
         })
   }
@@ -133,13 +134,14 @@ export class NewUserModal {
       this.loading = false;
     }
     this.newUserModel.token = this.currentToken;
-    console.log('newUser', this.newUserModel);
+    // console.log('newUser', this.newUserModel);
     this.registerService.addNewUser(this.newUserModel)
     .subscribe((response)=>{
       this.alertService.success('User Succesfully added');
       this.loading = false;
       this.onNoClick();
     },error =>{
+      this.alertService.error(error.error.message, false);
       this.loading = false;
       console.log(error);
     });
@@ -181,13 +183,14 @@ export class ResetUserModal {
     } 
     this.resetUserModel.token = this.currentToken;
     this.resetUserModel.id = this.data.id;
-    console.log('newUser', this.resetUserModel);
+    // console.log('newUser', this.resetUserModel);
     this.registerService.resetPassword(this.resetUserModel)
     .subscribe((response)=>{
       this.alertService.success('Password Reset Succesfull');
       this.loading = false;
       this.onNoClick();
     },error =>{
+      this.alertService.error(error.error.message, false);
       this.loading = false;
       console.log(error);
     });

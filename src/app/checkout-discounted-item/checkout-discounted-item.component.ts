@@ -60,7 +60,7 @@ export class CheckoutDiscountedItemComponent implements OnInit {
 
   checkOutNow(){
     this.loading = true;
-    console.log(this.amountToSale.tosale);
+    // console.log(this.amountToSale.tosale);
     if(this.amountToSale.tosale == null){      
       this.alertService.error('Quantity to checkOut can not be empty');
       this.loading = false; 
@@ -81,13 +81,13 @@ export class CheckoutDiscountedItemComponent implements OnInit {
     this.checkOutModel.quantity_to = this.dataToCheckOut.quantity_from - this.amountToSale.tosale;
     this.checkOutModel.token = this.userToken;
     this.checkOutModel.discounted = 'Y';
-    console.log('CheckOutModel', this.checkOutModel);
+    // console.log('CheckOutModel', this.checkOutModel);
     this.checkoutService.checkOut(this.checkOutModel)
     .subscribe((response)=>{
       this.loading = false;
       this.closeStep();
       this.generatePdf()
-      console.log('CheckoutResponce', response);
+      // console.log('CheckoutResponce', response);
       this.alertService.success('CheckOut was Succesfull', true);
       if(this.currentUser.role =='admin'){
         this.router.navigate(['/admin/item_discount']);
@@ -101,7 +101,7 @@ export class CheckoutDiscountedItemComponent implements OnInit {
     },
     error =>{
       this.loading = false;
-      this.alertService.error(error.error.message)
+      this.alertService.error(error.error.message, false);
       console.log(error)
     })
       }

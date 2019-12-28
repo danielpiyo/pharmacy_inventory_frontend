@@ -40,7 +40,7 @@ export class ItemBalanceComponent implements OnInit {
 
 }
 
-// child component for opportunity modal
+// child component
 @Component({
   // tslint:disable-next-line: component-selector
   selector: 'more-details-modal',

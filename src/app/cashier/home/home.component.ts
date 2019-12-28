@@ -66,7 +66,7 @@ public dataSource = new MatTableDataSource<AllItems>();
 
 // get Items
 getAllItems(){
-  console.log(this.userToken);
+  // console.log(this.userToken);
   this.itemService.getAllItems({token:this.userToken})
   .subscribe((response)=>{
     this.allItems = response
@@ -74,7 +74,7 @@ getAllItems(){
      
     }),
     error =>{
-      this.alertService.error(error, true)
+      this.alertService.error(error.error.message, false);
       console.log(error)
     }
 }
@@ -85,7 +85,7 @@ applyFilter(filterValue: string) {
 
 // check out
 checkOutNow(item_id, category_id, quantity_from,item_price, name, category){
-  console.log('selected',{item_id, category_id, quantity_from,item_price, name, category});
+  // console.log('selected',{item_id, category_id, quantity_from,item_price, name, category});
   this.itemService.setDataToCheckOut(item_id, category_id, quantity_from,item_price, name, category);
   this.itemService.showOpacity = true;
   setTimeout(() => {  // timeout for smooth transition

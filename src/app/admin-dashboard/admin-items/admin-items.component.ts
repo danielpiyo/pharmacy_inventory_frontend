@@ -78,7 +78,7 @@ getAllItems(){
      
     }),
     error =>{
-      this.alertService.error(error, true)
+      this.alertService.error(error.error.message, false);
       console.log(error)
     }
 }
@@ -151,7 +151,7 @@ editNow(id, category_id, quantity,buying_price, price, category, name, descripti
 }
 
 
-// child component for opportunity modal
+// child component for ItemDetails modal
 @Component({
   // tslint:disable-next-line: component-selector
   selector: 'details-modal',
@@ -182,7 +182,7 @@ export class AdminDetailsModal {
 
 
 
-// child component for opportunity modal
+// child component for New Item modal
 @Component({
   // tslint:disable-next-line: component-selector
   selector: 'new-item-modal',
@@ -218,24 +218,25 @@ getCategories(){
   this.categoryServices.getAllCategories({token:this.currentToken})
   .subscribe((response)=>{
     this.allCategories = response
-    console.log('categories', this.allCategories)
+    // console.log('categories', this.allCategories)
   },error=>{
-    console.log(error.error.message);
+    this.alertService.error(error.error.message, false);
+    console.log(error);
   })
 }
 
 addNewItem(){
   this.loading = true;
   this.newItemModel.token = this.currentToken;
-  console.log('NewItem', this.newItemModel);
+  // console.log('NewItem', this.newItemModel);
   this.itemService.addNewItem(this.newItemModel)
-  .subscribe((response)=>{
+  .subscribe(()=>{
     this.loading = false;
     this.alertService.success(`You have succesfuly Added Item: ${this.newItemModel.name}`,true );
     this.onNoClick();
   },error=>{
     this.loading = false;
-    this.alertService.error(error.error.message);
+    this.alertService.error(error.error.message, false);
     })
 }
   
@@ -243,7 +244,7 @@ addNewItem(){
 
 
 
-// child component for opportunity modal
+// child component for Editing Item modal
 @Component({
   // tslint:disable-next-line: component-selector
   selector: 'edit-details-modal',
@@ -280,7 +281,8 @@ export class AdminEditDetailsModal {
       this.allCategories = response
       // console.log('categories', this.allCategories)
     },error=>{
-      console.log(error.error.message);
+      this.alertService.error(error.error.message, false);
+      console.log(error);
     })
   }
 
@@ -305,16 +307,17 @@ export class AdminEditDetailsModal {
     // this.editItemModel.discount_yn_before = this.data.discount_yn_before;
     // this.editItemModel.discount_yn_after = this.data.discount_yn_after;
     this.editItemModel.token = this.currentToken;
-    console.log('EditedModel', this.editItemModel);
+    // console.log('EditedModel', this.editItemModel);
     this.itemService.editItem(this.editItemModel)
-    .subscribe((response)=>{
+    .subscribe(()=>{
       this.loading = false;
-      console.log(response);
-      this.alertService.success(`You have succesfully updated ${this.editItemModel.item_name_from}`, true);
+      // console.log(response);
+      this.alertService.success(`You have succesfully updated ${this.editItemModel.item_name_from}`, false);
       this.onNoClick()
     },
     error=>{
       this.loading = false;
+      this.alertService.error(error.error.message, false);
       console.log(error);
     })
   }

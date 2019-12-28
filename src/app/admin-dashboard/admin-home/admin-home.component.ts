@@ -36,7 +36,12 @@ export class AdminHomeComponent implements OnInit {
   @ViewChild('resizedDiv', null) resizedDiv: ElementRef;
   public previousWidthOfResizedDiv = 0;
 
-  constructor(public appSettings: AppSettings, public dialog: MatDialog, private router: Router, private reportService: ReportsService) {
+  constructor(
+    public appSettings: AppSettings, 
+    public dialog: MatDialog, 
+    private alertService:AlertService,
+     private reportService: ReportsService
+     ) {
     this.settings = this.appSettings.settings;
     this.userToken.token = JSON.parse(localStorage.getItem('currentToken'));
     this.getDailyReports();
@@ -53,7 +58,7 @@ export class AdminHomeComponent implements OnInit {
       this.getWeeklyReports();
       this.getMonthlyReports();
       this.getDailyReportsDiscount();
-    }, 10000);
+    }, 20000);
     //  
     this.getChartData();
     this.getChartsWeek();
@@ -68,16 +73,17 @@ getDailyCheckinReports() {
   this.reportService.getCheckInReportsDay(this.userToken)
     .subscribe((response) => {
       this.allDayCheckin = response;
-      console.log('responce', this.allDayCheckin)
+      // console.log('responce', this.allDayCheckin)
       var total = 0;
       if (this.allDayCheckin != null && this.allDayCheckin.length > 0) {
         this.allDayCheckin.forEach(x => total += x.valueOfItems);
       }
-      console.log(total);
+      // console.log(total);
       this.totalDayCheckIn = total; 
       this.totalDayCheckInItems = this.allDayCheckin.length;    
     },
       error => {
+        this.alertService.error(error.error.message,false);
         console.log(error);
       })
 }
@@ -87,15 +93,16 @@ getDailyCheckinReports() {
     this.reportService.getCheckoutReportsDay(this.userToken)
       .subscribe((response: any[]) => {
         this.allDay = response;
-        console.log('responce', this.allDay)
+        // console.log('responce', this.allDay)
         var total = 0;
         if (this.allDay != null && this.allDay.length > 0) {
           this.allDay.forEach(x => total += x.amountSOld);
         }
-        console.log(total);
+        // console.log(total);
         this.totalDay = total;        
       },
         error => {
+          this.alertService.error(error.error.message, false);
           console.log(error);
         })
   }
@@ -104,12 +111,12 @@ getDailyCheckinReports() {
     this.reportService.getCheckoutReportsDayDiscount(this.userToken)
       .subscribe((response: any[]) => {
         this.allDayDiscount = response;
-        console.log('responce', this.allDayDiscount)
+        // console.log('responce', this.allDayDiscount)
         var total = 0;
         if (this.allDayDiscount != null && this.allDayDiscount.length > 0) {
           this.allDayDiscount.forEach(x => total += x.amountSOld);
         }
-        console.log(total);
+        // console.log(total);
         this.allDiscount = this.allDayDiscount.length;
         this.totalDayDiscount = total;
 
@@ -127,6 +134,7 @@ getDailyCheckinReports() {
         }
       },
         error => {
+          this.alertService.error(error.error.message, false);
           console.log(error);
         })
   }
@@ -139,9 +147,10 @@ getDailyCheckinReports() {
         if (this.allWeek != null && this.allWeek.length > 0) {
           this.allWeek.forEach(x => total += x.amountSOld);
         }
-        console.log(total);
+        // console.log(total);
         this.totalWeek = total;
       }, error => {
+        this.alertService.error(error.error.message, false);
         console.log(error)
       })
   }
@@ -154,10 +163,11 @@ getDailyCheckinReports() {
         if (this.allMonth != null && this.allMonth.length > 0) {
           this.allMonth.forEach(x => total += x.amountSOld);
         }
-        console.log(total);
+        // console.log(total);
         this.totalMonth = total;
         // this.chart()
       }, error => {
+        this.alertService.error(error.error.message, false);
         console.log(error);
       })
   }
@@ -197,7 +207,8 @@ getDailyCheckinReports() {
       .subscribe((response) => {
         this.alldayChart = response;        
       },error=>{
-        console.log(error.error.detailed_message);
+        this.alertService.error(error.error.message, false);
+        console.log(error);
         this.alldayChart = [
           {name: 'No sales',
           value: 0}
@@ -210,7 +221,8 @@ getDailyCheckinReports() {
         this.allweekChart = response;
         this.Chart();
       },error=>{
-        console.log(error.error.message);
+        this.alertService.error(error.error.message, false);
+        console.log(error);
         this.allweekChart = [
           {name: 'No sales',
           value: 0}
@@ -222,7 +234,7 @@ getDailyCheckinReports() {
     this.reportService.getMonthCheckoutReportChart(this.userToken)
       .subscribe((response) => {
         this.allmonthChart = response;
-        console.log('month', this.allmonthChart)
+        // console.log('month', this.allmonthChart)
         this.Chart();
       })
   }
@@ -276,6 +288,7 @@ public dataSource = new MatTableDataSource<AllItems>();
   constructor(
     public dialogRef: MatDialogRef<CheckedInModel>,
     private reportService: ReportsService,
+    private alertService: AlertService,
     @Inject(MAT_DIALOG_DATA) public data: any) {     
       this.userToken.token = JSON.parse(localStorage.getItem('currentToken'));
   }
@@ -296,9 +309,10 @@ getDailyCheckinReports() {
     .subscribe((response) => {
       this.allCheckedIn = response;
       this.dataSource.data = this.allCheckedIn as AllItems[];
-      console.log('responceCheckIn', this.allCheckedIn)        
+      // console.log('responceCheckIn', this.allCheckedIn)        
     },
       error => {
+        this.alertService.error(error.error.message, false);
         console.log(error);
       })
 }

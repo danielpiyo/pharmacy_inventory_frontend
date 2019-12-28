@@ -74,7 +74,7 @@ getAllItems(){
      
     }),
     error =>{
-      this.alertService.error(error, true)
+      this.alertService.error(error.error.message, false);
       console.log(error)
     }
 }
@@ -112,7 +112,7 @@ changeNow(item_id, category_id, price, name, buying_price){
 
 }
 
-// child component for opportunity modal
+// child component for changing price modal
 @Component({
   // tslint:disable-next-line: component-selector
   selector: 'change-price-modal',
@@ -146,15 +146,17 @@ changePriceNow(){
   this.changePassModel.price_to = this.data.price_to;
   this.changePassModel.category_id = this.data.category_id;
   this.changePassModel.token = this.currentToken;
-  console.log('PasswordModel', this.changePassModel);
+  // console.log('PasswordModel', this.changePassModel);
   this.itemService.changePrice(this.changePassModel)
-  .subscribe((response)=>{
-    console.log('PasswordChange', response);
+  .subscribe(()=>{
+    // console.log('PasswordChange', response);
     this.loading = false;
     this.alertService.success('Price Changed Succesfully');
     this.onNoClick();
   },
   error =>{
+    this.alertService.error(error.error.message, false);
+    this.loading = false;
     console.log(error);
   })
 }
