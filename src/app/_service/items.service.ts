@@ -4,6 +4,7 @@ import { environment } from 'src/environments/environment';
 import { TocheckIn } from '../_model/checkIn';
 import { NewItem, EditItem, PriceChange } from '../_model/itemNew.model';
 import { UserToken } from '../_model/user';
+import { ItemAndCategoryToDelete } from '../_model/item.model';
 
 @Injectable({
   providedIn: 'root'
@@ -28,7 +29,7 @@ export class ItemsService {
     return this.http.post(`${environment.baseUrl}/items`,userToken);
   }
 
-  getAllItemsIn(userToken:any){
+  getAllItemsIn(userToken:UserToken){
     return this.http.post(`${environment.baseUrl}/allitems`,userToken);
   }
 
@@ -99,5 +100,9 @@ export class ItemsService {
   }
   getItemBalanceAlert(userToken: UserToken){
     return this.http.post(`${environment.baseUrl}/itemsTopup`,userToken);
+  }
+
+  deleteItem(itemTodelete: ItemAndCategoryToDelete){
+    return this.http.post(`${environment.baseUrl}/deleteItem`,itemTodelete);
   }
 }

@@ -65,6 +65,7 @@ export class CheckoutComponent implements OnInit {
       this.loading = false;
       this.alertService.error('Sorry the amount You want to CheckOut is greater than the  available Quantity');
     }
+   else{
     this.checkOutModel.category_id = this.dataToCheckOut.category_id;
     this.checkOutModel.item_id = this.dataToCheckOut.item_id;
     this.checkOutModel.item_price = this.dataToCheckOut.item_price;
@@ -79,6 +80,7 @@ export class CheckoutComponent implements OnInit {
       this.closeStep();
       console.log('CheckoutResponce', response);
       this.alertService.success('CheckOut was Succesfull', true);
+      this.generatePdf();
       // this.router.navigate(['/cashier']);
       // location.reload();
     },
@@ -87,6 +89,7 @@ export class CheckoutComponent implements OnInit {
       this.alertService.error(error.error.message)
       console.log(error)
     })
+   }
   }
   // generate pdf
   generatePdf(){

@@ -4,6 +4,7 @@ import { LoginService, AlertService, ItemsService } from 'src/app/_service';
 import { MatTableDataSource, MatSort, MatPaginator, MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Router } from '@angular/router';
 import { NewUser, ResetPassWord } from 'src/app/_model/addUser.model';
+import { ItemAndCategoryToDelete } from 'src/app/_model/item.model';
 
 
 export interface AllUser {
@@ -26,10 +27,11 @@ export class UsersComponent implements OnInit {
   userToken: UserToken = new UserToken;
   allUsers: any;
   interval: any;
+  userToDelete: ItemAndCategoryToDelete = new ItemAndCategoryToDelete()
 
 
   public displayedColumns = ['number', 'UserId', 'Email', 'Username',
-    'Role', 'Date Added', 'reset']
+    'Role', 'Date Added', 'reset','Delete']
 
   public dataSource = new MatTableDataSource<AllUser>();
 
@@ -41,7 +43,8 @@ export class UsersComponent implements OnInit {
 
   constructor(
     private loginServices: LoginService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private alertService: AlertService
   ) {
     this.userToken.token = JSON.parse(localStorage.getItem('currentToken'));
   }
@@ -51,6 +54,7 @@ export class UsersComponent implements OnInit {
     this.interval = setInterval(() => { 
       this.getUsers(); 
         }, 60000);
+        this.dataSource.paginator = this.paginator
   }
 
   getUsers() {
@@ -80,17 +84,30 @@ export class UsersComponent implements OnInit {
       }
     }) 
   }
+
+
+  deleteNow(id, name){
+    this.userToDelete.id = id;
+    this.userToDelete.token = this.userToken.token;
+    alert(`You are about to delete ${name}. If youre sure Please press Ok`);
+    this.loginServices.deleteUser(this.userToDelete)
+    .subscribe(()=>{
+      this.alertService.success(`You have succesfully deleted: ${name}`)
+    }, error=>{
+      this.alertService.error(`${error.error.message} when deleting ${name}`);
+    })
+  }
+
 }
 
 
 
-// child component for opportunity modal
-@Component({
-  // tslint:disable-next-line: component-selector
+// child component for adding User modal
+@Component({  
   selector: 'new-user-modal',
   templateUrl: 'new-user.modal.component.html',
 })
-// tslint:disable-next-line: component-class-suffix
+
 export class NewUserModal {
   newUserModel: NewUser = new NewUser()
   loading = false;  
@@ -131,7 +148,7 @@ export class NewUserModal {
 }
 
 
-// child component for opportunity modal
+// child component for resetting User modal
 @Component({
   // tslint:disable-next-line: component-selector
   selector: 'reset-user-modal',

@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { ItemsService, AlertService, CategoriesService } from 'src/app/_service';
 import { TocheckIn, AmountToAdd } from 'src/app/_model/checkIn';
 import { NewItem, EditItem } from 'src/app/_model/itemNew.model';
+import { ItemAndCategoryToDelete } from 'src/app/_model/item.model';
 
 
 export interface AllItems {
@@ -35,7 +36,7 @@ export class AdminItemsComponent implements OnInit {
   currentUser: User
   public todoList:Array<any>;
   public newTodoText:string = '';
-
+  itemTodetete: ItemAndCategoryToDelete = new ItemAndCategoryToDelete();
   
 
   public displayedColumns = ['number','Category', 'Name','Description',
@@ -109,7 +110,18 @@ getDetails(item_id, category_id, quantity_from, item_buying_price,item_price, na
 addNew(){
   this.dialog.open(NewItemModal) 
 }
+
 deleteNow(id, name){
+  this.itemTodetete.id = id;
+  this.itemTodetete.token = this.userToken;
+  alert(`Are you sure you want to delete: ${name}?`);
+  this.itemService.deleteItem(this.itemTodetete)
+  .subscribe((res)=>{
+    this.alertService.success(`You have succesfuly deleted: ${name}`)
+  },
+  error=>{
+    this.alertService.error(`${error.error.message} when deleting ${name}`)
+  });
 
 }
 

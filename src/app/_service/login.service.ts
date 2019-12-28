@@ -4,6 +4,7 @@ import { Login } from '../_model/login.model';
 import { environment } from 'src/environments/environment';
 import { UserToken } from '../_model/user';
 import { NewUser, ResetPassWord } from '../_model/addUser.model';
+import { ItemAndCategoryToDelete } from '../_model/item.model';
 
 @Injectable({
   providedIn: 'root'
@@ -32,5 +33,9 @@ export class LoginService {
   }
   resetPassword(reset:ResetPassWord){
     return this.http.post(`${environment.baseUrl}/resetPassoword`, reset)
+  }
+
+  deleteUser(userTodelete:ItemAndCategoryToDelete){
+    return this.http.post(`${environment.baseUrl}/deleteUser`, userTodelete);
   }
 }

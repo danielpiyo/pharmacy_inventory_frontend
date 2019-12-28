@@ -3,11 +3,12 @@ import { MatTableDataSource, MatSort, MatPaginator, MatDialog, MatDialogRef, MAT
 import { UserToken, User } from 'src/app/_model/user';
 import { CategoriesService, AlertService } from 'src/app/_service';
 import { CategoryUpdate, NewCategory } from 'src/app/_model/category.model';
+import { ItemAndCategoryToDelete } from 'src/app/_model/item.model';
 
 export interface AllCategories {
   id: Number;
   category_name: String;
-  description: String;
+  description: String;  
 
 }
 
@@ -21,6 +22,7 @@ export class AdminCategoriesComponent implements OnInit {
   interval:any;
   allCategories: any;
   userToken: UserToken = new UserToken;
+  categoryTodelete: ItemAndCategoryToDelete = new ItemAndCategoryToDelete();
 
   public displayedColumns = ['number', 'CategoryId', 'CategoryName', 'Description','Action']
 
@@ -65,7 +67,15 @@ export class AdminCategoriesComponent implements OnInit {
   }
 
   deleteNow(id, name){
-    alert(`You are about to delete ${name}. If youre sure Please press Ok`);
+    this.categoryTodelete.id = id;
+    this.categoryTodelete.token = this.userToken.token;
+    alert(`You are about to delete ${name}.Be informed that All Items on this category will be deleted as well. Press Ok`);
+    this.categoryService.deleteCategory(this.categoryTodelete)
+    .subscribe(()=>{
+      this.alertService.success(`You have succesfully deleted: ${name}`)
+    }, error=>{
+      this.alertService.error(`${error.error.message} when deleting ${name}`);
+    })
   }
 
   editNow(id, category_name, description){   

@@ -61,7 +61,10 @@ public dataSource = new MatTableDataSource<AllItems>();
     this.getAllItems()
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
-  }
+    setInterval(() => { 
+      this.getAllItems(); 
+        }, 20000);
+  } 
 
 // get Items
 getAllItems(){
@@ -111,6 +114,7 @@ export class CheckinModal {
   checkInModel: AmountToAdd = new AmountToAdd();
   currentUser: User;
   currentToken: any;
+  loading = false;
 
   constructor(
     public dialogRef: MatDialogRef<CheckinModal>,
@@ -122,11 +126,22 @@ export class CheckinModal {
       this.currentToken = JSON.parse(localStorage.getItem('currentToken'));
   }
 
+  
   onNoClick(): void {
     this.dialogRef.close();
   }
 
   submitCheckIn(){
+    this.loading = true;
+    if(this.checkInModel.toadd == null){
+      this.loading = false;
+      this.alertService.error('The Items to checkIn can not be empty');
+    }
+    else if(this.checkInModel.toadd < 1){
+      this.loading = false;
+      this.alertService.error('The Items to checkIn can not be less than one');
+    }
+   else{
     this.dataToCheckIn.category_id = this.data.category_id;
     this.dataToCheckIn.item_id = this.data.item_id;
     this.dataToCheckIn.item_price = this.data.item_price;
@@ -139,13 +154,13 @@ export class CheckinModal {
       console.log('responseCheckin', response);
       this.alertService.success(`You have Succesfully CheckedIn additional  ${this.checkInModel.toadd} item for ${this.data.name}`);
       this.onNoClick();
-      this.router.navigate(['/cashier/checkin']);
-      location.reload();
+      this.router.navigate(['/cashier/checkin']);      
     },
     error=>{
       console.log(error);
       this.alertService.error(error.error.message);
     })
+   }
   }
   
 }

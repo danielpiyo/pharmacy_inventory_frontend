@@ -124,6 +124,7 @@ export class AdminCheckinModal {
   checkInModel: AmountToAdd = new AmountToAdd();
   currentUser: User;
   currentToken: any;
+  loading = false;
 
   constructor(
     public dialogRef: MatDialogRef<AdminCheckinModal>,
@@ -140,6 +141,16 @@ export class AdminCheckinModal {
   }
 
   submitCheckIn(){
+    this.loading = true;
+    if(this.checkInModel.toadd == null){
+      this.loading = false;
+      this.alertService.error('The Items to checkIn can not be empty');
+    }
+    else if(this.checkInModel.toadd < 1){
+      this.loading = false;
+      this.alertService.error('The Items to checkIn can not be less than one');
+    }
+   else{
     this.dataToCheckIn.category_id = this.data.category_id;
     this.dataToCheckIn.item_id = this.data.item_id;
     this.dataToCheckIn.item_price = this.data.item_price;
@@ -158,6 +169,7 @@ export class AdminCheckinModal {
       console.log(error);
       this.alertService.error(error.error.message);
     })
+   }
   }
   
 }

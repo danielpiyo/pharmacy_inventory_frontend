@@ -55,9 +55,20 @@
                                   <button mat-icon-button color="primary"
                                   (click)="resetPassword(element.id, element.username)">
                                   <mat-icon class="mat-18">settings</mat-icon> 
-                              </button> 
+                              </button>
+                              
                           </td>
                       </ng-container>
+
+                      <ng-container matColumnDef="Delete">
+                          <th mat-header-cell *matHeaderCellDef> Delete </th>
+                          <td mat-cell *matCellDef="let element">
+                              <button mat-icon-button color="primary"
+                              (click)="deleteNow(element.id, element.category_name)">
+                              <mat-icon class="mat-18">delete_sweep</mat-icon>
+                          </button>
+                          </td>
+                        </ng-container>
                         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
                       

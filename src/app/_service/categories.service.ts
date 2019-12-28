@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { UserToken } from '../_model/user';
-import { ItemCategory } from '../_model/item.model';
+import { ItemCategory, ItemAndCategoryToDelete } from '../_model/item.model';
 import { CategoryUpdate, NewCategory } from '../_model/category.model';
 
 @Injectable({
@@ -35,6 +35,9 @@ export class CategoriesService {
   }
   getProductReportCheckOutMonth(userToken: UserToken){
     return this.http.post(`${environment.baseUrl}/userMonthlyAdminViewGeneral`,userToken);
+  }
+  deleteCategory(categoryTodelete:ItemAndCategoryToDelete){
+    return this.http.post(`${environment.baseUrl}/deleteCategory`,categoryTodelete);
   }
 
 }
