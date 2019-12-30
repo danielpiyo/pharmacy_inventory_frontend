@@ -235,6 +235,7 @@ addNewItem(){
     this.loading = false;
     this.alertService.success(`You have succesfuly Added Item: ${this.newItemModel.name}`,false );
     this.onNoClick();
+    this.router.navigate(['/admin/items'])
   },error=>{
     this.loading = false;
     this.alertService.error(error.error.message, false);
@@ -303,6 +304,7 @@ export class AdminEditDetailsModal {
       // console.log(response);
       this.alertService.success(`You have succesfully updated ${this.editItemModel.item_name_from}`, false);
       this.onNoClick()
+      this.router.navigate(['/admin/items'])
     },
     error=>{
       this.loading = false;
@@ -363,7 +365,7 @@ export class AdminDeleteItemModal {
     },
     error=>{
       this.loading = false;
-      this.alertService.error(`${error.error.message} when deleting ${name}`)
+      this.alertService.error(`${error.error.message} when deleting ${name}`);
     });
   
   }

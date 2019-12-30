@@ -62,6 +62,9 @@ public dataSource = new MatTableDataSource<AllItems>();
     this.getAllItems()
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
+    setInterval(()=>{
+      this.getAllItems()
+    },20000);
   }
 
 // get Items
@@ -92,22 +95,5 @@ checkOutNow(item_id, category_id, quantity_from,item_price, name, category){
     this.itemService.showStep1 = true;
   }, 500)
 }
-  // todo
-
-  public  getNotDeleted() {
-    return this.todoList.filter((item:any) => {
-      return !item.deleted
-    })
-  }
-
-  public addToDoItem($event) {
-    if (($event.which === 1 || $event.which === 13) && this.newTodoText.trim() != '') {
-      this.todoList.unshift({
-          text: this.newTodoText
-      });
-      this.newTodoText = '';
-    }
-  }
-
 
 }

@@ -47,7 +47,7 @@ export class CategoriesComponent implements OnInit {
     this.getCategories();  
     this.interval = setInterval(() => { 
       this.getCategories(); 
-        }, 10000);
+        }, 20000);
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
   }
@@ -144,7 +144,7 @@ export class MoreCategoriesModal {
       this.itemSubscription.unsubscribe();
     }
   }
-  
+
   applyFilter(filterValue: string) {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
