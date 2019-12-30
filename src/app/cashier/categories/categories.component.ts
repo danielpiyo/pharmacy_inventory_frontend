@@ -144,6 +144,10 @@ export class MoreCategoriesModal {
       this.itemSubscription.unsubscribe();
     }
   }
+  
+  applyFilter(filterValue: string) {
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
 }
 
 

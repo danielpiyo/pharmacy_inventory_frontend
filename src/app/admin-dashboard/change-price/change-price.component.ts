@@ -112,6 +112,10 @@ changeNow(item_id, category_id, price, name, buying_price){
   });
 }
 
+applyFilter(filterValue: string) {
+  this.dataSource.filter = filterValue.trim().toLowerCase();
+}
+
 ngonDestroy(){
   if(this.itemSubscription){
     this.itemSubscription.unsubscribe();
