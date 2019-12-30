@@ -4,6 +4,7 @@ import { UserToken } from 'src/app/_model/user';
 import { ItemCategory } from 'src/app/_model/item.model';
 import { MatTableDataSource, MatPaginator, MatSort, MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { AlertService } from 'src/app/_service';
+import {Subscription } from 'rxjs';
 
 
 export interface AllCategories {
@@ -25,6 +26,7 @@ export class CategoriesComponent implements OnInit {
   allItems: any;
   view='not-viewed';
   interval: any;
+  categorySubscription: Subscription;
 
   public displayedColumns = ['number','CategoryName', 'Description','Action']
 
@@ -51,7 +53,7 @@ export class CategoriesComponent implements OnInit {
   }
 
   getCategories() {
-    this.categoryService.getAllCategories(this.usertoken)
+   this.categorySubscription= this.categoryService.getAllCategories(this.usertoken)
       .subscribe((response) => {
         this.allCategories = response;
         this.dataSource.data = this.allCategories as AllCategories[];
@@ -74,6 +76,12 @@ export class CategoriesComponent implements OnInit {
       }, width:'70%'
     })
   }
+
+  ngonDestroy(){
+    if(this.categorySubscription){
+      this.categorySubscription.unsubscribe();
+    }
+  }
 }
 
 // child component l
@@ -88,6 +96,7 @@ export class MoreCategoriesModal {
   allItems: any;
   usertoken: UserToken = new UserToken()
   itemModel: ItemCategory = new ItemCategory();
+  itemSubscription: Subscription
 
   public displayedColumns = ['number','ProductName', 'Description']
 
@@ -117,7 +126,7 @@ export class MoreCategoriesModal {
 
 
   getItem(){
-    this.itemModel.category_id = this.data.id;
+   this.itemSubscription= this.itemModel.category_id = this.data.id;
     this.itemModel.token = this.usertoken.token;
     this.categoryService.getItems(this.itemModel)
     .subscribe((response)=>{
@@ -130,6 +139,11 @@ export class MoreCategoriesModal {
     })
   }
   
+  ngonDestroy(){
+    if(this.itemSubscription){
+      this.itemSubscription.unsubscribe();
+    }
+  }
 }
 
 

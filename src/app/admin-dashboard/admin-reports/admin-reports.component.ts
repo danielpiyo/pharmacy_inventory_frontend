@@ -9,6 +9,7 @@ import { CategoriesService, ItemsService, AlertService } from 'src/app/_service'
 import { MatSort, MatPaginator, MatTableDataSource } from '@angular/material';
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
+import {Subscription} from 'rxjs';
 
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
@@ -40,6 +41,20 @@ export interface AllItemsStore {
   discount_yn: String;
 }
 
+export interface Logs{
+  id: Number;
+  user: String;
+  item:String;
+  log_name: String;
+  price_from: Number;
+  price_to:Number;
+  quantity_from: Number;
+  quantity_to:Number;
+  sold_amount:Number;
+  value_added_items:Number;
+  created_date: Date;
+}
+
 @Component({
   selector: 'app-admin-reports',
   templateUrl: './admin-reports.component.html',
@@ -47,6 +62,7 @@ export interface AllItemsStore {
 })
 export class AdminReportsComponent implements OnInit {
 
+  allLogs: any;
   allItems: any;
   interval: any;
   userPerformanceWeek: any;
@@ -80,14 +96,17 @@ export class AdminReportsComponent implements OnInit {
   @ViewChild('resizedDiv', null) resizedDiv: ElementRef;
   public previousWidthOfResizedDiv = 0;
 
-  public displayedColumns = ['number', 'Item', 'createdBy', 'initialItemsNumber', 'finalItemsNumber', 'created_date', 'Total']
+  public displayedColumns = ['number', 'Item', 'createdBy', 'initialItemsNumber', 'finalItemsNumber', 'created_date', 'Total'];
   
-  public displayedColumnsStore = ['number', 'category', 'name', 'quantity', 'buying_price', 'selling_price', 'purchase_cost','worth_value']
+  public displayedColumnsStore = ['number', 'category', 'name', 'quantity', 'buying_price', 'selling_price', 'purchase_cost','worth_value'];
+
+  public displayedColumnsLogs = ['number','Type',	'Item',	'From', 'To',	'Value','User',	'Date'];
 
 
   public dataSource = new MatTableDataSource<AllItems>();
   public dataSourceMonth = new MatTableDataSource<AllItems>();
-  public dataSourceStore = new MatTableDataSource<AllItemsStore>()
+  public dataSourceStore = new MatTableDataSource<AllItemsStore>();
+  public dataSourceLogs = new MatTableDataSource<Logs>();
 
 
   @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -96,6 +115,7 @@ export class AdminReportsComponent implements OnInit {
 
   @ViewChild(MatPaginator, { static: true }) paginatorMonth: MatPaginator;
   @ViewChild(MatPaginator, { static: true }) paginatorStore: MatPaginator;
+  @ViewChild(MatPaginator, { static: true }) paginatorLogs: MatPaginator;
 
 
   constructor(public appSettings: AppSettings,
@@ -108,46 +128,56 @@ export class AdminReportsComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getWeeklyProduct();
-    this.getMonthlyProduct();
-    this.interval = setInterval(() => {
-      this.getWeeklyProduct();
-      this.getMonthlyProduct();
-    }, 20000);
+    this.getWeeklyProduct();    
+    // this.interval = setInterval(() => {
+    //   this.getWeeklyProduct();
+    //   this.getMonthlyProduct();
+    // }, 20000);
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
     this.dataSourceMonth.paginator = this.paginatorMonth;
     this.dataSourceStore.paginator = this.paginatorStore;
+    this.dataSourceLogs.paginator = this.paginatorLogs;
     this.analytics = analytics;
     // this.getChartData();
     this.getChartsWeek();
-    this.getChartsMonth();
-    this.getUserPerformanceWeek();
-    this.getUserPerformanceMonth();
+    // this.getChartsMonth();
+    // this.getUserPerformanceWeek();
+    // this.getUserPerformanceMonth();
     // setTimeout(() => this.dataSource.paginator = this.paginator);
-    this.getAllItemStore();
+   
   }
+  productWeekSubscription: Subscription;
+  productMonthSubscription: Subscription;
+  dailyCheckoutSubscription: Subscription;
+  weeklyCheckoutSubscription: Subscription;
+  monthlyCheckoutSubscription: Subscription;
+  userWeekSubscription: Subscription;
+  userMonthSubscription: Subscription;
+  allItemsSubscription: Subscription;
+
 
   getWeeklyProduct() {
-    this.categoryService.getProductReportCheckOutWeek(this.userToken)
+   this.productWeekSubscription= this.categoryService.getProductReportCheckOutWeek(this.userToken)
       .subscribe((response) => {
         this.allProductsWeekly = response;
         this.dataSource.data = this.allProductsWeekly as AllItems[];
       },
         error => {
-          this.alertService.error(error.error.message, false);
+          // this.alertService.error(error.error.message, false);
           console.log(error);
         })
   }
 
   getMonthlyProduct() {
-    this.categoryService.getProductReportCheckOutMonth(this.userToken)
+   this.productMonthSubscription= this.categoryService.getProductReportCheckOutMonth(this.userToken)
       .subscribe((response) => {
         this.allProductsMonthly = response;
         this.dataSourceMonth.data = this.allProductsMonthly as AllItems[];
+        this.getChartsMonth();
       },
         error => {
-          this.alertService.error(error.error.message, false);
+          // this.alertService.error(error.error.message, false);
           console.log(error);
         })
   }
@@ -193,7 +223,7 @@ export class AdminReportsComponent implements OnInit {
   alldayChart: any;
 
   getChartData() {
-    this.reportService.getDailyCheckoutReportChart(this.userToken)
+   this.dailyCheckoutSubscription= this.reportService.getDailyCheckoutReportChart(this.userToken)
       .subscribe((response) => {
         this.alldayChart = response;
       }, error => {
@@ -207,12 +237,12 @@ export class AdminReportsComponent implements OnInit {
       })
   }
   getChartsWeek() {
-    this.reportService.getWeekCheckoutReportChartDate(this.userToken)
+   this.weeklyCheckoutSubscription= this.reportService.getWeekCheckoutReportChartDate(this.userToken)
       .subscribe((response) => {
         this.allweekChart = response;
         this.ChartWeekly();
-      }, error => {
-        // this.alertService.error(error.error.message, true);
+        this.getUserPerformanceWeek();
+      }, error => {       
         console.log(error);
         this.allweekChart = [
           {
@@ -224,16 +254,16 @@ export class AdminReportsComponent implements OnInit {
   }
 
   getChartsMonth() {
-    this.reportService.getMonthCheckoutChartByDate(this.userToken)
+   this.monthlyCheckoutSubscription= this.reportService.getMonthCheckoutChartByDate(this.userToken)
       .subscribe((response) => {
-        this.allmonthChart = response;
-        // console.log('month', this.allmonthChart)
+        this.allmonthChart = response;       
         this.ChartMonthly();
+        this.getUserPerformanceMonth();
       })
   }
 
   getUserPerformanceWeek() {
-    this.reportService.getUserPerformanceWeek(this.userToken)
+   this.userWeekSubscription= this.reportService.getUserPerformanceWeek(this.userToken)
       .subscribe((response) => {
         this.userPerformanceWeek = response;
         // console.log('users', this.userPerformanceWeek)
@@ -243,7 +273,7 @@ export class AdminReportsComponent implements OnInit {
   }
 
   getUserPerformanceMonth() {
-    this.reportService.getUserPerformanceMonth(this.userToken)
+   this.userMonthSubscription= this.reportService.getUserPerformanceMonth(this.userToken)
       .subscribe((response) => {
         this.userPerformanceMonth = response;
         // console.log('users', this.userPerformanceMonth)
@@ -276,13 +306,16 @@ export class AdminReportsComponent implements OnInit {
 
   weeklyChart() {
     this.state = 'weekly'
+    this.getWeeklyProduct(); 
   }
 
   monthlyChart() {
     this.state = 'monthly'
+    this.getMonthlyProduct();
   }
   productTable() {
     this.state = 'product'
+    this.getAllItemStore();
   }
 
   // filtering
@@ -290,26 +323,56 @@ export class AdminReportsComponent implements OnInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
     this.dataSourceMonth.filter = filterValue.trim().toLowerCase();
     this.dataSourceStore.filter = filterValue.trim().toLowerCase();
+    this.dataSourceLogs.filter = filterValue.trim().toLowerCase();
   }
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator
+    this.dataSourceLogs.paginator = this.paginatorLogs;
+    this.dataSourceMonth.paginator = this.paginatorMonth;
+    this.dataSourceStore.paginator = this.paginatorStore;
   }
 
   // getting All items
 
   getAllItemStore(){  
-    this.itemService.getAllItemsIn(this.userToken)
+   this.allItemsSubscription= this.itemService.getAllItemsIn(this.userToken)
     .subscribe((response)=>{
       this.allItems = response
       this.dataSourceStore.data = this.allItems as AllItemsStore[]; 
        
       }),
       error =>{
-        this.alertService.error(error.error.message, false);
+        // this.alertService.error(error.error.message, false);
         console.log(error)
       }
   }
+
+
+  logs(){      
+      this.reportService.getLogs(this.userToken)
+      .subscribe((response)=>{
+        this.state = 'logs';
+          this.allLogs = response;
+          this.dataSourceLogs.data = this.allLogs as Logs[];
+      },
+      error=>{
+        this.alertService.error(error.error.message);
+        console.log(error);
+      })
+  }
   
+  ngonDestroy(){
+    if(this.productWeekSubscription){
+  this.productWeekSubscription.unsubscribe();
+  this.productMonthSubscription.unsubscribe();
+  this.dailyCheckoutSubscription.unsubscribe();
+  this.weeklyCheckoutSubscription.unsubscribe();
+  this.monthlyCheckoutSubscription.unsubscribe();
+  this.userWeekSubscription.unsubscribe();
+  this.userMonthSubscription.unsubscribe();
+  this.allItemsSubscription.unsubscribe();
+    }
+  }
 
 }

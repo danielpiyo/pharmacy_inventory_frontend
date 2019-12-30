@@ -10,8 +10,8 @@ export class TodoService {
   ];
 
   private _todoListAdmin = [
-    { text: '' },
-    { text: ''},
+    { text: '' }, 
+    { text: ''},  
     { text: ''}
   ];
 

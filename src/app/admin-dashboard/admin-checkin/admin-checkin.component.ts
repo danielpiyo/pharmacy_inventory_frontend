@@ -4,6 +4,7 @@ import { MatTableDataSource, MatSort, MatPaginator, MatDialog, MatDialogRef, MAT
 import { Router } from '@angular/router';
 import { ItemsService, AlertService } from 'src/app/_service';
 import { TocheckIn, AmountToAdd } from 'src/app/_model/checkIn';
+import {Subscription} from 'rxjs';
 
 export interface AllItems {
   id: Number
@@ -25,6 +26,7 @@ export interface AllItems {
 })
 export class AdminCheckinComponent implements OnInit {
 
+  itemsSubscription: Subscription;
   interval:any;
   allItems:any;
   userToken: any;
@@ -69,7 +71,7 @@ public dataSource = new MatTableDataSource<AllItems>();
 // get Items
 getAllItems(){
   // console.log(this.userToken);
-  this.itemService.getAllItems({token:this.userToken})
+ this.itemsSubscription = this.itemService.getAllItems({token:this.userToken})
   .subscribe((response)=>{
     this.allItems = response
     this.dataSource.data = this.allItems as AllItems[]; 
@@ -108,6 +110,11 @@ checkOutNow(item_id, category_id, quantity_from,item_price, name, category){
   setTimeout(() => {  // timeout for smooth transition
     this.itemService.showStep1 = true;
   }, 500)
+}
+ngonDestroy(){
+  if(this.itemsSubscription){
+    this.itemsSubscription.unsubscribe();
+  }
 }
 
 }

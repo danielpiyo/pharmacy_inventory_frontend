@@ -57,18 +57,19 @@ export class ItemsService {
   // discount data
 
 
-  setDataToCheckOutDiscount(item_id, category_id, quantity_from,name, category){
+  setDataToCheckOutDiscount(item_id, category_id, quantity_from,name, category,item_price){
     this.item_id = item_id;
     this.category_id = category_id;
     this.quatity_from = quantity_from;    
     this.name = name;
     this.category = category;
+    this.item_price = item_price;
   }
 
   getDataToCheckOutDiscount(){
     let temp = {'item_id':this.item_id, 'category_id':this.category_id,
                'quantity_from':this.quatity_from,
-               'name':this.name, 'category':this.category}
+               'name':this.name, 'category':this.category, 'item_buying_price':this.item_price}
     this.clearDataToCheckOut();
     return temp;
   }

@@ -83,4 +83,8 @@ export class ReportsService {
     return this.http.post(`${environment.baseUrl}/userMonthly`, userToken)
   }
 
+  getLogs(userToken: UserToken){
+    return this.http.post(`${environment.baseUrl}/adminViewLogs`, userToken)
+  }
+
 }

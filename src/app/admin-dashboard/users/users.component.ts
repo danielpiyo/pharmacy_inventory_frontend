@@ -1,10 +1,11 @@
 import { Component, OnInit, ViewChild, Inject } from '@angular/core';
-import { UserToken } from 'src/app/_model/user';
+import { UserToken, User } from 'src/app/_model/user';
 import { LoginService, AlertService, ItemsService } from 'src/app/_service';
 import { MatTableDataSource, MatSort, MatPaginator, MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Router } from '@angular/router';
 import { NewUser, ResetPassWord } from 'src/app/_model/addUser.model';
 import { ItemAndCategoryToDelete } from 'src/app/_model/item.model';
+import { Subscription} from 'rxjs';
 
 
 export interface AllUser {
@@ -24,6 +25,8 @@ export interface AllUser {
 })
 
 export class UsersComponent implements OnInit {
+
+  userSubscription: Subscription;
   userToken: UserToken = new UserToken;
   allUsers: any;
   interval: any;
@@ -50,15 +53,12 @@ export class UsersComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getUsers();
-    this.interval = setInterval(() => { 
-      this.getUsers(); 
-        }, 60000);
-        this.dataSource.paginator = this.paginator
+    this.getUsers();    
+    this.dataSource.paginator = this.paginator
   }
 
   getUsers() {
-    this.loginServices.getUsers(this.userToken)
+   this.userSubscription= this.loginServices.getUsers(this.userToken)
       .subscribe((response) => {
         this.allUsers = response;
         this.dataSource.data = this.allUsers as AllUser[];
@@ -88,17 +88,72 @@ export class UsersComponent implements OnInit {
 
 
   deleteNow(id, name){
-    this.userToDelete.id = id;
-    this.userToDelete.token = this.userToken.token;
-    alert(`You are about to delete ${name}. If youre sure Please press Ok`);
-    this.loginServices.deleteUser(this.userToDelete)
-    .subscribe(()=>{
-      this.alertService.success(`You have succesfully deleted: ${name}`)
-    }, error=>{
-      this.alertService.error(`${error.error.message} when deleting ${name}`);
+    this.dialog.open(DeleteUserModal,{
+      data:{
+        id:id,
+        name:name
+      }, width:'40%'
     })
   }
+  ngonDestroy(){
+    if(this.userSubscription){
+      this.userSubscription.unsubscribe();
+    }
+  }
 
+}
+
+// child component for Deleting category modal
+@Component({
+  // tslint:disable-next-line: component-selector
+  selector: 'delete-user-modal',
+  templateUrl: 'delete-user.modal.component.html',
+})
+// tslint:disable-next-line: component-class-suffix
+export class DeleteUserModal { 
+  loading = false; 
+  currentToken: any; 
+  currentUser: User; 
+  userTodelete: ItemAndCategoryToDelete = new ItemAndCategoryToDelete();
+
+  constructor(
+    public dialogRef: MatDialogRef<DeleteUserModal>,
+    private alertService: AlertService,
+    private router: Router,
+    private loginServices: LoginService,
+         
+    @Inject(MAT_DIALOG_DATA) public data: any) {      
+      this.currentToken = JSON.parse(localStorage.getItem('currentToken'));
+      this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
+  }
+
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
+
+  deleteNow(){
+    this.loading= true;
+    if(this.data.name = this.currentUser.username){
+        this.alertService.error('Sorry You can not delete Yourself when already loggedIn', false);
+        this.loading = false;
+    }   
+    else{
+      this.userTodelete.id = this.data.id;
+    this.userTodelete.token = this.currentToken;
+    // alert(`You are about to delete ${name}.Be informed that All Items on this category will be deleted as well. Press Ok`);
+    this.loginServices.deleteUser(this.userTodelete)
+    .subscribe(()=>{
+      this.loading = false;
+      this.alertService.success(`You have succesfully deleted: ${this.data.name}`);
+      this.onNoClick();
+      this.router.navigate(['/admin/users']);
+    }, error=>{
+      this.loading = false
+      this.alertService.error(`${error.error.message} when deleting ${this.data.name}`);
+    })
+    }
+  }
+ 
 }
 
 

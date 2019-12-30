@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { AlertService, ItemsService } from 'src/app/_service';
 import { AdminDetailsModal } from '../admin-items/admin-items.component';
 import { PriceChange } from 'src/app/_model/itemNew.model';
+import {Subscription } from 'rxjs';
 
 
 export interface AllItems {
@@ -29,6 +30,7 @@ export interface AllItems {
 })
 export class ChangePriceComponent implements OnInit {
 
+  itemSubscription: Subscription;
   interval:any;
   allItems:any;
   userToken: any;
@@ -67,7 +69,7 @@ public dataSource = new MatTableDataSource<AllItems>();
 
 // get Items
 getAllItems(){  
-  this.itemService.getAllItemsIn({token:this.userToken})
+  this.itemSubscription= this.itemService.getAllItemsIn({token:this.userToken})
   .subscribe((response)=>{
     this.allItems = response
     this.dataSource.data = this.allItems as AllItems[]; 
@@ -108,6 +110,12 @@ changeNow(item_id, category_id, price, name, buying_price){
       buying_price: buying_price
     }
   });
+}
+
+ngonDestroy(){
+  if(this.itemSubscription){
+    this.itemSubscription.unsubscribe();
+  }
 }
 
 }

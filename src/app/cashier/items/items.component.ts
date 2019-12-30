@@ -65,7 +65,7 @@ public dataSource = new MatTableDataSource<AllItems>();
 // get Items
 getAllItems(){
   // console.log(this.userToken);
-  this.itemService.getAllItems({token:this.userToken})
+  this.itemService.getAllItemsIn({token:this.userToken})
   .subscribe((response)=>{
     this.allItems = response
     this.dataSource.data = this.allItems as AllItems[]; 
@@ -82,7 +82,7 @@ applyFilter(filterValue: string) {
 }
 
 // check out
-getDetails(item_id, category_id, quantity_from,item_price, name, category, description, createdBy, created_date){
+getDetails(item_id, category_id, quantity_from,item_price, name, category, description, createdBy, created_date,discount_yn){
   // console.log('selected',{item_id, category_id, quantity_from,item_price, name, category});
   this.dialog.open(DetailsModal, {
     data: {
@@ -94,7 +94,8 @@ getDetails(item_id, category_id, quantity_from,item_price, name, category, descr
      category: category,
      description: description,
      createdBy:createdBy,
-     created_date: created_date
+     created_date: created_date,
+     discount_yn:discount_yn
     }
   });
 }
@@ -111,10 +112,7 @@ getDetails(item_id, category_id, quantity_from,item_price, name, category, descr
 })
 // tslint:disable-next-line: component-class-suffix
 export class DetailsModal {
-  dataToCheckIn: TocheckIn = new TocheckIn();
-  checkInModel: AmountToAdd = new AmountToAdd();
-  currentUser: User;
-  currentToken: any;
+  
 
   constructor(
     public dialogRef: MatDialogRef<DetailsModal>,
@@ -122,33 +120,12 @@ export class DetailsModal {
     private router: Router,
     private itemService: ItemsService,     
     @Inject(MAT_DIALOG_DATA) public data: any) {
-      this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
-      this.currentToken = JSON.parse(localStorage.getItem('currentToken'));
+     
   }
 
   onNoClick(): void {
     this.dialogRef.close();
   }
-
-  submitCheckIn(){
-    this.dataToCheckIn.category_id = this.data.category_id;
-    this.dataToCheckIn.item_id = this.data.item_id;
-    this.dataToCheckIn.item_price = this.data.item_price;
-    this.dataToCheckIn.quantity_from = this.data.quantity_from;
-    this.dataToCheckIn.quantity_to = this.data.quantity_from + this.checkInModel.toadd;
-    this.dataToCheckIn.token = this.currentToken;
-    // console.log('data ato checkin', this.dataToCheckIn);
-    this.itemService.checkInItem(this.dataToCheckIn)
-    .subscribe((response)=>{
-      // console.log('responseCheckin', response);
-      this.alertService.success(`You have Succesfully CheckedIn additional  ${this.checkInModel.toadd} item for ${this.data.name}`);
-      this.onNoClick();
-      this.router.navigate(['/cashier/checkin']);
-    },
-    error=>{
-      console.log(error);
-      this.alertService.error(error.error.message, false);
-    })
-  }
+ 
   
 }

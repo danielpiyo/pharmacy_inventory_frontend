@@ -74,6 +74,10 @@ export class CheckoutDiscountedItemComponent implements OnInit {
         this.alertService.error('The Items to checkOut can not be greater than the available Quantity');
         this.loading = false;
       }
+      else if(this.checkOutModel.item_price <= this.dataToCheckOut.item_buying_price){
+        this.alertService.error('Sorry you can not checkOut item with price less than or simmilar to the purchase price');
+        this.loading = false;
+      }
       else{
     this.checkOutModel.category_id = this.dataToCheckOut.category_id;
     this.checkOutModel.item_id = this.dataToCheckOut.item_id;    

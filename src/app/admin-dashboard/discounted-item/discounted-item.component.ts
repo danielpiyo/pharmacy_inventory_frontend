@@ -3,6 +3,7 @@ import { ItemsService, AlertService } from 'src/app/_service';
 import { User } from 'src/app/_model/user';
 import { MatTableDataSource, MatSort, MatPaginator, MatDialog } from '@angular/material';
 import { AdminDetailsModal, AdminEditDetailsModal } from '../admin-items/admin-items.component';
+import {Subscription } from 'rxjs';
 
 
 export interface AllItems {
@@ -27,6 +28,7 @@ export interface AllItems {
 })
 export class DiscountedItemComponent implements OnInit {
 
+  itemSubscription: Subscription;
   allDiscounted: any;
   userToken: any;
   currentUser: User
@@ -54,7 +56,7 @@ public dataSource = new MatTableDataSource<AllItems>();
   }
 
   getAllItems(){  
-    this.itemService.getAllDiscountedItemsIn({token:this.userToken})
+   this.itemSubscription= this.itemService.getAllDiscountedItemsIn({token:this.userToken})
     .subscribe((response)=>{
       this.allDiscounted = response
       this.dataSource.data = this.allDiscounted as AllItems[]; 
@@ -113,13 +115,18 @@ public dataSource = new MatTableDataSource<AllItems>();
     });
   }
 // checkout
-checkOutNow(item_id, category_id, quantity_from,item_price, name, category){
+checkOutNow(item_id, category_id, quantity_from,item_buying_price, name, category){
   // console.log('selected',{item_id, category_id, quantity_from,item_price, name, category});
-  this.itemService.setDataToCheckOutDiscount(item_id, category_id, quantity_from,name, category);
+  this.itemService.setDataToCheckOutDiscount(item_id, category_id, quantity_from,name, category,item_buying_price);
   this.itemService.showOpacity = true;
   setTimeout(() => {  // timeout for smooth transition
     this.itemService.showStep1 = true;
   }, 500)
 }
 
+ngonDestroy(){
+  if(this.itemSubscription){
+    this.itemSubscription.unsubscribe();
+  }
+}
 }

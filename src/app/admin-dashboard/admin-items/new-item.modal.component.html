@@ -24,7 +24,7 @@
             </mat-form-field> <br>
             <mat-form-field appearance="outline">
                 <mat-label>Quantity</mat-label>
-                <input matInput type="number" name="quantity" [(ngModel)]="newItemModel.quantity">
+                <input matInput type="number" name="quantity" [(ngModel)]="newItemModel.quantity" readonly/>
             </mat-form-field>
 
             <mat-form-field appearance="outline">
@@ -36,11 +36,6 @@
                 <mat-label>Selling Price</mat-label>
                 <input type="number" matInput name="price" [(ngModel)]="newItemModel.price">
             </mat-form-field>
-                    
-            <mat-form-field appearance="outline">
-                <mat-label>Description</mat-label>
-                <textarea matInput placeholder="Description" name="description" [(ngModel)]="newItemModel.description" cols="40"></textarea>
-            </mat-form-field> <br>
 
             <mat-form-field appearance="outline">
                     <mat-label>Allow Discount </mat-label>
@@ -48,10 +43,16 @@
                         <mat-option value='N'>NO</mat-option>
                         <mat-option value='Y'>YES</mat-option>
                     </mat-select>
-                </mat-form-field>
+                </mat-form-field><br>
                 
+                    
+            <mat-form-field appearance="outline">
+                <mat-label>Description</mat-label>
+                <textarea matInput placeholder="Description" name="description" [(ngModel)]="newItemModel.description" cols="40"></textarea>
+            </mat-form-field>            
                 
             <hr>
+            <p style="color: red;"><Strong>N/B:</Strong><i>Two Quantities of This item will be added by default. <br> Please Add the rest through CheckIn Operation</i></p>
             <mat-card mat-dialog-actions>
                 <button mat-button color="warn" (click)="onNoClick()">CANCEL</button>
                 <button mat-button color="primary" (click)="addNewItem()">SUBMIT</button>

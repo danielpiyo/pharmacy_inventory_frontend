@@ -69,7 +69,7 @@ public dataSource = new MatTableDataSource<AllItems>();
 // get Items
 getAllItems(){
   // console.log(this.userToken);
-  this.itemService.getAllItems({token:this.userToken})
+  this.itemService.getAllItemsIn({token:this.userToken})
   .subscribe((response)=>{
     this.allItems = response
     this.dataSource.data = this.allItems as AllItems[]; 

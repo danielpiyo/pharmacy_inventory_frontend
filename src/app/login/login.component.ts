@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms'
 import { Router } from '@angular/router';
 import { Login, LoginResponse } from '../_model/login.model';
 import { AlertService, LoginService } from '../_service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -13,6 +14,7 @@ import { AlertService, LoginService } from '../_service';
 export class LoginComponent implements OnInit {
   loading = false;
   currentPerson: any;
+  loginSubscription: Subscription;
 
   constructor(
     private fb: FormBuilder,
@@ -44,38 +46,40 @@ export class LoginComponent implements OnInit {
       email: formData.email,
       password: formData.password
     }
-
-    // console.log("Login", payload);
-    this.loginService.logIn(payload)
-    .subscribe((data: LoginResponse) => {
-      // console.log(data)
-      // console.log(data.user)
-      this.currentPerson = data.user;
-      if (data.token) {
-        // storing the token
-        localStorage.setItem('currentToken', JSON.stringify(data.token));
-        localStorage.setItem('currentUser', JSON.stringify(data.user))
-        switch (this.currentPerson.role) {
-          case 'user':
-            this.alertService.success('You have succesfully Loged In as a Cashier')
-            this.router.navigate(['/cashier']);
-            break;
-          case 'admin':
-            this.alertService.success('You have succesfully Loged In as an Administrator')
-            this.router.navigate(['/admin']);
-            this.loading = false;          
-            break;
+    this.loginSubscription = this.loginService.logIn(payload)
+      .subscribe((data: LoginResponse) => {
+        this.currentPerson = data.user;
+        if (data.token) {
+          // storing the token
+          localStorage.setItem('currentToken', JSON.stringify(data.token));
+          localStorage.setItem('currentUser', JSON.stringify(data.user))
+          switch (this.currentPerson.role) {
+            case 'user':
+              this.alertService.success('You have succesfully Loged In as a Cashier')
+              this.router.navigate(['/cashier']);
+              break;
+            case 'admin':
+              this.alertService.success('You have succesfully Loged In as an Administrator')
+              this.router.navigate(['/admin']);
+              this.loading = false;
+              break;
+          }
         }
-      }
-    }, error => {
-      this.loading = false;
-      this.alertService.error(error.error.message)
-      console.log(error)
-    })
+      }, error => {
+        this.loading = false;
+        this.alertService.error(error.error.message)
+        console.log(error)
+      })
   }
 
   public hasError = (controlName: string, errorName: string) => {
     return this.loginForm.controls[controlName].hasError(errorName);
+  }
+
+  ngonDestroy() {
+    if (this.loginSubscription) {
+      this.loginSubscription.unsubscribe();
+    }
   }
 
 }
