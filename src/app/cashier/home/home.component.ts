@@ -36,8 +36,7 @@ export class HomeComponent implements OnInit {
   allMyAssignedREquest: any;
   
 
-  public displayedColumns = ['number','Category', 'Name','Description',
-  'Quantity', 'Price','CheckOut']
+  public displayedColumns = ['number','Category', 'Name','Quantity', 'Price','CheckOut']
 
 public dataSource = new MatTableDataSource<AllItems>();
   
@@ -62,11 +61,14 @@ public dataSource = new MatTableDataSource<AllItems>();
     this.getAllItems()
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
+    setInterval(()=>{
+      this.getAllItems()
+    },20000);
   }
 
 // get Items
 getAllItems(){
-  console.log(this.userToken);
+  // console.log(this.userToken);
   this.itemService.getAllItems({token:this.userToken})
   .subscribe((response)=>{
     this.allItems = response
@@ -74,7 +76,7 @@ getAllItems(){
      
     }),
     error =>{
-      this.alertService.error(error, true)
+      this.alertService.error(error.error.message, false);
       console.log(error)
     }
 }
@@ -85,29 +87,12 @@ applyFilter(filterValue: string) {
 
 // check out
 checkOutNow(item_id, category_id, quantity_from,item_price, name, category){
-  console.log('selected',{item_id, category_id, quantity_from,item_price, name, category});
+  // console.log('selected',{item_id, category_id, quantity_from,item_price, name, category});
   this.itemService.setDataToCheckOut(item_id, category_id, quantity_from,item_price, name, category);
   this.itemService.showOpacity = true;
   setTimeout(() => {  // timeout for smooth transition
     this.itemService.showStep1 = true;
   }, 500)
 }
-  // todo
-
-  public  getNotDeleted() {
-    return this.todoList.filter((item:any) => {
-      return !item.deleted
-    })
-  }
-
-  public addToDoItem($event) {
-    if (($event.which === 1 || $event.which === 13) && this.newTodoText.trim() != '') {
-      this.todoList.unshift({
-          text: this.newTodoText
-      });
-      this.newTodoText = '';
-    }
-  }
-
 
 }

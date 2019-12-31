@@ -9,7 +9,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { NgScrollbarModule } from 'ngx-scrollbar';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 
-import { AppRoutingModule } from './app-routing.module';
+import { routing } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { DashboardComponent } from './cashier/dashboard/dashboard.component';
@@ -23,10 +23,10 @@ import { CategoriesComponent, MoreCategoriesModal } from './cashier/categories/c
 import { ItemsComponent, DetailsModal } from './cashier/items/items.component';
 import {TodoComponent } from './cashier/todo/todo.component';
 import {AdminDashboardComponent} from './admin-dashboard/admin-dashboard.component'
-import { AdminHomeComponent} from './admin-dashboard/admin-home/admin-home.component';
-import { UsersComponent, NewUserModal, ResetUserModal } from './admin-dashboard/users/users.component';
-import { AdminCategoriesComponent, CategoryModal, NewCategoryModal } from './admin-dashboard/admin-categories/admin-categories.component';
-import { AdminItemsComponent, AdminDetailsModal, NewItemModal, AdminEditDetailsModal } from './admin-dashboard/admin-items/admin-items.component';
+import { AdminHomeComponent, CheckedInModel} from './admin-dashboard/admin-home/admin-home.component';
+import { UsersComponent, NewUserModal, ResetUserModal, DeleteUserModal } from './admin-dashboard/users/users.component';
+import { AdminCategoriesComponent, CategoryModal, NewCategoryModal, DeleteCategoryModal } from './admin-dashboard/admin-categories/admin-categories.component';
+import { AdminItemsComponent, AdminDetailsModal, NewItemModal, AdminEditDetailsModal, AdminDeleteItemModal } from './admin-dashboard/admin-items/admin-items.component';
 import { AdminReportsComponent } from './admin-dashboard/admin-reports/admin-reports.component';
 import { AdminCheckinComponent, AdminCheckinModal } from './admin-dashboard/admin-checkin/admin-checkin.component';
 import { AdminCheckoutComponent } from './admin-dashboard/admin-checkout/admin-checkout.component'
@@ -73,15 +73,15 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     AdminReportsComponent,
     AdminCheckinComponent,BubbleComponent,
     AdminCheckoutComponent, InfoCardsComponent,
-    CategoryModal, AdminDetailsModal, AdminCheckinModal, 
+    CategoryModal, AdminDetailsModal, AdminCheckinModal, DeleteUserModal,
     NewItemModal, AdminEditDetailsModal, NewCategoryModal,
-     ChangePriceComponent,ChangePriceModal, ItemBalanceComponent,
-     MoreItemModal, DiscountedItemComponentChashier,
+     ChangePriceComponent,ChangePriceModal, ItemBalanceComponent, DeleteCategoryModal,
+     MoreItemModal, DiscountedItemComponentChashier, CheckedInModel,AdminDeleteItemModal,
      SalesReportComponent, MoreCategoriesModal, DiscountedItemComponent, CheckoutDiscountedItemComponent
   ],
   imports: [
     FormsModule, ReactiveFormsModule, HttpClientModule, FlexLayoutModule,
-    BrowserModule, AppRoutingModule, 
+    BrowserModule, routing, 
     BrowserAnimationsModule, MatSidenavModule, MatAutocompleteModule,
     MatBadgeModule, MatSnackBarModule, MatPaginatorModule,
     MatSortModule, MatToolbarModule, MatChipsModule,
@@ -95,8 +95,8 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   
   entryComponents: [
     CheckinModal, DetailsModal, CategoryModal, AdminDetailsModal, AdminCheckinModal, 
-    NewItemModal, AdminEditDetailsModal, NewCategoryModal,NewUserModal,ResetUserModal,
-     ChangePriceModal, MoreItemModal,MoreCategoriesModal
+    NewItemModal, AdminEditDetailsModal, NewCategoryModal,NewUserModal,ResetUserModal, DeleteUserModal,
+     ChangePriceModal, MoreItemModal,MoreCategoriesModal, CheckedInModel,AdminDeleteItemModal, DeleteCategoryModal
   ],
   providers: [ {
     provide: PERFECT_SCROLLBAR_CONFIG,

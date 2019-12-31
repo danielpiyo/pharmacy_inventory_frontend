@@ -32,7 +32,7 @@ export class DiscountedItemComponentChashier implements OnInit {
   userToken: any;
   currentUser: User
 
-  public displayedColumns = ['number','Category', 'Name','Description',
+  public displayedColumns = ['number','Category', 'Name',
   'Quantity', 'Buying_Price', 'details','checkout']
 
 public dataSource = new MatTableDataSource<AllItems>();
@@ -62,7 +62,7 @@ public dataSource = new MatTableDataSource<AllItems>();
        
       }),
       error =>{
-        this.alertService.error(error, true)
+        this.alertService.error(error.error.message, false);
         console.log(error)
       }
   }
@@ -91,9 +91,9 @@ public dataSource = new MatTableDataSource<AllItems>();
   }
 
 // checkout
-checkOutNow(item_id, category_id, quantity_from,item_price, name, category){
-  console.log('selected',{item_id, category_id, quantity_from,item_price, name, category});
-  this.itemService.setDataToCheckOutDiscount(item_id, category_id, quantity_from,name, category);
+checkOutNow(item_id, category_id, quantity_from,item_buying_price, name, category){
+  // console.log('selected',{item_id, category_id, quantity_from,item_price, name, category});
+  this.itemService.setDataToCheckOutDiscount(item_id, category_id, quantity_from,name, category,item_buying_price);
   this.itemService.showOpacity = true;
   setTimeout(() => {  // timeout for smooth transition
     this.itemService.showStep1 = true;

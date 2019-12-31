@@ -32,7 +32,7 @@ export class SalesReportComponent implements OnInit {
 
   constructor(
     private reportService: ReportsService,
-    private alerService: AlertService
+    private alertService: AlertService
   ) { this.userToken.token = JSON.parse(localStorage.getItem('currentToken')) }
 
   ngOnInit() {
@@ -59,9 +59,10 @@ export class SalesReportComponent implements OnInit {
       if (this.dailyReport != null && this.dailyReport.length > 0) {
         this.dailyReport.forEach(x => total += x.amountSOld);
       }
-      console.log(total);
+      // console.log(total);
       this.totalDay = total;
     },error=>{
+      this.alertService.error(error.error.message, false);
       console.log(error);
     })
   }
@@ -75,9 +76,10 @@ export class SalesReportComponent implements OnInit {
       if (this.weeklyReport != null && this.weeklyReport.length > 0) {
         this.weeklyReport.forEach(x => total += x.amountSOld);
       }
-      console.log(total);
+      // console.log(total);
       this.totalWeek = total;
     },error=>{
+      this.alertService.error(error.error.message, false);
       console.log(error);
     })
   }
@@ -91,7 +93,7 @@ export class SalesReportComponent implements OnInit {
       if (this.monthlyReport != null && this.monthlyReport.length > 0) {
         this.monthlyReport.forEach(x => total += x.amountSOld);
       }
-      console.log(total);
+      // console.log(total);
       this.totalMonth = total;
     },error=>{
       console.log(error);

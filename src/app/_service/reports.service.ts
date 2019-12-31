@@ -9,20 +9,34 @@ import { environment } from 'src/environments/environment';
 export class ReportsService {
 
   constructor(
-    private http: HttpClient
+    private http: HttpClient 
   ) { }
+
+  getCheckInReportsDay(userToken: UserToken){
+    return this.http.post(`${environment.baseUrl}/checkInDay`, userToken)
+  }
+
+  getAllCheckInReport(userToken: UserToken){
+    return this.http.post(`${environment.baseUrl}/allcheckInReport`, userToken)
+  }
 
   getCheckoutReportsDay(userToken: UserToken){
     return this.http.post(`${environment.baseUrl}/checkOutDay`, userToken)
   }
 
+  getCheckoutReportsDayDiscount(userToken: UserToken){
+    return this.http.post(`${environment.baseUrl}/checkOutDayDiscount`, userToken)
+  }
+
 
   getCheckoutReportsWeek(userToken: UserToken){
-    return this.http.post(`${environment.baseUrl}/checkOutWeek`, userToken)
+    return this.http.post(`${environment.baseUrl}/userWeeklyAdminView`, userToken)
+    // return this.http.post(`${environment.baseUrl}/checkOutWeek`, userToken) 
   }
 
   getCheckoutReportsMonth(userToken: UserToken){
-    return this.http.post(`${environment.baseUrl}/checkOutMonth`, userToken)
+    return this.http.post(`${environment.baseUrl}/userMonthlyAdminView`, userToken)
+    // return this.http.post(`${environment.baseUrl}/checkOutMonth`, userToken)
   }
   getDailyCheckoutReportChart(userToken: UserToken){
     return this.http.post(`${environment.baseUrl}/checkOutDaychart`, userToken)
@@ -67,6 +81,10 @@ export class ReportsService {
   // monthly user report
   getUserMonthlyReport(userToken: UserToken){
     return this.http.post(`${environment.baseUrl}/userMonthly`, userToken)
+  }
+
+  getLogs(userToken: UserToken){
+    return this.http.post(`${environment.baseUrl}/adminViewLogs`, userToken)
   }
 
 }

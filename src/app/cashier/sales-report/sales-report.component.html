@@ -9,7 +9,7 @@
                                 <div class="panel-heading" fxLayout="row">
                                   
                                     <div fxFlex="100">
-                                        <mat-form-field style="text-align: right;">
+                                        <mat-form-field style="text-align: left;">
                                             <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search Here">
                                         </mat-form-field>
                                     </div>
@@ -58,7 +58,7 @@
                                         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                                         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
                         
-                                    </table>
+                                    </table> 
                                     <table>
                                             <tr class="total-sale">
                                                 <td colspan="5" > Today's Total Sale: </td>
@@ -80,7 +80,7 @@
                                 <div class="panel-heading" fxLayout="row">
                                     
                                     <div fxFlex="100">
-                                        <mat-form-field style="text-align: right;">
+                                        <mat-form-field style="text-align: left;">
                                             <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search Here">
                                         </mat-form-field>
                                     </div>
@@ -152,7 +152,7 @@
                                 <div class="panel-heading" fxLayout="row">
                                     
                                     <div fxFlex="100">
-                                        <mat-form-field style="text-align: right;">
+                                        <mat-form-field style="text-align: left;">
                                             <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search Here">
                                         </mat-form-field>
                                     </div>

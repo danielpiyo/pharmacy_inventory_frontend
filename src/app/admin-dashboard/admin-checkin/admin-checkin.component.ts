@@ -4,6 +4,7 @@ import { MatTableDataSource, MatSort, MatPaginator, MatDialog, MatDialogRef, MAT
 import { Router } from '@angular/router';
 import { ItemsService, AlertService } from 'src/app/_service';
 import { TocheckIn, AmountToAdd } from 'src/app/_model/checkIn';
+import {Subscription} from 'rxjs';
 
 export interface AllItems {
   id: Number
@@ -25,6 +26,7 @@ export interface AllItems {
 })
 export class AdminCheckinComponent implements OnInit {
 
+  itemsSubscription: Subscription;
   interval:any;
   allItems:any;
   userToken: any;
@@ -36,8 +38,7 @@ export class AdminCheckinComponent implements OnInit {
   allMyAssignedREquest: any;
   
 
-  public displayedColumns = ['number','Category', 'Name','Description',
-  'Quantity', 'Price','CheckIn', 'CheckOut']
+  public displayedColumns = ['number','Category', 'Name','Quantity', 'Price','CheckIn', 'CheckOut']
 
 public dataSource = new MatTableDataSource<AllItems>();
   
@@ -68,15 +69,15 @@ public dataSource = new MatTableDataSource<AllItems>();
 
 // get Items
 getAllItems(){
-  console.log(this.userToken);
-  this.itemService.getAllItems({token:this.userToken})
+  // console.log(this.userToken);
+ this.itemsSubscription = this.itemService.getAllItems({token:this.userToken})
   .subscribe((response)=>{
     this.allItems = response
     this.dataSource.data = this.allItems as AllItems[]; 
      
     }),
     error =>{
-      this.alertService.error(error, true)
+      this.alertService.error(error.error.message, false);
       console.log(error)
     }
 }
@@ -88,7 +89,7 @@ applyFilter(filterValue: string) {
 // check in
 
 checkinNow(item_id, category_id, quantity_from,item_price, name, category){
-  console.log('selected',{item_id, category_id, quantity_from,item_price, name, category});  
+  // console.log('selected',{item_id, category_id, quantity_from,item_price, name, category});  
   this.dialog.open(AdminCheckinModal, {
     data: {
      category_id: category_id,
@@ -102,17 +103,22 @@ checkinNow(item_id, category_id, quantity_from,item_price, name, category){
 
 // checkout
 checkOutNow(item_id, category_id, quantity_from,item_price, name, category){
-  console.log('selected',{item_id, category_id, quantity_from,item_price, name, category});
+  // console.log('selected',{item_id, category_id, quantity_from,item_price, name, category});
   this.itemService.setDataToCheckOut(item_id, category_id, quantity_from,item_price, name, category);
   this.itemService.showOpacity = true;
   setTimeout(() => {  // timeout for smooth transition
     this.itemService.showStep1 = true;
   }, 500)
 }
+ngonDestroy(){
+  if(this.itemsSubscription){
+    this.itemsSubscription.unsubscribe();
+  }
+}
 
 }
 
-// child component for opportunity modal
+// child component for Checkin modal
 @Component({
   // tslint:disable-next-line: component-selector
   selector: 'admin-checkin-modal',
@@ -124,6 +130,7 @@ export class AdminCheckinModal {
   checkInModel: AmountToAdd = new AmountToAdd();
   currentUser: User;
   currentToken: any;
+  loading = false;
 
   constructor(
     public dialogRef: MatDialogRef<AdminCheckinModal>,
@@ -140,24 +147,35 @@ export class AdminCheckinModal {
   }
 
   submitCheckIn(){
+    this.loading = true;
+    if(this.checkInModel.toadd == null){
+      this.loading = false;
+      this.alertService.error('The Items to checkIn can not be empty');
+    }
+    else if(this.checkInModel.toadd < 1){
+      this.loading = false;
+      this.alertService.error('The Items to checkIn can not be less than one');
+    }
+   else{
     this.dataToCheckIn.category_id = this.data.category_id;
     this.dataToCheckIn.item_id = this.data.item_id;
     this.dataToCheckIn.item_price = this.data.item_price;
     this.dataToCheckIn.quantity_from = this.data.quantity_from;
     this.dataToCheckIn.quantity_to = this.data.quantity_from + this.checkInModel.toadd;
     this.dataToCheckIn.token = this.currentToken;
-    console.log('data ato checkin', this.dataToCheckIn);
+    // console.log('data ato checkin', this.dataToCheckIn);
     this.itemService.checkInItem(this.dataToCheckIn)
-    .subscribe((response)=>{
-      console.log('responseCheckin', response);
+    .subscribe(()=>{
+      // console.log('responseCheckin', response);
       this.alertService.success(`You have Succesfully CheckedIn additional  ${this.checkInModel.toadd} item for ${this.data.name}`);
       this.onNoClick();
       this.router.navigate(['/admin/checkin']);      
     },
     error=>{
       console.log(error);
-      this.alertService.error(error.error.message);
+      this.alertService.error(error.error.message, false);
     })
+   }
   }
   
 }

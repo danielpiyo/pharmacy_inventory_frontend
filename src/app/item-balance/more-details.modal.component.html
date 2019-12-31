@@ -1,63 +1,102 @@
 <div class="admin-child-container">
 
-        <div class="float-content panel-primary" fxLayout="column">
-            <div class="panel-heading" fxLayout="row">
-                <div fxFlex="30">
-                    <h4 class="panel-title">Items with Low stock Levels</h4>
-                </div>
-                <div fxFlex="50">
-                    <mat-form-field style="text-align: right;">
-                        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search Here">
-                    </mat-form-field>
-                </div>
-                <div fxFlex="20">
-                        <div style="text-align: right;">
-                                <img src="../../../assets/images/close.png"  alt="" height="20" width="20" (click)="onNoClick()">
-                       </div>               
+    <div class="float-content panel-info" fxLayout="column">
+        <div class="panel-heading" fxLayout="row">
+            <div fxFlex="50">
+                <h4 class="panel-title">Items with Low stock Levels & their performance</h4>
+            </div>
+            <div fxFlex="30" >
+                <mat-form-field style="text-align: left;">
+                    <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search Here">
+                </mat-form-field>
+            </div>
+            <div fxFlex="20">
+                <div style="text-align: right;">
+                        <button (click)="onNoClick()" mat-raised-button color="warn" > <mat-icon class="mat-18">clear</mat-icon></button>
                 </div>
             </div>
-    
-            <ng-scrollbar>
-    
-                <table mat-table [dataSource]="dataSource" matSort>
-                    <ng-container matColumnDef="number">
-                        <th mat-header-cell *matHeaderCellDef> No </th>
-                        <td mat-cell *matCellDef="let element; let pager = index;"> {{pager + 1}} </td>
-                    </ng-container>
-    
-    
-                    <ng-container matColumnDef="Name">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Product Name </th>
-                        <td mat-cell *matCellDef="let element"> {{element.name }} </td>
-                    </ng-container>
-    
-                    <ng-container matColumnDef="Description">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Discription </th>
-                        <td mat-cell *matCellDef="let element"> {{element.description }} </td>
-                    </ng-container>
-    
-                    <ng-container matColumnDef="Quantity">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Quantity</th>
-                        <td mat-cell *matCellDef="let element"> {{element.quantity}} </td>
-                    </ng-container>
-    
-                    <ng-container matColumnDef="Buying_Price">
-                            <th mat-header-cell *matHeaderCellDef>Buying Price </th>
-                            <td mat-cell *matCellDef="let element"> {{element.buying_price}} </td>
-                        </ng-container>                
-        
-                    <ng-container matColumnDef="Selling_Price">
-                        <th mat-header-cell *matHeaderCellDef>Selling Price </th>
-                        <td mat-cell *matCellDef="let element"> {{element.price}} </td>
-                    </ng-container>
-
-                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    
-                </table>
-                <mat-paginator [pageSizeOptions]="[5, 10, 15]" showFirstLastButtons></mat-paginator>
-            </ng-scrollbar>
-    
-    
         </div>
+
+        <ng-scrollbar>
+
+            <table mat-table [dataSource]="dataSource" matSort>
+                <ng-container matColumnDef="number">
+                    <th mat-header-cell *matHeaderCellDef> No </th>
+                    <td mat-cell *matCellDef="let element; let pager = index;"> {{pager + 1}} </td>
+                </ng-container>
+
+
+                <ng-container matColumnDef="Name">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Product Name </th>
+                    <td mat-cell *matCellDef="let element"> {{element.name }} </td>
+                </ng-container>
+
+                <!-- <ng-container matColumnDef="Description">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Discription </th>
+                    <td mat-cell *matCellDef="let element"> {{element.description }} </td>
+                </ng-container> -->
+
+                <ng-container matColumnDef="Quantity">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Quantity</th>
+                    <td mat-cell *matCellDef="let element"> {{element.quantity}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="checkedIn_quantity">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Ch.Quantity</th>
+                    <td mat-cell *matCellDef="let element"> {{element.checkedIn_quantity}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="Buying_Price">
+                    <th mat-header-cell *matHeaderCellDef>B.Price </th>
+                    <td mat-cell *matCellDef="let element"> {{element.buying_price}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="Selling_Price">
+                    <th mat-header-cell *matHeaderCellDef>S.Price </th>
+                    <td mat-cell *matCellDef="let element"> {{element.price}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="Last_checkIn">
+                    <th mat-header-cell *matHeaderCellDef>Last CheckedIn </th>
+                    <td mat-cell *matCellDef="let element"> {{element.checkedIn_date | date: 'dd/MM/yyyy -- h:mm a'}}
+                    </td>
+                </ng-container>
+
+
+                <ng-container matColumnDef="Value_remaining">
+                    <th mat-header-cell *matHeaderCellDef>Value.remaining</th>
+                    <td mat-cell *matCellDef="let element"> {{element.valueOfItems}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="Total_sold">
+                    <th mat-header-cell *matHeaderCellDef>Total Sold</th>
+                    <td mat-cell *matCellDef="let element"> {{element.totalSold}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="expected_sale">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Expected Total</th>
+                    <td mat-cell *matCellDef="let element"> {{element.expected_total_sale}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="Discounted">
+                    <th mat-header-cell *matHeaderCellDef>Discounted</th>
+                    <td mat-cell *matCellDef="let element">
+                        <div *ngIf="element.expected_total_sale != (element.valueOfItems + element.totalSold)" style="background-color: aquamarine;">
+                            Some sold on discount
+                        </div>
+                        <div *ngIf="element.expected_total_sale == (element.valueOfItems + element.totalSold)">
+                            No discount
+                        </div>
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+            </table>
+            <mat-paginator [pageSizeOptions]="[5, 10, 15]" showFirstLastButtons></mat-paginator>
+        </ng-scrollbar>
+
+
     </div>
+</div>

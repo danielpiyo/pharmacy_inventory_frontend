@@ -35,12 +35,12 @@ export class ItemBalanceComponent implements OnInit {
   }
   
   viewMore(){
-    this.dialog.open(MoreItemModal,{  width: '70%'})  
+    this.dialog.open(MoreItemModal,{  width: '90%'})  
   }
 
 }
 
-// child component for opportunity modal
+// child component
 @Component({
   // tslint:disable-next-line: component-selector
   selector: 'more-details-modal',
@@ -54,7 +54,7 @@ export class MoreItemModal {
   userToken: UserToken = new UserToken();
 
 
-  public displayedColumns = ['number', 'Name','Description','Buying_Price', 'Selling_Price','Quantity']
+  public displayedColumns = ['number', 'Name','Buying_Price', 'Selling_Price','Quantity', 'checkedIn_quantity', 'Last_checkIn','Discounted','Value_remaining', 'Total_sold','expected_sale']
 
 public dataSource = new MatTableDataSource<AllItems>();
   
@@ -98,6 +98,11 @@ export interface AllItems {
   quantity: Number
   buying_price: Number;
   price: Number
-  description: String
+  description: String;
+  checkedIn_date: Date;
+  valueOfItems: Number;
+  totalSold: Number;
+  checkedIn_quantity:Number
+  expected_total_sale:Number;
 }
 

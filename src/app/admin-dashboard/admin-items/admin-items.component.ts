@@ -5,6 +5,8 @@ import { Router } from '@angular/router';
 import { ItemsService, AlertService, CategoriesService } from 'src/app/_service';
 import { TocheckIn, AmountToAdd } from 'src/app/_model/checkIn';
 import { NewItem, EditItem } from 'src/app/_model/itemNew.model';
+import { ItemAndCategoryToDelete } from 'src/app/_model/item.model';
+import { Subscription} from 'rxjs';
 
 
 export interface AllItems {
@@ -29,17 +31,17 @@ export interface AllItems {
 })
 export class AdminItemsComponent implements OnInit {
 
+  itemsSubscription: Subscription;
   interval:any;
   allItems:any;
   userToken: any;
   currentUser: User
   public todoList:Array<any>;
   public newTodoText:string = '';
-
+ 
   
 
-  public displayedColumns = ['number','Category', 'Name','Description',
-  'Quantity', 'Buying_Price', 'Price','details', 'edit', 'delete']
+  public displayedColumns = ['number','Category', 'Name','Quantity', 'Buying_Price', 'Price','details', 'edit', 'delete']
 
 public dataSource = new MatTableDataSource<AllItems>();
   
@@ -70,14 +72,14 @@ public dataSource = new MatTableDataSource<AllItems>();
 
 // get Items
 getAllItems(){  
-  this.itemService.getAllItemsIn({token:this.userToken})
+ this.itemsSubscription= this.itemService.getAllItemsIn({token:this.userToken})
   .subscribe((response)=>{
     this.allItems = response
     this.dataSource.data = this.allItems as AllItems[]; 
      
     }),
     error =>{
-      this.alertService.error(error, true)
+      this.alertService.error(error.error.message, false);
       console.log(error)
     }
 }
@@ -109,8 +111,14 @@ getDetails(item_id, category_id, quantity_from, item_buying_price,item_price, na
 addNew(){
   this.dialog.open(NewItemModal) 
 }
-deleteNow(id, name){
 
+deleteNow(id, name){
+  this.dialog.open(AdminDeleteItemModal,{
+    data:{
+      id: id,
+      name: name
+    }
+  })
 }
 
 editNow(id, category_id, quantity,buying_price, price, category, name, description,discount_yn){
@@ -135,11 +143,16 @@ editNow(id, category_id, quantity,buying_price, price, category, name, descripti
     }
   });
 }
+ngonDestroy(){
+  if(this.itemsSubscription){
+    this.itemsSubscription.unsubscribe();
+  }
+}
 
 }
 
 
-// child component for opportunity modal
+// child component for ItemDetails modal
 @Component({
   // tslint:disable-next-line: component-selector
   selector: 'details-modal',
@@ -153,10 +166,7 @@ export class AdminDetailsModal {
   currentToken: any;
 
   constructor(
-    public dialogRef: MatDialogRef<AdminDetailsModal>,
-    private alertService: AlertService,
-    private router: Router,
-    private itemService: ItemsService,     
+    public dialogRef: MatDialogRef<AdminDetailsModal>,  
     @Inject(MAT_DIALOG_DATA) public data: any) {
       this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
       this.currentToken = JSON.parse(localStorage.getItem('currentToken'));
@@ -170,7 +180,7 @@ export class AdminDetailsModal {
 
 
 
-// child component for opportunity modal
+// child component for New Item modal
 @Component({
   // tslint:disable-next-line: component-selector
   selector: 'new-item-modal',
@@ -185,6 +195,7 @@ export class NewItemModal {
   checkInModel: AmountToAdd = new AmountToAdd();
   currentUser: User;
   currentToken: any;
+  categorySubscription: Subscription;
 
   constructor(
     public dialogRef: MatDialogRef<NewItemModal>,
@@ -196,6 +207,7 @@ export class NewItemModal {
       this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
       this.currentToken = JSON.parse(localStorage.getItem('currentToken'));
       this.getCategories();
+      this.newItemModel.quantity = 1;
   }
 
   onNoClick(): void {
@@ -203,35 +215,42 @@ export class NewItemModal {
   }
 
 getCategories(){
-  this.categoryServices.getAllCategories({token:this.currentToken})
+ this.categorySubscription= this.categoryServices.getAllCategories({token:this.currentToken})
   .subscribe((response)=>{
     this.allCategories = response
-    console.log('categories', this.allCategories)
+    // console.log('categories', this.allCategories)
   },error=>{
-    console.log(error.error.message);
+    this.alertService.error(error.error.message, false);
+    console.log(error);
   })
 }
 
 addNewItem(){
   this.loading = true;
   this.newItemModel.token = this.currentToken;
-  console.log('NewItem', this.newItemModel);
+  // console.log('NewItem', this.newItemModel);
   this.itemService.addNewItem(this.newItemModel)
-  .subscribe((response)=>{
+  .subscribe(()=>{
     this.loading = false;
-    this.alertService.success(`You have succesfuly Added Item: ${this.newItemModel.name}`,true );
+    this.alertService.success(`You have succesfuly Added Item: ${this.newItemModel.name}`,false );
     this.onNoClick();
+    this.router.navigate(['/admin/items'])
   },error=>{
     this.loading = false;
-    this.alertService.error(error.error.message);
+    this.alertService.error(error.error.message, false);
     })
 }
   
+ngonDestroy(){
+  if(this.categorySubscription){
+    this.categorySubscription.unsubscribe();
+  }
+}
 }
 
 
 
-// child component for opportunity modal
+// child component for Editing Item modal
 @Component({
   // tslint:disable-next-line: component-selector
   selector: 'edit-details-modal',
@@ -246,6 +265,8 @@ export class AdminEditDetailsModal {
   allCategories:any;
   editItemModel: EditItem = new EditItem()
   loading = false;
+  categorySubscription: Subscription;
+  updateItemSubscription: Subscription;
 
   constructor(
     public dialogRef: MatDialogRef<AdminEditDetailsModal>,
@@ -263,48 +284,90 @@ export class AdminEditDetailsModal {
     this.dialogRef.close();
   }
   getCategories(){
-    this.categoryServices.getAllCategories({token:this.currentToken})
+   this.categorySubscription= this.categoryServices.getAllCategories({token:this.currentToken})
     .subscribe((response)=>{
-      this.allCategories = response
-      // console.log('categories', this.allCategories)
+      this.allCategories = response     
     },error=>{
-      console.log(error.error.message);
+      this.alertService.error(error.error.message, false);
+      console.log(error);
     })
   }
 
   updateItem(){
-    this.loading = true;
-    // if(this.editItemModel.category_id == null){
-    //   this.alertService.error('Please Select the category of this Item first');
-    //   this.loading = false;
-    // }
-    this.editItemModel = this.data;
-    // this.editItemModel.category_id_from = this.data.category_id;
-    // this.editItemModel.category_id = this.data.category_id;
-    // this.editItemModel.description_from = this.data.description_from;
-    // this.editItemModel.description_to = this.data.description_to;
-    // this.editItemModel.item_name_from = this.data.item_name_from;
-    // this.editItemModel.item_name_to = this.data.item_name_to;
-    // this.editItemModel.quantity_from = this.data.quantity_from;
-    // this.editItemModel.quantity_to = this.data.quantity_to
-    // this.editItemModel.item_id = this.data.item_id;
-    // this.editItemModel.buying_price_from = this.data.buying_price_from;
-    // this.editItemModel.buying_price_to = this.data.buying_price_to;
-    // this.editItemModel.discount_yn_before = this.data.discount_yn_before;
-    // this.editItemModel.discount_yn_after = this.data.discount_yn_after;
-    this.editItemModel.token = this.currentToken;
-    console.log('EditedModel', this.editItemModel);
-    this.itemService.editItem(this.editItemModel)
-    .subscribe((response)=>{
+    this.loading = true;    
+    this.editItemModel = this.data;  
+    this.editItemModel.token = this.currentToken;   ;
+  this.updateItemSubscription=  this.itemService.editItem(this.editItemModel)
+    .subscribe(()=>{
       this.loading = false;
-      console.log(response);
-      this.alertService.success(`You have succesfully updated ${this.editItemModel.item_name_from}`, true);
+      // console.log(response);
+      this.alertService.success(`You have succesfully updated ${this.editItemModel.item_name_from}`, false);
       this.onNoClick()
+      this.router.navigate(['/admin/items'])
     },
     error=>{
       this.loading = false;
+      this.alertService.error(error.error.message, false);
       console.log(error);
     })
   }
+
+  ngonDestroy(){
+    if(this.categorySubscription||this.updateItemSubscription){
+      this.categorySubscription.unsubscribe();
+      this.updateItemSubscription.unsubscribe();
+    }
+  }
+  
+}
+
+
+// child component for Deleting Item modal
+@Component({
+  // tslint:disable-next-line: component-selector
+  selector: 'delete-details-modal',
+  templateUrl: 'admin-delete-details.modal.component.html',
+})
+// tslint:disable-next-line: component-class-suffix
+export class AdminDeleteItemModal {  
+  
+  currentToken: any;
+  itemTodetete: ItemAndCategoryToDelete = new ItemAndCategoryToDelete();
+  loading = false;
+  
+
+  constructor(
+    public dialogRef: MatDialogRef<AdminDeleteItemModal>,
+    private alertService: AlertService,
+    private router: Router,
+    private itemService: ItemsService,  
+    private categoryServices:CategoriesService,      
+    @Inject(MAT_DIALOG_DATA) public data: any) {     
+      this.currentToken = JSON.parse(localStorage.getItem('currentToken'));
+      
+  }
+
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
+
+  deleteNow(){
+    this.loading= true;
+    this.itemTodetete.id = this.data.id;
+    this.itemTodetete.token = this.currentToken;    
+    this.itemService.deleteItem(this.itemTodetete)
+    .subscribe((res)=>{
+      this.loading =false;
+      this.alertService.success(`You have succesfuly deleted: ${name}`);
+      this.onNoClick();
+      this.router.navigate(['/admin/items'])
+    },
+    error=>{
+      this.loading = false;
+      this.alertService.error(`${error.error.message} when deleting ${name}`);
+    });
+  
+  }
+
   
 }

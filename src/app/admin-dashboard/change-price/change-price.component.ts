@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { AlertService, ItemsService } from 'src/app/_service';
 import { AdminDetailsModal } from '../admin-items/admin-items.component';
 import { PriceChange } from 'src/app/_model/itemNew.model';
+import {Subscription } from 'rxjs';
 
 
 export interface AllItems {
@@ -29,14 +30,14 @@ export interface AllItems {
 })
 export class ChangePriceComponent implements OnInit {
 
+  itemSubscription: Subscription;
   interval:any;
   allItems:any;
   userToken: any;
   currentUser: User 
   
 
-  public displayedColumns = ['number', 'Name','Description',
-  'Buying', 'Price','Quantity','details', 'edit']
+  public displayedColumns = ['number', 'Name','Buying', 'Price','Quantity','details', 'edit']
 
 public dataSource = new MatTableDataSource<AllItems>();
   
@@ -67,14 +68,14 @@ public dataSource = new MatTableDataSource<AllItems>();
 
 // get Items
 getAllItems(){  
-  this.itemService.getAllItemsIn({token:this.userToken})
+  this.itemSubscription= this.itemService.getAllItemsIn({token:this.userToken})
   .subscribe((response)=>{
     this.allItems = response
     this.dataSource.data = this.allItems as AllItems[]; 
      
     }),
     error =>{
-      this.alertService.error(error, true)
+      this.alertService.error(error.error.message, false);
       console.log(error)
     }
 }
@@ -110,9 +111,19 @@ changeNow(item_id, category_id, price, name, buying_price){
   });
 }
 
+applyFilter(filterValue: string) {
+  this.dataSource.filter = filterValue.trim().toLowerCase();
 }
 
-// child component for opportunity modal
+ngonDestroy(){
+  if(this.itemSubscription){
+    this.itemSubscription.unsubscribe();
+  }
+}
+
+}
+
+// child component for changing price modal
 @Component({
   // tslint:disable-next-line: component-selector
   selector: 'change-price-modal',
@@ -146,15 +157,17 @@ changePriceNow(){
   this.changePassModel.price_to = this.data.price_to;
   this.changePassModel.category_id = this.data.category_id;
   this.changePassModel.token = this.currentToken;
-  console.log('PasswordModel', this.changePassModel);
+  // console.log('PasswordModel', this.changePassModel);
   this.itemService.changePrice(this.changePassModel)
-  .subscribe((response)=>{
-    console.log('PasswordChange', response);
+  .subscribe(()=>{
+    // console.log('PasswordChange', response);
     this.loading = false;
     this.alertService.success('Price Changed Succesfully');
     this.onNoClick();
   },
   error =>{
+    this.alertService.error(error.error.message, false);
+    this.loading = false;
     console.log(error);
   })
 }

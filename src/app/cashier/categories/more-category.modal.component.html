@@ -1,18 +1,18 @@
 <mat-card class="admin-child-container">
 
-    <div class="float-content panel-primary" fxLayout="column">
+    <div class="float-content panel-info" fxLayout="column">
         <div class="panel-heading" fxLayout="row">
-            <div fxFlex="30">
-                <h4 class="panel-title">Items with for Category</h4>
-            </div>
             <div fxFlex="50">
-                <mat-form-field style="text-align: right;">
+                <h4 class="panel-title">Items of Category</h4>
+            </div>
+            <div fxFlex="40">
+                <mat-form-field style="text-align: left;">
                     <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search Here">
                 </mat-form-field>
             </div>
-            <div fxFlex="20">
+            <div fxFlex="10">
                 <div style="text-align: right;">
-                    <button mat-icon-button color="warn" (click)="onNoClick()">Close</button>
+                    <button (click)="onNoClick()" mat-raised-button color="warn" > <mat-icon class="mat-18">clear</mat-icon></button>
                 </div>
             </div>
         </div>

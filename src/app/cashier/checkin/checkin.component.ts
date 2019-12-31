@@ -36,8 +36,7 @@ export class CheckinComponent implements OnInit {
   allMyAssignedREquest: any;
   
 
-  public displayedColumns = ['number','Category', 'Name','Description',
-  'Quantity', 'Price','CheckIn']
+  public displayedColumns = ['number','Category', 'Name','Quantity', 'Price','CheckIn']
 
 public dataSource = new MatTableDataSource<AllItems>();
   
@@ -61,19 +60,22 @@ public dataSource = new MatTableDataSource<AllItems>();
     this.getAllItems()
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
-  }
+    setInterval(() => { 
+      this.getAllItems(); 
+        }, 20000);
+  } 
 
 // get Items
 getAllItems(){
-  console.log(this.userToken);
-  this.itemService.getAllItems({token:this.userToken})
+  // console.log(this.userToken);
+  this.itemService.getAllItemsIn({token:this.userToken})
   .subscribe((response)=>{
     this.allItems = response
     this.dataSource.data = this.allItems as AllItems[]; 
      
     }),
     error =>{
-      this.alertService.error(error, true)
+      this.alertService.error(error.error.message, false);
       console.log(error)
     }
 }
@@ -85,7 +87,7 @@ applyFilter(filterValue: string) {
 // check in
 
 checkinNow(item_id, category_id, quantity_from,item_price, name, category){
-  console.log('selected',{item_id, category_id, quantity_from,item_price, name, category});  
+  // console.log('selected',{item_id, category_id, quantity_from,item_price, name, category});  
   this.dialog.open(CheckinModal, {
     data: {
      category_id: category_id,
@@ -99,7 +101,7 @@ checkinNow(item_id, category_id, quantity_from,item_price, name, category){
 
 }
 
-// child component for opportunity modal
+// child component 
 @Component({
   // tslint:disable-next-line: component-selector
   selector: 'checkin-modal',
@@ -111,6 +113,7 @@ export class CheckinModal {
   checkInModel: AmountToAdd = new AmountToAdd();
   currentUser: User;
   currentToken: any;
+  loading = false;
 
   constructor(
     public dialogRef: MatDialogRef<CheckinModal>,
@@ -122,30 +125,41 @@ export class CheckinModal {
       this.currentToken = JSON.parse(localStorage.getItem('currentToken'));
   }
 
+  
   onNoClick(): void {
     this.dialogRef.close();
   }
 
   submitCheckIn(){
+    this.loading = true;
+    if(this.checkInModel.toadd == null){
+      this.loading = false;
+      this.alertService.error('The Items to checkIn can not be empty');
+    }
+    else if(this.checkInModel.toadd < 1){
+      this.loading = false;
+      this.alertService.error('The Items to checkIn can not be less than one');
+    }
+   else{
     this.dataToCheckIn.category_id = this.data.category_id;
     this.dataToCheckIn.item_id = this.data.item_id;
     this.dataToCheckIn.item_price = this.data.item_price;
     this.dataToCheckIn.quantity_from = this.data.quantity_from;
     this.dataToCheckIn.quantity_to = this.data.quantity_from + this.checkInModel.toadd;
     this.dataToCheckIn.token = this.currentToken;
-    console.log('data ato checkin', this.dataToCheckIn);
+    // console.log('data ato checkin', this.dataToCheckIn);
     this.itemService.checkInItem(this.dataToCheckIn)
     .subscribe((response)=>{
-      console.log('responseCheckin', response);
+      // console.log('responseCheckin', response);
       this.alertService.success(`You have Succesfully CheckedIn additional  ${this.checkInModel.toadd} item for ${this.data.name}`);
       this.onNoClick();
-      this.router.navigate(['/cashier/checkin']);
-      location.reload();
+      this.router.navigate(['/cashier/checkin']);      
     },
     error=>{
       console.log(error);
-      this.alertService.error(error.error.message);
+      this.alertService.error(error.error.message, false);
     })
+   }
   }
   
 }
