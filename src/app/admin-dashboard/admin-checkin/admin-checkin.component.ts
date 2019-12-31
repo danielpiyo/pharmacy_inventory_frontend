@@ -38,8 +38,7 @@ export class AdminCheckinComponent implements OnInit {
   allMyAssignedREquest: any;
   
 
-  public displayedColumns = ['number','Category', 'Name','Description',
-  'Quantity', 'Price','CheckIn', 'CheckOut']
+  public displayedColumns = ['number','Category', 'Name','Quantity', 'Price','CheckIn', 'CheckOut']
 
 public dataSource = new MatTableDataSource<AllItems>();
   

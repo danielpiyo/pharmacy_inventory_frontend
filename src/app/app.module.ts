@@ -9,7 +9,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { NgScrollbarModule } from 'ngx-scrollbar';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
 
-import { AppRoutingModule } from './app-routing.module';
+import { routing } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { DashboardComponent } from './cashier/dashboard/dashboard.component';
@@ -81,7 +81,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   ],
   imports: [
     FormsModule, ReactiveFormsModule, HttpClientModule, FlexLayoutModule,
-    BrowserModule, AppRoutingModule, 
+    BrowserModule, routing, 
     BrowserAnimationsModule, MatSidenavModule, MatAutocompleteModule,
     MatBadgeModule, MatSnackBarModule, MatPaginatorModule,
     MatSortModule, MatToolbarModule, MatChipsModule,

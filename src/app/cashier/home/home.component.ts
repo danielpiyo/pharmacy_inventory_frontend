@@ -36,8 +36,7 @@ export class HomeComponent implements OnInit {
   allMyAssignedREquest: any;
   
 
-  public displayedColumns = ['number','Category', 'Name','Description',
-  'Quantity', 'Price','CheckOut']
+  public displayedColumns = ['number','Category', 'Name','Quantity', 'Price','CheckOut']
 
 public dataSource = new MatTableDataSource<AllItems>();
   

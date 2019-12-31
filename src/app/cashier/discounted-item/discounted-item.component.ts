@@ -32,7 +32,7 @@ export class DiscountedItemComponentChashier implements OnInit {
   userToken: any;
   currentUser: User
 
-  public displayedColumns = ['number','Category', 'Name','Description',
+  public displayedColumns = ['number','Category', 'Name',
   'Quantity', 'Buying_Price', 'details','checkout']
 
 public dataSource = new MatTableDataSource<AllItems>();

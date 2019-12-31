@@ -37,8 +37,7 @@ export class ChangePriceComponent implements OnInit {
   currentUser: User 
   
 
-  public displayedColumns = ['number', 'Name','Description',
-  'Buying', 'Price','Quantity','details', 'edit']
+  public displayedColumns = ['number', 'Name','Buying', 'Price','Quantity','details', 'edit']
 
 public dataSource = new MatTableDataSource<AllItems>();
   

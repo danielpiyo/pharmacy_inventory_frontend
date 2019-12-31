@@ -41,8 +41,7 @@ export class AdminItemsComponent implements OnInit {
  
   
 
-  public displayedColumns = ['number','Category', 'Name','Description',
-  'Quantity', 'Buying_Price', 'Price','details', 'edit', 'delete']
+  public displayedColumns = ['number','Category', 'Name','Quantity', 'Buying_Price', 'Price','details', 'edit', 'delete']
 
 public dataSource = new MatTableDataSource<AllItems>();
   
@@ -208,7 +207,7 @@ export class NewItemModal {
       this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
       this.currentToken = JSON.parse(localStorage.getItem('currentToken'));
       this.getCategories();
-      this.newItemModel.quantity = 2;
+      this.newItemModel.quantity = 1;
   }
 
   onNoClick(): void {

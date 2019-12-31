@@ -54,7 +54,7 @@ export class MoreItemModal {
   userToken: UserToken = new UserToken();
 
 
-  public displayedColumns = ['number', 'Name','Description','Buying_Price', 'Selling_Price','Quantity', 'checkedIn_quantity', 'Last_checkIn','Discounted','Value_remaining', 'Total_sold','expected_sale']
+  public displayedColumns = ['number', 'Name','Buying_Price', 'Selling_Price','Quantity', 'checkedIn_quantity', 'Last_checkIn','Discounted','Value_remaining', 'Total_sold','expected_sale']
 
 public dataSource = new MatTableDataSource<AllItems>();
   

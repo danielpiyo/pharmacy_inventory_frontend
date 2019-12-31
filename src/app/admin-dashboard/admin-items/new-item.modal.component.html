@@ -1,10 +1,10 @@
-<div class="panel panel-primary">
+<div class="panel panel-info">
     <div class="panel-heading">
         <div>
-            Adding New Product
+            Adding New Product/Item
         </div>
         <div style="text-align: right;">
-            <img src="../../../assets/images/close.png" alt="" height="20" width="20" (click)="onNoClick()">
+            <button (click)="onNoClick()" mat-raised-button color="warn" > <mat-icon class="mat-18">clear</mat-icon></button>
         </div>
 
     </div>
@@ -52,7 +52,7 @@
             </mat-form-field>            
                 
             <hr>
-            <p style="color: red;"><Strong>N/B:</Strong><i>Two Quantities of This item will be added by default. <br> Please Add the rest through CheckIn Operation</i></p>
+            <p style="color: red;"><Strong>N/B:</Strong><i>One Quantity of This item will be CheckedIn by default. <br> Please Add the rest through CheckIn</i></p>
             <mat-card mat-dialog-actions>
                 <button mat-button color="warn" (click)="onNoClick()">CANCEL</button>
                 <button mat-button color="primary" (click)="addNewItem()">SUBMIT</button>

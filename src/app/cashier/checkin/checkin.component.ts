@@ -36,8 +36,7 @@ export class CheckinComponent implements OnInit {
   allMyAssignedREquest: any;
   
 
-  public displayedColumns = ['number','Category', 'Name','Description',
-  'Quantity', 'Price','CheckIn']
+  public displayedColumns = ['number','Category', 'Name','Quantity', 'Price','CheckIn']
 
 public dataSource = new MatTableDataSource<AllItems>();
   
