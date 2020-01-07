@@ -134,16 +134,18 @@ getDailyCheckinReports() {
           this.totalCheckOutToday = this.allDiscount + this.allDay.length;
           this.totalCheckOutTodayValue = this.totalDayDiscount + this.totalDay;
         }
-        else if(this.allDay != null && this.allDayDiscount == null){
-          this.totalCheckOutToday = this.allDay.length;
-          this.totalCheckOutTodayValue = this.totalDay;
-        }
+        // else if(this.allDay != null && this.allDayDiscount == null){
+        //   this.totalCheckOutToday = this.allDay.length;
+        //   this.totalCheckOutTodayValue = this.totalDay;
+        // }
         else if(this.allDay == null && this.allDayDiscount != null){
           this.totalCheckOutToday = this.allDiscount;
           this.totalCheckOutTodayValue = this.totalDayDiscount;
         }
       },
-        error => {
+        error => {         
+            this.totalCheckOutToday = this.allDay.length;
+            this.totalCheckOutTodayValue = this.totalDay;         
           // this.alertService.error(error.error.message, false);
           console.log(error);
         })
