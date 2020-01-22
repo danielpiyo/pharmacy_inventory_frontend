@@ -170,7 +170,7 @@ export class AdminReportsComponent implements OnInit {
   }
 
   getMonthlyProduct() {
-   this.productMonthSubscription= this.categoryService.getProductReportCheckOutMonth(this.userToken)
+   this.productMonthSubscription = this.categoryService.getProductReportCheckOutMonth(this.userToken)
       .subscribe((response) => {
         this.allProductsMonthly = response;
         this.dataSourceMonth.data = this.allProductsMonthly as AllItems[];
@@ -179,7 +179,7 @@ export class AdminReportsComponent implements OnInit {
         error => {
           // this.alertService.error(error.error.message, false);
           console.log(error);
-        })
+        });
   }
 
   onSelect(event) {

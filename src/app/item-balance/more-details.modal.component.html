@@ -5,14 +5,16 @@
             <div fxFlex="50">
                 <h4 class="panel-title">Items with Low stock Levels & their performance</h4>
             </div>
-            <div fxFlex="30" >
+            <div fxFlex="30">
                 <mat-form-field style="text-align: left;">
                     <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search Here">
                 </mat-form-field>
             </div>
             <div fxFlex="20">
                 <div style="text-align: right;">
-                        <button (click)="onNoClick()" mat-raised-button color="warn" > <mat-icon class="mat-18">clear</mat-icon></button>
+                    <button (click)="onNoClick()" mat-raised-button color="warn">
+                        <mat-icon class="mat-18">clear</mat-icon>
+                    </button>
                 </div>
             </div>
         </div>
@@ -81,13 +83,55 @@
                 <ng-container matColumnDef="Discounted">
                     <th mat-header-cell *matHeaderCellDef>Discounted</th>
                     <td mat-cell *matCellDef="let element">
-                        <div *ngIf="element.expected_total_sale != (element.valueOfItems + element.totalSold)" style="background-color: aquamarine;">
+                        <div *ngIf="element.expected_total_sale != (element.valueOfItems + element.totalSold)"
+                            style="background-color: aquamarine;">
                             Some sold on discount
                         </div>
                         <div *ngIf="element.expected_total_sale == (element.valueOfItems + element.totalSold)">
                             No discount
                         </div>
                     </td>
+                </ng-container>
+                <ng-container matColumnDef="email">
+                    <div *ngIf="currentUser.role =='user'">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>SendEmail</th>
+                        <td mat-cell *matCellDef="let element">
+                            <div *ngIf="element.mail_sent_yn=='N'">
+                                <button mat-icon-button color="primary" (click)="checkMails(element.id)">
+                                    <mat-icon class="mat-18">input</mat-icon> Send
+                                    <img *ngIf="loading && element.id ===selctedId" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+                                </button>
+                                <div *ngIf="selectMail && element.id ===selctedId">
+                                        <mat-form-field>
+                                        <mat-label>Select Admin</mat-label>
+                                        <mat-select>
+                                            <mat-option *ngFor="let admin of adminUser">
+                                           <div (click)="mailNow(element.id, element.name, element.category, element.quantity,
+                                           element.buying_price, element.price, element.checkedIn_date, element.valueOfItems,
+                                           element.totalSold, element.checkedIn_quantity, element.expected_total_sale, admin.email, admin.username)"> 
+                                                {{admin.username}}
+                                           </div>
+                                            </mat-option>
+                                        </mat-select>
+                                        </mat-form-field>
+                                </div>
+                            </div>
+                            <div *ngIf="element.mail_sent_yn=='Y'">
+                                Mail Sent
+                            </div>
+                        </td>
+                    </div>
+                    <div *ngIf="currentUser.role =='admin'">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>EmailSent</th>
+                        <td mat-cell *matCellDef="let element">
+                            <div *ngIf="element.mail_sent_yn=='N'">
+                                No
+                            </div>
+                            <div *ngIf="element.mail_sent_yn=='Y'">
+                                Yes
+                            </div>
+                        </td>
+                    </div>
                 </ng-container>
 
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

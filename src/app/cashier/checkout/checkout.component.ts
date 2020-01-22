@@ -22,7 +22,7 @@ export class CheckoutComponent implements OnInit {
   userToken: any; 
   dataToCheckOut: any;
   checkOutModel: TocheckOut = new TocheckOut();
-  amountToSale: AmountToSale = new AmountToSale()
+  amountToSale: AmountToSale = new AmountToSale();
   time: any;
   hour: any;
   minutes: any;
@@ -39,7 +39,7 @@ export class CheckoutComponent implements OnInit {
 
   ngOnInit() {
     this.time = new Date();
-    this.hour = this.time.getHours()
+    this.hour = this.time.getHours();
     this.dataToCheckOut = this.itemService.getDataToCheckOut();
   }
 
@@ -47,25 +47,22 @@ export class CheckoutComponent implements OnInit {
     this.itemService.showOpacity = false;
     setTimeout(() => {  // allow for smooth transition
       this.itemService.showStep1 = false;
-    })
+    });
     this.router.navigate(['/cashier']);
   }
 
-  checkOutNow(){
+  checkOutNow() {
     this.loading = true;
-    if(this.amountToSale.tosale == null){
+    if (this.amountToSale.tosale == null) {
       this.loading = false;
       this.alertService.error('The Items to checkOut can not be empty');
-    }
-    else if(this.amountToSale.tosale < 1){
+    } else if (this.amountToSale.tosale < 1) {
       this.loading = false;
       this.alertService.error('The Items to checkOut can not be less than one');
-    }
-    else if(this.amountToSale.tosale > this.dataToCheckOut.quantity_from){
+    } else if (this.amountToSale.tosale > this.dataToCheckOut.quantity_from) {
       this.loading = false;
       this.alertService.error('Sorry the amount You want to CheckOut is greater than the  available Quantity');
-    }
-   else{
+    } else {
     this.checkOutModel.category_id = this.dataToCheckOut.category_id;
     this.checkOutModel.item_id = this.dataToCheckOut.item_id;
     this.checkOutModel.item_price = this.dataToCheckOut.item_price;
@@ -75,33 +72,33 @@ export class CheckoutComponent implements OnInit {
     this.checkOutModel.discounted = 'N';
     // console.log('CheckOutModel', this.checkOutModel);
     this.checkoutService.checkOut(this.checkOutModel)
-    .subscribe((response)=>{
+    .subscribe((response) => {
       this.loading = false;
       this.closeStep();
       // console.log('CheckoutResponce', response);
       this.alertService.success('CheckOut was Succesfull', false);
-      this.generatePdf();
-      // this.router.navigate(['/cashier']);
+      // this.generatePdf();
+      this.router.navigate(['/cashier']);
       // location.reload();
     },
-    error =>{
+    error => {
       this.loading = false;
-      this.alertService.error(error.error.message)
-      console.log(error)
-    })
+      this.alertService.error(error.error.message);
+      console.log(error);
+    });
    }
   }
   // generate pdf
-  generatePdf(){
+  generatePdf() {
     const documentDefinition = { content: [
       {text: 'Zyptech Pharmacy',
       style: 'header', bold: true,
       fontSize: 20,
       alignment: 'center',
       margin: [0, 0, 0, 20]},
-      `You have purchased, ${this.dataToCheckOut.name}(${this.dataToCheckOut.category}) at ${this.time.getHours()}: ${this.time.getMinutes()}`,
-      
-      {
+      `You have purchased, ${this.dataToCheckOut.name}(${this.dataToCheckOut.category})
+       at ${this.time.getHours()}: ${this.time.getMinutes()}`,
+             {
         style: 'tableExample',
         table: {
           widths: [100, '*', 200, '*'],
@@ -113,7 +110,9 @@ export class CheckoutComponent implements OnInit {
       },
       {
         columns : [
-            { qr: this.dataToCheckOut.name + ', Category : ' + this.dataToCheckOut.category + ', Price : ' + this.dataToCheckOut.item_price, fit : 100 },
+            { qr: this.dataToCheckOut.name + ', Category : ' +
+             this.dataToCheckOut.category + ', Price : ' +
+             this.dataToCheckOut.item_price, fit : 100 },
             {
             text: `(${this.dataToCheckOut.name})`,
             alignment: 'right',

@@ -50,23 +50,20 @@ export class AdminCheckoutComponent implements OnInit {
     this.router.navigate(['/admin/checkin']);
   }
 
-  checkOutNow(){
+  checkOutNow() {
     this.loading = true;
     // console.log(this.amountToSale.tosale);
-    if(this.amountToSale.tosale == null){      
+    if (this.amountToSale.tosale == null) {      
       this.alertService.error('Quantity to checkOut can not be empty');
       this.loading = false; 
-    }
-    else{
-     if(Number(this.amountToSale.tosale) < 1 ){       
+    } else {
+     if (Number(this.amountToSale.tosale) < 1 ) {
         this.alertService.error('The Items to checkOut can not be less than one');
         this.loading = false;
-      }
-      else if(Number(this.amountToSale.tosale) > Number(this.dataToCheckOut.quantity_from)){
+      } else if (Number(this.amountToSale.tosale) > Number(this.dataToCheckOut.quantity_from)) {
         this.alertService.error('The Items to checkOut can not be greater than the available Quantity');
         this.loading = false;
-      }
-      else{
+      } else {
     this.checkOutModel.category_id = this.dataToCheckOut.category_id;
     this.checkOutModel.item_id = this.dataToCheckOut.item_id;
     this.checkOutModel.item_price = this.dataToCheckOut.item_price;
@@ -76,15 +73,15 @@ export class AdminCheckoutComponent implements OnInit {
     this.checkOutModel.discounted = 'N';
     // console.log('CheckOutModel', this.checkOutModel);
     this.checkoutService.checkOut(this.checkOutModel)
-    .subscribe(()=>{
+    .subscribe(() => {
       this.loading = false;
       this.closeStep();
-      this.generatePdf()
+      // this.generatePdf()
       // console.log('CheckoutResponce', response);
       this.alertService.success('CheckOut was Succesfull', true);
-      this.router.navigate(['/admin/checkin']);     
+      this.router.navigate(['/admin/checkin']);
     },
-    error =>{
+    error => {
       this.loading = false;
       this.alertService.error(error.error.message, false);
       console.log(error)
@@ -96,7 +93,7 @@ export class AdminCheckoutComponent implements OnInit {
     }
   }
   // generate pdf
-  generatePdf(){
+  generatePdf() {
     const documentDefinition = { content: [
       {text: 'Zyptech Pharmacy',
       style: 'header', bold: true,

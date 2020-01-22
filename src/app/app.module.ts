@@ -2,9 +2,17 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
-               //api
-import { MatSidenavModule, MatFormFieldModule, MatTabsModule, MatAutocompleteModule, MatBadgeModule, MatSnackBarModule, MatPaginatorModule, MatSortModule, MatToolbarModule, MatChipsModule, MatIconModule, MatListModule, MatCardModule, MatButtonModule, MatTableModule, MatSelectModule, MatInputModule, MatDialogModule, MatProgressBarModule, MatTooltipModule, MatDatepickerModule, MatCheckboxModule, MatExpansionModule, MatSlideToggleModule, MatProgressSpinnerModule, MatNativeDateModule } from '@angular/material';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms'
+               // api
+import {
+  MatSidenavModule, MatFormFieldModule, MatTabsModule,
+  MatAutocompleteModule, MatBadgeModule, MatSnackBarModule,
+  MatPaginatorModule, MatToolbarModule, MatChipsModule,
+  MatIconModule, MatListModule, MatCardModule, MatButtonModule, MatTableModule,
+  MatSelectModule, MatInputModule, MatDialogModule, MatProgressBarModule,
+  MatTooltipModule, MatDatepickerModule, MatCheckboxModule, MatExpansionModule,
+  MatSlideToggleModule, MatProgressSpinnerModule, MatNativeDateModule } from '@angular/material';
+import {MatSortModule} from '@angular/material/sort';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { NgScrollbarModule } from 'ngx-scrollbar';
 import { NgxChartsModule } from '@swimlane/ngx-charts';

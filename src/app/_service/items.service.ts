@@ -5,6 +5,7 @@ import { TocheckIn } from '../_model/checkIn';
 import { NewItem, EditItem, PriceChange } from '../_model/itemNew.model';
 import { UserToken } from '../_model/user';
 import { ItemAndCategoryToDelete } from '../_model/item.model';
+import { Mail } from '../_model/itemToMail.model';
 
 @Injectable({
   providedIn: 'root'
@@ -15,9 +16,9 @@ export class ItemsService {
   private item_id;
   private category_id;
   private quatity_from;  
-  private item_price
+  private item_price;
   private name;
-  private category
+  private category;
 
   constructor(
     private http: HttpClient
@@ -25,19 +26,19 @@ export class ItemsService {
     
   }
 
-  getAllItems(userToken:any){
-    return this.http.post(`${environment.baseUrl}/items`,userToken);
+  getAllItems(userToken: any) {
+    return this.http.post(`${environment.baseUrl}/items`, userToken);
   }
 
-  getAllItemsIn(userToken:UserToken){
-    return this.http.post(`${environment.baseUrl}/allitems`,userToken);
+  getAllItemsIn(userToken: UserToken) {
+    return this.http.post(`${environment.baseUrl}/allitems`, userToken);
   }
 
-  getAllDiscountedItemsIn(userToken:any){
-    return this.http.post(`${environment.baseUrl}/allitemsDiscount`,userToken);
+  getAllDiscountedItemsIn(userToken: any) {
+    return this.http.post(`${environment.baseUrl}/allitemsDiscount`, userToken);
   }
 
-  setDataToCheckOut(item_id, category_id, quantity_from,item_price,name, category){
+  setDataToCheckOut(item_id, category_id, quantity_from, item_price, name, category) {
     this.item_id = item_id;
     this.category_id = category_id;
     this.quatity_from = quantity_from;
@@ -46,10 +47,10 @@ export class ItemsService {
     this.category = category;
   }
 
-  getDataToCheckOut(){
-    let temp = {'item_id':this.item_id, 'category_id':this.category_id,
-               'quantity_from':this.quatity_from, 'item_price':this.item_price,
-               'name':this.name, 'category':this.category}
+  getDataToCheckOut() {
+    let temp = {'item_id': this.item_id, 'category_id': this.category_id,
+               'quantity_from': this.quatity_from, 'item_price': this.item_price,
+               'name': this.name, 'category': this.category};
     this.clearDataToCheckOut();
     return temp;
   }
@@ -57,7 +58,7 @@ export class ItemsService {
   // discount data
 
 
-  setDataToCheckOutDiscount(item_id, category_id, quantity_from,name, category,item_price){
+  setDataToCheckOutDiscount(item_id, category_id, quantity_from, name, category, item_price) {
     this.item_id = item_id;
     this.category_id = category_id;
     this.quatity_from = quantity_from;    
@@ -66,16 +67,16 @@ export class ItemsService {
     this.item_price = item_price;
   }
 
-  getDataToCheckOutDiscount(){
-    let temp = {'item_id':this.item_id, 'category_id':this.category_id,
-               'quantity_from':this.quatity_from,
-               'name':this.name, 'category':this.category, 'item_buying_price':this.item_price}
+  getDataToCheckOutDiscount() {
+    let temp = {'item_id': this.item_id, 'category_id': this.category_id,
+               'quantity_from': this.quatity_from,
+               'name': this.name, 'category': this.category, 'item_buying_price': this.item_price};
     this.clearDataToCheckOut();
     return temp;
   }
 
 
-  clearDataToCheckOut(){
+  clearDataToCheckOut() {
     this.item_id = undefined;
     this.category_id = undefined;
     this.quatity_from = undefined;
@@ -84,26 +85,33 @@ export class ItemsService {
     this.category = undefined;
   }
   
-  checkInItem(toChekIn: TocheckIn){
-    return this.http.post(`${environment.baseUrl}/checkin`,toChekIn)
+  checkInItem(toChekIn: TocheckIn) {
+    return this.http.post(`${environment.baseUrl}/checkin`, toChekIn);
   }
 
-  addNewItem(newItem:NewItem){
-    return this.http.post(`${environment.baseUrl}/newItem`,newItem)
+  addNewItem(newItem: NewItem) {
+    return this.http.post(`${environment.baseUrl}/newItem`, newItem);
   }
 
-  editItem(editModel:EditItem){
-    return this.http.post(`${environment.baseUrl}/updateItem`,editModel)
+  editItem(editModel: EditItem) {
+    return this.http.post(`${environment.baseUrl}/updateItem`, editModel);
   }
 
-  changePrice(price: PriceChange){
-    return this.http.post(`${environment.baseUrl}/priceChange`,price)
+  changePrice(price: PriceChange) {
+    return this.http.post(`${environment.baseUrl}/priceChange`, price);
   }
-  getItemBalanceAlert(userToken: UserToken){
-    return this.http.post(`${environment.baseUrl}/itemsTopup`,userToken);
+  getItemBalanceAlert(userToken: UserToken) {
+    return this.http.post(`${environment.baseUrl}/itemsTopup`, userToken);
   }
 
-  deleteItem(itemTodelete: ItemAndCategoryToDelete){
-    return this.http.post(`${environment.baseUrl}/deleteItem`,itemTodelete);
+  deleteItem(itemTodelete: ItemAndCategoryToDelete) {
+    return this.http.post(`${environment.baseUrl}/deleteItem`, itemTodelete);
+  }
+  getAdminMails(userToken: UserToken) {
+    return this.http.post(`${environment.baseUrl}/adminDetails`, userToken);
+  }
+
+  sendMail( mail: Mail) {
+    return this.http.post(`${environment.baseUrl}/sendMail`, mail);
   }
 }

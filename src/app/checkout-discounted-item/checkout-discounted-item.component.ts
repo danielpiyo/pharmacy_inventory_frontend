@@ -17,15 +17,15 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
 export class CheckoutDiscountedItemComponent implements OnInit {
 
   loading = false;
-  currentUser: User; 
-  userToken: any; 
+  currentUser: User;
+  userToken: any;
   dataToCheckOut: any;
   checkOutModel: TocheckOut = new TocheckOut();
-  amountToSale: AmountToSale = new AmountToSale()
+  amountToSale: AmountToSale = new AmountToSale();
   time: any;
   hour: any;
   minutes: any;
-  
+
   constructor(
     private itemService: ItemsService,
     private checkoutService: CheckoutService,
@@ -38,7 +38,7 @@ export class CheckoutDiscountedItemComponent implements OnInit {
 
   ngOnInit() {
     this.time = new Date();
-    this.hour = this.time.getHours()
+    this.hour = this.time.getHours();
     this.dataToCheckOut = this.itemService.getDataToCheckOutDiscount();
   }
 
@@ -46,84 +46,75 @@ export class CheckoutDiscountedItemComponent implements OnInit {
     this.itemService.showOpacity = false;
     setTimeout(() => {  // allow for smooth transition
       this.itemService.showStep1 = false;
-    })
-    if(this.currentUser.role =='admin'){
+    });
+    if (this.currentUser.role === 'admin') {
     this.router.navigate(['/admin/item_discount']);
-    }
-    else if(this.currentUser.role=='user'){
+    } else if (this.currentUser.role === 'user') {
       this.router.navigate(['/cashier/discount']);
-    }
-    else{
+    } else {
       this.router.navigate(['/']);
     }
   }
 
-  checkOutNow(){
+  checkOutNow() {
     this.loading = true;
     // console.log(this.amountToSale.tosale);
-    if(this.amountToSale.tosale == null){      
+    if (this.amountToSale.tosale == null) {
       this.alertService.error('Quantity to checkOut can not be empty');
-      this.loading = false; 
-    }
-    else{
-     if(Number(this.amountToSale.tosale) < 1 ){       
+      this.loading = false;
+    } else {
+     if (Number(this.amountToSale.tosale) < 1 ) {
         this.alertService.error('The Items to checkOut can not be less than one');
         this.loading = false;
-      }
-      else if(Number(this.amountToSale.tosale) > Number(this.dataToCheckOut.quantity_from)){
+      } else if (Number(this.amountToSale.tosale) > Number(this.dataToCheckOut.quantity_from)) {
         this.alertService.error('The Items to checkOut can not be greater than the available Quantity');
         this.loading = false;
-      }
-      else if(this.checkOutModel.item_price <= this.dataToCheckOut.item_buying_price){
+      } else if (this.checkOutModel.item_price <= this.dataToCheckOut.item_buying_price) {
         this.alertService.error('Sorry you can not checkOut item with price less than or simmilar to the purchase price');
         this.loading = false;
-      }
-      else{
+      } else {
     this.checkOutModel.category_id = this.dataToCheckOut.category_id;
-    this.checkOutModel.item_id = this.dataToCheckOut.item_id;    
+    this.checkOutModel.item_id = this.dataToCheckOut.item_id;
     this.checkOutModel.quantity_from = this.dataToCheckOut.quantity_from;
     this.checkOutModel.quantity_to = this.dataToCheckOut.quantity_from - this.amountToSale.tosale;
     this.checkOutModel.token = this.userToken;
     this.checkOutModel.discounted = 'Y';
     // console.log('CheckOutModel', this.checkOutModel);
     this.checkoutService.checkOut(this.checkOutModel)
-    .subscribe((response)=>{
+    .subscribe((response) => {
       this.loading = false;
       this.closeStep();
-      this.generatePdf()
+      // this.generatePdf()
       // console.log('CheckoutResponce', response);
       this.alertService.success('CheckOut was Succesfull', true);
-      if(this.currentUser.role =='admin'){
+      // tslint:disable-next-line: triple-equals
+      if (this.currentUser.role == 'admin') {
         this.router.navigate(['/admin/item_discount']);
-        }
-        else if(this.currentUser.role=='user'){
+        // tslint:disable-next-line: triple-equals
+        } else if (this.currentUser.role == 'user') {
           this.router.navigate(['/cashier/discount']);
-        }
-        else{
+        } else {
           this.router.navigate(['/']);
-        }   
+        }
     },
-    error =>{
+    error => {
       this.loading = false;
       this.alertService.error(error.error.message, false);
-      console.log(error)
-    })
+      console.log(error);
+    });
       }
-      
-      
-
     }
   }
   // generate pdf
-  generatePdf(){
+  generatePdf() {
     const documentDefinition = { content: [
       {text: 'Zyptech Pharmacy',
       style: 'header', bold: true,
       fontSize: 20,
       alignment: 'center',
       margin: [0, 0, 0, 20]},
-      `You have purchased, ${this.dataToCheckOut.name}(${this.dataToCheckOut.category}) at ${this.time.getHours()}: ${this.time.getMinutes()}`,
-      
+      `You have purchased, ${this.dataToCheckOut.name}(${this.dataToCheckOut.category})
+       at ${this.time.getHours()}: ${this.time.getMinutes()}`,
       {
         style: 'tableExample',
         table: {
@@ -136,7 +127,9 @@ export class CheckoutDiscountedItemComponent implements OnInit {
       },
       {
         columns : [
-            { qr: this.dataToCheckOut.name + ', Category : ' + this.dataToCheckOut.category + ', Price : ' + this.dataToCheckOut.item_price, fit : 100 },
+            { qr: this.dataToCheckOut.name + ', Category : '
+            + this.dataToCheckOut.category + ', Price : '
+             + this.dataToCheckOut.item_price, fit : 100 },
             {
             text: `(${this.dataToCheckOut.name})`,
             alignment: 'right',
