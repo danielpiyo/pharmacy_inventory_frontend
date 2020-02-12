@@ -7,6 +7,9 @@ export class NewItem{
     quantity:Number;
     token:String;
     discount_yn: String;
+    contolled_status: string;
+    suplier: string;
+    expire_date: any;
 }
 
 export class EditItem{
@@ -32,4 +35,8 @@ export class PriceChange{
     price_to: Number;
     category_id: Number;    
     token: String;
+}
+
+export class Expirydate {
+    expire_date: Date;
 }

@@ -42,9 +42,9 @@
   margin-top: -1vh !important;
 }
 
-.stats1-title {
-  color: #FFD387 !important;
-  font-weight: 900 !important;
+.stats1-title {  
+  color: rgb(223, 155, 78) !important;
+  font-weight: 1000 !important;
   font-size: 2.5em !important;
   font-family: 'Segoe UI Bold';
   padding: 0;
@@ -89,8 +89,16 @@
 /* // style second metrics on the dashboard */
 .blue-solid {
   color: #ffffff !important;
+  background-color: #d9edf7;
 }
 
+.white-solid {
+  background-color: #d9edf7;
+}
+
+.yellow-solid {
+  background-color: #d9edf7;
+}
 .section-1-cnt .stats {
   font-size: 3em !important;
   margin: 0;
@@ -311,4 +319,8 @@ table{
    -moz-hyphens: auto;
    -webkit-hyphens: auto;
    hyphens: auto;
+ }
+ 
+ .summary_day_week_month {
+   height: 50vh;
  }

@@ -3,7 +3,7 @@
     <div class="float-content panel-info" fxLayout="column">
         <div class="panel-heading" fxLayout="row">
             <div fxFlex="50">
-                <h4 class="panel-title">Checked In Items</h4>
+                <h4 class="panel-title">Stocked Products</h4>
             </div>
             <div fxFlex="40">
                 <mat-form-field style="text-align: left;">
@@ -38,12 +38,12 @@
                     </ng-container> -->
                    
                     <ng-container matColumnDef="Name">
-                      <th mat-header-cell *matHeaderCellDef mat-sort-header> Item</th>
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header> Product</th>
                       <td mat-cell *matCellDef="let element"> {{element.item }} </td>
                     </ng-container> 
 
                     <ng-container matColumnDef="Allowed_discount">
-                      <th mat-header-cell *matHeaderCellDef mat-sort-header> Discount</th>
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header> Discounted</th>
                       <td mat-cell *matCellDef="let element"> 
                         <div *ngIf="element.discount_yn=='N'">NO</div>
                         <div *ngIf="element.discount_yn=='Y'">YES</div>
@@ -51,28 +51,40 @@
                     </ng-container>
 
                     <ng-container matColumnDef="InitialQuantity">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Q.Before </th>
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Stock.Before </th>
                         <td mat-cell *matCellDef="let element"> {{element.initialItemsNumber }} </td>
                       </ng-container>
                    
                     <ng-container matColumnDef="FinalQuantity">
-                      <th mat-header-cell *matHeaderCellDef mat-sort-header > Q.After</th>
+                      <th mat-header-cell *matHeaderCellDef mat-sort-header > Stock.After</th>
                       <td mat-cell *matCellDef="let element"> {{element.finalItemsNumber}} </td> 
                     </ng-container>
                     <ng-container matColumnDef="Buying">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header> B.Price </th>
                         <td mat-cell *matCellDef="let element"> {{element.buying_price }} </td>
                       </ng-container>
+
+                      
+                    <ng-container matColumnDef="cost">
+                      <th mat-header-cell *matHeaderCellDef >Stock.Cost</th>
+                      <td mat-cell *matCellDef="let element"> {{element.total_cost}} </td>
+                    </ng-container> 
                    
                     <ng-container matColumnDef="Selling">
                       <th mat-header-cell *matHeaderCellDef mat-sort-header >S.Price</th>
                       <td mat-cell *matCellDef="let element"> {{element.selling_price}} </td> 
                     </ng-container>
+
                    
                     <ng-container matColumnDef="Value">
-                      <th mat-header-cell *matHeaderCellDef > Value</th>
+                      <th mat-header-cell *matHeaderCellDef >Stock.Worth</th>
                       <td mat-cell *matCellDef="let element"> {{element.value_added_items}} </td>
-                    </ng-container>                
+                    </ng-container>      
+                    
+                    <ng-container matColumnDef="totalValue">
+                      <th mat-header-cell *matHeaderCellDef >Total.Worth</th>
+                      <td mat-cell *matCellDef="let element"> {{element.valueOfItems}} </td>
+                    </ng-container>   
                     
                      <ng-container matColumnDef="CreatedBy">
                       <th mat-header-cell *matHeaderCellDef> User  </th>                      

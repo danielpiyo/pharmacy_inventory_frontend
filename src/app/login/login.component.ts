@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Login, LoginResponse } from '../_model/login.model';
 import { AlertService, LoginService } from '../_service';
 import { Subscription } from 'rxjs';
+import { AppService } from '../_service/app.service';
 
 @Component({
   selector: 'app-login',
@@ -19,6 +20,7 @@ export class LoginComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private router: Router,
+    public appService: AppService,
     private alertService: AlertService,
     private loginService: LoginService
   ) { }
@@ -52,7 +54,8 @@ export class LoginComponent implements OnInit {
         if (data.token) {
           // storing the token
           localStorage.setItem('currentToken', JSON.stringify(data.token));
-          localStorage.setItem('currentUser', JSON.stringify(data.user))
+          localStorage.setItem('currentUser', JSON.stringify(data.user));
+          this.appService.setUserLoggedIn(true);
           switch (this.currentPerson.role) {
             case 'user':
               this.alertService.success('You have succesfully Loged In as a Cashier')
@@ -76,7 +79,7 @@ export class LoginComponent implements OnInit {
     return this.loginForm.controls[controlName].hasError(errorName);
   }
 
-  ngonDestroy() {
+  ngOnDestroy() {
     if (this.loginSubscription) {
       this.loginSubscription.unsubscribe();
     }

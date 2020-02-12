@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
 import { CheckoutService } from 'src/app/_service/checkout.service';
@@ -53,9 +53,9 @@ export class AdminCheckoutComponent implements OnInit {
   checkOutNow() {
     this.loading = true;
     // console.log(this.amountToSale.tosale);
-    if (this.amountToSale.tosale == null) {      
+    if (this.amountToSale.tosale == null) {
       this.alertService.error('Quantity to checkOut can not be empty');
-      this.loading = false; 
+      this.loading = false;
     } else {
      if (Number(this.amountToSale.tosale) < 1 ) {
         this.alertService.error('The Items to checkOut can not be less than one');
@@ -84,12 +84,9 @@ export class AdminCheckoutComponent implements OnInit {
     error => {
       this.loading = false;
       this.alertService.error(error.error.message, false);
-      console.log(error)
-    })
+      console.log(error);
+    });
       }
-      
-      
-
     }
   }
   // generate pdf
@@ -100,8 +97,9 @@ export class AdminCheckoutComponent implements OnInit {
       fontSize: 20,
       alignment: 'center',
       margin: [0, 0, 0, 20]},
-      `You have purchased, ${this.dataToCheckOut.name}(${this.dataToCheckOut.category}) at ${this.time.getHours()}: ${this.time.getMinutes()}`,
-      
+      // tslint:disable-next-line: max-line-length
+      `You have purchased, ${this.dataToCheckOut.name}(${this.dataToCheckOut.category})
+      at ${this.time.getHours()}: ${this.time.getMinutes()}`,
       {
         style: 'tableExample',
         table: {
@@ -114,6 +112,7 @@ export class AdminCheckoutComponent implements OnInit {
       },
       {
         columns : [
+            // tslint:disable-next-line: max-line-length
             { qr: this.dataToCheckOut.name + ', Category : ' + this.dataToCheckOut.category + ', Price : ' + this.dataToCheckOut.item_price, fit : 100 },
             {
             text: `(${this.dataToCheckOut.name})`,
@@ -125,4 +124,5 @@ export class AdminCheckoutComponent implements OnInit {
     pdfMake.createPdf(documentDefinition).print();
    }
 
+ 
 }

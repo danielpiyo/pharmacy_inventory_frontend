@@ -5,6 +5,7 @@ import { environment } from 'src/environments/environment';
 import { UserToken } from '../_model/user';
 import { NewUser, ResetPassWord } from '../_model/addUser.model';
 import { ItemAndCategoryToDelete } from '../_model/item.model';
+import { AppService } from './app.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +13,7 @@ import { ItemAndCategoryToDelete } from '../_model/item.model';
 export class LoginService {
 
   constructor(
-    private http: HttpClient
+    private http: HttpClient, private appService: AppService
   ) { }
 
   logIn(logInPayload: Login){
@@ -22,6 +23,7 @@ export class LoginService {
   logout(){
     localStorage.removeItem('currentToken');
     localStorage.removeItem('currentUser');
+    this.appService.setUserLoggedIn(false);
   }
 
   getUsers(userModel: UserToken){

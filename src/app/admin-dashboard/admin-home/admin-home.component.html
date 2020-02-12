@@ -1,4 +1,4 @@
-<perfect-scrollbar style="width: 100%; height: 65vh;">
+<perfect-scrollbar style="width: 100%; height: auto;">
 <div fxLayout="column">
   
   <div class="panel panel-primary">
@@ -7,10 +7,10 @@
     </div>
 
     <div class="row-float-sections colored-tiles" fxLayout="row" fxLayoutGap="2%" fxLayout.lt-sm="column">
-      <div class="section-1-cnt tile-1 white-color shadow invoice-raised" fxFlex="30" fxFlexOffset="2">
+      <div class="tile-1 white-solid shadow " fxFlex="30" fxFlexOffset="2">
         <div class="stats1-title " >
           <mat-card-header class="h2-header" matTooltip="Daily Sales">
-            Day's Sale
+            Day's Sale <mat-icon>timeline</mat-icon>
             <!-- <mat-icon aria-hidden="false" aria-label="Example home icon">add</mat-icon> -->
           </mat-card-header>
           <mat-card-content>
@@ -18,10 +18,10 @@
           </mat-card-content>
         </div>
       </div> 
-      <div class="section-1-cnt blue-solid shadow invoice-due" fxFlex="35">
+      <div class=" blue-solid shadow" fxFlex="35">
         <div class="stats1-title " >
           <mat-card-header class="h2-header" matTooltip="All Weekly sales">
-            Week's Sale
+            Week's Sale <mat-icon>timeline</mat-icon>
             <!-- <mat-icon aria-hidden="false" aria-label="Example home icon">add</mat-icon> -->
           </mat-card-header>
           <mat-card-content>
@@ -29,10 +29,10 @@
           </mat-card-content>
         </div>
       </div>
-      <div class="section-1-cnt shadow invoice-paid" fxFlex="35">
+      <div class="shadow yellow-solid" fxFlex="35">
         <div class="stats1-title ">
           <mat-card-header class="h2-header" matTooltip="All Monthly Sales">
-            Month's Sale
+            Month's Sale <mat-icon>timeline</mat-icon>
             <!-- <mat-icon aria-hidden="false" aria-label="Example home icon">add</mat-icon> -->
           </mat-card-header>
           <mat-card-content>
@@ -47,36 +47,36 @@
   <!-- product activity checkins/checkouts -->
   <div class="panel panel-primary">   
     <div class="row-float-sections colored-tiles" fxLayout="row" fxLayoutGap="2%" fxLayout.lt-sm="column">
-      <div class="section-1-cnt tile-1 white-color shadow invoice-raised " fxFlex="30" fxFlexOffset="2">        
-          <mat-card class="panel-info">
+      <div class="section-1-cnt tile-1 yellow-tile shadow invoice-raised " fxFlex="30" fxFlexOffset="2">        
+          <mat-card class="panel-info stats1-title">
             <button mat-raised-button color="primary" class=" panel-heading" matBadge="{{totalDayCheckInItems}}" matBadgePosition="before"
               matBadgeColor="accent" (click)="viewCheckedIn()">
-              Checked-In Items
+              Added Stock(Today)
             </button>
-            <mat-card-content>
-              Value:: Ksh. {{totalDayCheckIn}}.00 
+            <mat-card-content class="">
+              Worth Added:: Ksh. {{totalDayCheckIn}}.00 
             </mat-card-content>
           </mat-card>
       </div> 
-      <div class="section-1-cnt blue-solid shadow invoice-due panel-info" fxFlex="35">
-        <mat-card class="panel-info">
+      <div class="section-1-cnt yellow-tile shadow invoice-due panel-info" fxFlex="35">
+        <mat-card class="panel-info stats1-title">
           <button mat-raised-button color="primary" class=" panel-heading" matBadge="{{totalCheckOutToday}}" matBadgePosition="before"
             matBadgeColor="accent">
-            Checked-Out Items
+            Sold Products(Today)
           </button>
-          <mat-card-content>
-            Value:: Ksh. {{totalCheckOutTodayValue}}.00
+          <mat-card-content class="">
+            Worth Sold:: Ksh. {{totalCheckOutTodayValue}}.00
           </mat-card-content>
         </mat-card>
       </div>
       <div class="section-1-cnt yellow-tile shadow invoice-paid panel-info" fxFlex="35">
-        <mat-card class="panel-info">
+        <mat-card class="panel-info stats1-title">
           <button mat-raised-button color="primary" class=" panel-heading" matBadge="{{allDiscount}}" matBadgePosition="before"
             matBadgeColor="accent">
-            Discounted Items
+            Discounted Products (Today)
           </button>
-          <mat-card-content>
-            Value:: Ksh. {{totalDayDiscount}}.00
+          <mat-card-content class="">
+            Worth Sold:: Ksh. {{totalDayDiscount}}.00
           </mat-card-content>
         </mat-card>
       </div>
@@ -102,10 +102,10 @@
   <hr>
   <div class="panel panel-primary">
     <div class="panel-heading">
-      General Activity Statistics
+      General Activity Statistics 
     </div>
     <hr>
-      <mat-card>
+      <mat-card class="summary_day_week_month">
           <div fxFlex="100" class="international panel-info">
               <div class="panel-heading">Products Realtime Sales Satatistics</div> <br>
               <ngx-charts-bar-vertical-2d                    

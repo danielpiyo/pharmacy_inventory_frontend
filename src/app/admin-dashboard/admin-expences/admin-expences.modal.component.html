@@ -1,0 +1,32 @@
+
+<mat-card class="panel panel-info">
+    <div class="panel-heading">                
+                Adding New Expence
+        </div>
+    <hr>
+    <div class="opportunity-container">
+        <mat-form-field appearance="outline">
+            <mat-label>Expence Name</mat-label>
+            <input matInput placeholder="Expence Name" [(ngModel)]="expenceModel.expence_name" #expence_name="ngModel"
+                name="expence_name">
+        </mat-form-field> <br>  <hr>      
+        
+        <mat-form-field appearance="outline">
+            <mat-label>Expence Amount</mat-label>
+            <input type="number" matInput placeholder="Expence Amount" [(ngModel)]="expenceModel.expence_amount" #expence_amount="ngModel"
+                name="expence_amount">
+        </mat-form-field> <br>  <hr>   
+
+        <mat-form-field>
+            <mat-label>Details</mat-label>
+            <textarea matInput placeholder="Details" cols="38" rows="5" [(ngModel)]="expenceModel.details" #details="ngModel"
+                name="details"></textarea>
+        </mat-form-field>
+        
+        <hr>
+        <mat-card mat-dialog-actions>
+            <button mat-button color="warn" (click)="onNoClick()">CANCEL</button>
+            <button mat-button color="primary" (click)="submit()">SUBMIT</button>
+        </mat-card>
+    </div>
+</mat-card>

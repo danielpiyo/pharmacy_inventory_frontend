@@ -6,7 +6,7 @@
         </div>
         <div class="float-content panel-primary" fxLayout="column">
             <alert></alert>
-            <div class="panel-heading"> Checking Out: {{dataToCheckOut.name}}</div>
+            <div class="panel-heading"> Cash sales for: {{dataToCheckOut.name}}</div>
             <form class="container panel-info " name="form" (ngSubmit)="checkOutNow()" #f="ngForm" novalidate>
     
                 <div fxLayout="row" fxLayoutGap="2%" class="step-form-holder1 shadow" class="panel-heading">
@@ -17,17 +17,17 @@
                     </div>
     
                         <div class="section-1-cnt shadow " fxFlex="25">
-                            <div> Product Name:<p style="color: black; font-weight:bold">{{dataToCheckOut.name}}</p>                           
+                            <div> Product:<p style="color: black; font-weight:bold">{{dataToCheckOut.name}}</p>                           
                             </div>
                         </div>
                         <div class="section-1-cnt shadow " fxFlex="10">
-                            <div> Price: <br> 
+                            <div>Selling Price: <br> 
                                 <input style="background-color: white; height: 5vh;" matInput type="number"  class="form-control" name="tosale" placeholder="Selling Price"
                                 [(ngModel)]="checkOutModel.item_price">                        
                             </div>
                         </div>
                         <div class="section-1-cnt shadow " fxFlex="20">
-                            <div> Quantity To checkOut: <br>
+                            <div> Quantity To Sale: <br>
                                 <input style="background-color: white; height: 5vh;" matInput type="number"  class="form-control" name="tosale" placeholder="How many"
                                 [(ngModel)]="amountToSale.tosale">                           
                             </div>
@@ -35,7 +35,7 @@
                         <div class="section-1-cnt shadow " fxFlex="20">
                                 <button mat-raised-button color="accent" [disabled]="loading" class="btn btn-primary"> <i class="material-icons">
                                     print
-                                  </i>CheckOut
+                                  </i>Sale Now
                                         <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA=="
                                         />
                                 </button> <hr>

@@ -1,0 +1,82 @@
+<mat-card>
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            Summary Income and Expences
+        </div>
+
+        <div class="row-float-sections colored-tiles" fxLayout="row" fxLayoutGap="2%" fxLayout.lt-sm="column">
+            <div class="tile-1 white-solid shadow " fxFlex="30" fxFlexOffset="2">
+                <div class="stats1-title ">
+                    <mat-card-header class="h2-header" matTooltip="Daily Sales">
+                        Monthly Total Purchases
+                        <!-- <mat-icon aria-hidden="false" aria-label="Example home icon">add</mat-icon> -->
+                    </mat-card-header>
+                    <mat-card-content>
+                        Ksh. {{allMothlyCost}}.00
+                    </mat-card-content>
+                </div>
+            </div>
+            <div class=" blue-solid shadow" fxFlex="35">
+                <div class="stats1-title ">
+                    <mat-card-header class="h2-header" matTooltip="All Weekly sales">
+                        Mothly Total Sales
+                        <!-- <mat-icon aria-hidden="false" aria-label="Example home icon">add</mat-icon> -->
+                    </mat-card-header>
+                    <mat-card-content>
+                        Ksh. {{allMothlySales}}.00
+                    </mat-card-content>
+                </div>
+            </div>
+            <div class="shadow yellow-solid" fxFlex="35">
+                <div class="stats1-title ">
+                    <mat-card-header class="h2-header" matTooltip="All Monthly Sales">
+                        Monthly Income
+                        <!-- <mat-icon aria-hidden="false" aria-label="Example home icon">add</mat-icon> -->
+                    </mat-card-header>
+                    <mat-card-content>
+                        Ksh. {{allMonthlyIncome}}.00
+                    </mat-card-content>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</mat-card>
+<br>
+<div fxLayout="row" fxLayoutGap="2%" fxLayout.lt-sm="column">
+    <mat-card class="summery panel-info" fxFlex="70" fxFlexOffset="2">
+        <div class="panel-heading">Monthly Expenditure Summary</div>
+        <ngx-charts-advanced-pie-chart [scheme]="colorScheme" [results]="allMothlyExpences" [gradient]="gradient">
+        </ngx-charts-advanced-pie-chart>
+    </mat-card>
+    <mat-card class="panel-info" fxFlex="30" fxFlexOffset="2">
+        <div class="panel-heading">Monthly OutPut: : : {{date | date: 'MM/yyyy'}}</div>
+        <div class="panel-success">
+            <div class="panel-heading">
+                Total Expence: {{totalMonthlyExpence}} .Ksh
+            </div>
+            <hr>
+            <div class="panel-heading">
+                Total Income: {{allMonthlyIncome}} .Ksh
+            </div>
+        </div> <hr>
+
+        <div *ngIf="profitLoss < 0">
+            <mat-card class="panel-success">
+                    <mat-icon>flight_land</mat-icon>
+                You have Made a Loss of
+                <br>
+                <div class="panel-heading">{{profitLoss}} .Ksh</div>
+            </mat-card>
+        </div>
+        <div *ngIf="profitLoss >=0">
+            <mat-card class="panel-success">
+                    <mat-icon>flight_takeoff</mat-icon>
+                You have Made a Profit of <br>
+                <div class="panel-heading">
+                    {{profitLoss}} .Ksh
+                </div>
+            </mat-card>
+        </div>
+    </mat-card>
+</div>

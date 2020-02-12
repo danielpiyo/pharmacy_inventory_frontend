@@ -117,6 +117,7 @@ h2 {
 
 .dashbaordNav{
 background-color: rgb(236, 198, 148);
+/* height: 5vh; */
 border-radius: 5px;
 
 }
@@ -173,15 +174,15 @@ border-radius: 5px;
   border-top-color: rgb(236, 198, 148);
   border-top-width: 1.5px;
   border-top-style: groove;
-  border-bottom-color: rgb(236, 198, 148);
+  /* border-bottom-color: rgb(236, 198, 148);
   border-bottom-width: 1.5px;
   border-bottom-style: groove;
-  border-bottom-right-radius: 8px;
+  border-bottom-right-radius: 8px; */
   border-left-style: groove;
   border-left-color: rgb(236, 198, 148);
   border-left-width: 2.5px;
   border-top-left-radius: 8px;
-  border-bottom-left-radius: 8px;
+  /* border-bottom-left-radius: 8px; */
 }
 .user-prof{
 border-radius: 20px;

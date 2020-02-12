@@ -9,17 +9,19 @@ import {Subscription } from 'rxjs';
 
 
 export interface AllItems {
-  id: Number
-  category_id:Number
-  category: String
-  name: string
-  quantity: Number
-  price: Number,
-  description: String
-  createdBy: String
-  created_date: Date,
-  buying_price:Number
-  
+  id: Number;
+  category_id: Number;
+  category: String;
+  name: string;
+  quantity: Number;
+  price: Number;
+  description: String;
+  createdBy: String;
+  created_date: Date;
+  buying_price: Number;
+  suplier: string;
+  controlled_status: string;
+
 }
 
 
@@ -31,16 +33,16 @@ export interface AllItems {
 export class ChangePriceComponent implements OnInit {
 
   itemSubscription: Subscription;
-  interval:any;
-  allItems:any;
+  interval: any;
+  allItems: any;
   userToken: any;
-  currentUser: User 
-  
+  currentUser: User;
 
-  public displayedColumns = ['number', 'Name','Buying', 'Price','Quantity','details', 'edit']
+
+  public displayedColumns = ['number', 'Name', 'controlled', 'Buying', 'Price', 'Quantity', 'details', 'edit'];
 
 public dataSource = new MatTableDataSource<AllItems>();
-  
+
 
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
@@ -48,65 +50,72 @@ public dataSource = new MatTableDataSource<AllItems>();
 
 
   constructor(
-    private router: Router,   
-    public dialog: MatDialog,  
+    private router: Router,
+    public dialog: MatDialog,
     public itemService: ItemsService,
     private alertService: AlertService
-  ) { 
-    this.currentUser = JSON.parse(localStorage.getItem('currentUser'));    
+  ) {
+    this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
     this.userToken = JSON.parse(localStorage.getItem('currentToken'));
   }
 
   ngOnInit() {
-    this.getAllItems()
-    this.interval = setInterval(() => { 
-      this.getAllItems(); 
+    this.getAllItems();
+    this.interval = setInterval(() => {
+      this.getAllItems();
         }, 20000);
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
   }
 
 // get Items
-getAllItems(){  
-  this.itemSubscription= this.itemService.getAllItemsIn({token:this.userToken})
-  .subscribe((response)=>{
-    this.allItems = response
-    this.dataSource.data = this.allItems as AllItems[]; 
-     
-    }),
-    error =>{
+getAllItems() {
+  this.itemSubscription = this.itemService.getAllItemsIn({token: this.userToken})
+  .subscribe((response) => {
+    this.allItems = response;
+    this.dataSource.data = this.allItems as AllItems[];
+
+    },
+    error => {
       this.alertService.error(error.error.message, false);
-      console.log(error)
-    }
+      console.log(error);
+    });
 }
 
-getDetails(item_id, category_id, quantity_from,item_price, name, category, description, createdBy, created_date){
-  // console.log('selected',{item_id, category_id, quantity_from,item_price, name, category});
+// tslint:disable-next-line: variable-name
+getDetails(item_id, category_id, quantity_from, item_buying_price, item_price, name,
+           category, description, createdBy, created_date, suplier, controlled_status){
+  console.log('selected',{item_id, category_id, quantity_from, item_buying_price, item_price, name,
+           category, description, createdBy, created_date, suplier, controlled_status});
   this.dialog.open(AdminDetailsModal, {
     data: {
-     category_id: category_id,
-     item_id: item_id,
-     quantity_from: quantity_from,     
-     item_price:item_price,
-     name: name,
-     category: category,
-     description: description,
-     createdBy:createdBy,
-     created_date: created_date
+     category_id,
+     item_id,
+     quantity_from,
+     item_buying_price,
+     item_price,
+     name,
+     category,
+     description,
+     createdBy,
+     created_date,
+     suplier,
+     controlled_status
     }
   });
 }
 
 
 changeNow(item_id, category_id, price, name, buying_price){
-  this.dialog.open(ChangePriceModal,{
-    data:{
-      id:item_id,
-      price_from:price,
-      price_to:price,
-      category_id:category_id,
-      name: name,
-      buying_price: buying_price
+  // tslint:disable-next-line: no-use-before-declare
+  this.dialog.open(ChangePriceModal, {
+    data: {
+      id: item_id,
+      price_from: price,
+      price_to: price,
+      category_id,
+      name,
+      buying_price
     }
   });
 }
@@ -116,7 +125,7 @@ applyFilter(filterValue: string) {
 }
 
 ngonDestroy(){
-  if(this.itemSubscription){
+  if (this.itemSubscription){
     this.itemSubscription.unsubscribe();
   }
 }
@@ -140,7 +149,7 @@ export class ChangePriceModal {
     public dialogRef: MatDialogRef<ChangePriceModal>,
     private alertService: AlertService,
     private router: Router,
-    private itemService: ItemsService,     
+    private itemService: ItemsService,
     @Inject(MAT_DIALOG_DATA) public data: any) {
       this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
       this.currentToken = JSON.parse(localStorage.getItem('currentToken'));
@@ -151,7 +160,7 @@ export class ChangePriceModal {
   }
 
 changePriceNow(){
-  this.loading = true;  
+  this.loading = true;
   this.changePassModel.item_id = this.data.id;
   this.changePassModel.price_from = this.data.price_from;
   this.changePassModel.price_to = this.data.price_to;
@@ -159,17 +168,17 @@ changePriceNow(){
   this.changePassModel.token = this.currentToken;
   // console.log('PasswordModel', this.changePassModel);
   this.itemService.changePrice(this.changePassModel)
-  .subscribe(()=>{
+  .subscribe(() => {
     // console.log('PasswordChange', response);
     this.loading = false;
     this.alertService.success('Price Changed Succesfully');
     this.onNoClick();
   },
-  error =>{
+  error => {
     this.alertService.error(error.error.message, false);
     this.loading = false;
     console.log(error);
-  })
+  });
 }
-  
+
 }

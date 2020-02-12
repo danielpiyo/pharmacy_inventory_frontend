@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { analytics } from '../info-cards/dashboard.data';
 import { UserToken } from 'src/app/_model/user';
 import { Settings } from '../admin-home/app.settings.model';
@@ -32,26 +32,26 @@ export interface AllItems {
 export interface AllItemsStore {
   id: Number;
   category: String;
-  name:String;
+  name: String;
   quantity: Number;
   buying_price: Number;
-  price:Number;
-  purchase_cost:Number;
-  worth_value:Number;
+  price: Number;
+  purchase_cost: Number;
+  worth_value: Number;
   discount_yn: String;
 }
 
 export interface Logs{
   id: Number;
   user: String;
-  item:String;
+  item: String;
   log_name: String;
   price_from: Number;
-  price_to:Number;
+  price_to: Number;
   quantity_from: Number;
-  quantity_to:Number;
-  sold_amount:Number;
-  value_added_items:Number;
+  quantity_to: Number;
+  sold_amount: Number;
+  value_added_items: Number;
   created_date: Date;
 }
 
@@ -67,7 +67,7 @@ export class AdminReportsComponent implements OnInit {
   interval: any;
   userPerformanceWeek: any;
   userPerformanceMonth: any;
-  public state = 'weekly'
+  public state = 'summary';
   panelOpenState = false;
   userToken: UserToken = new UserToken();
   public accountSummary = {
@@ -98,9 +98,10 @@ export class AdminReportsComponent implements OnInit {
 
   public displayedColumns = ['number', 'Item', 'createdBy', 'initialItemsNumber', 'finalItemsNumber', 'created_date', 'Total'];
   
-  public displayedColumnsStore = ['number', 'category', 'name', 'quantity', 'buying_price', 'selling_price', 'purchase_cost','worth_value'];
+  // tslint:disable-next-line: max-line-length
+  public displayedColumnsStore = ['number', 'category', 'name', 'quantity', 'buying_price', 'selling_price', 'purchase_cost', 'worth_value'];
 
-  public displayedColumnsLogs = ['number','Type',	'Item',	'From', 'To',	'Value','User',	'Date'];
+  public displayedColumnsLogs = ['number', 'Type',	'Item',	'From', 'To',	'Value', 'User',	'Date'];
 
 
   public dataSource = new MatTableDataSource<AllItems>();
@@ -117,36 +118,6 @@ export class AdminReportsComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) paginatorStore: MatPaginator;
   @ViewChild(MatPaginator, { static: true }) paginatorLogs: MatPaginator;
 
-
-  constructor(public appSettings: AppSettings,
-    private itemService: ItemsService,
-    private alertService: AlertService,
-    private categoryService: CategoriesService,
-    private reportService: ReportsService) {
-    this.settings = this.appSettings.settings;
-    this.userToken.token = JSON.parse(localStorage.getItem('currentToken'));
-  }
-
-  ngOnInit() {
-    this.getWeeklyProduct();    
-    // this.interval = setInterval(() => {
-    //   this.getWeeklyProduct();
-    //   this.getMonthlyProduct();
-    // }, 20000);
-    this.dataSource.sort = this.sort;
-    this.dataSource.paginator = this.paginator;
-    this.dataSourceMonth.paginator = this.paginatorMonth;
-    this.dataSourceStore.paginator = this.paginatorStore;
-    this.dataSourceLogs.paginator = this.paginatorLogs;
-    this.analytics = analytics;
-    // this.getChartData();
-    this.getChartsWeek();
-    // this.getChartsMonth();
-    // this.getUserPerformanceWeek();
-    // this.getUserPerformanceMonth();
-    // setTimeout(() => this.dataSource.paginator = this.paginator);
-   
-  }
   productWeekSubscription: Subscription;
   productMonthSubscription: Subscription;
   dailyCheckoutSubscription: Subscription;
@@ -155,46 +126,6 @@ export class AdminReportsComponent implements OnInit {
   userWeekSubscription: Subscription;
   userMonthSubscription: Subscription;
   allItemsSubscription: Subscription;
-
-
-  getWeeklyProduct() {
-   this.productWeekSubscription= this.categoryService.getProductReportCheckOutWeek(this.userToken)
-      .subscribe((response) => {
-        this.allProductsWeekly = response;
-        this.dataSource.data = this.allProductsWeekly as AllItems[];
-      },
-        error => {
-          // this.alertService.error(error.error.message, false);
-          console.log(error);
-        })
-  }
-
-  getMonthlyProduct() {
-   this.productMonthSubscription = this.categoryService.getProductReportCheckOutMonth(this.userToken)
-      .subscribe((response) => {
-        this.allProductsMonthly = response;
-        this.dataSourceMonth.data = this.allProductsMonthly as AllItems[];
-        this.getChartsMonth();
-      },
-        error => {
-          // this.alertService.error(error.error.message, false);
-          console.log(error);
-        });
-  }
-
-  onSelect(event) {
-    console.log(event);
-  }
-
-  ngAfterViewChecked() {
-    if (this.previousWidthOfResizedDiv !== this.resizedDiv.nativeElement.clientWidth) {
-      this.analytics = [...analytics];
-    }
-    this.previousWidthOfResizedDiv = this.resizedDiv.nativeElement.clientWidth;
-
-  }
-
-
   // Chart
   public multi_salesWeekly: any[];
   public multi_salesMonthly: any[];
@@ -221,65 +152,134 @@ export class AdminReportsComponent implements OnInit {
   allweekChart: any;
   weekChartDate: any;
   alldayChart: any;
+  
+
+  constructor(public appSettings: AppSettings,
+              private itemService: ItemsService,
+              private alertService: AlertService,
+              private categoryService: CategoriesService,
+              private reportService: ReportsService) {
+    this.settings = this.appSettings.settings;
+    this.userToken.token = JSON.parse(localStorage.getItem('currentToken'));
+  }
+
+  ngOnInit() {
+    this.getWeeklyProduct();
+    // this.interval = setInterval(() => {
+    //   this.getWeeklyProduct();
+    //   this.getMonthlyProduct();
+    // }, 20000);
+    this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
+    this.dataSourceMonth.paginator = this.paginatorMonth;
+    this.dataSourceStore.paginator = this.paginatorStore;
+    this.dataSourceLogs.paginator = this.paginatorLogs;
+    this.analytics = analytics;
+    // this.getChartData();
+    this.getChartsWeek();
+    // this.getChartsMonth();
+    // this.getUserPerformanceWeek();
+    // this.getUserPerformanceMonth();
+    // setTimeout(() => this.dataSource.paginator = this.paginator);
+  }
+
+
+  getWeeklyProduct() {
+   this.productWeekSubscription = this.categoryService.getProductReportCheckOutWeek(this.userToken)
+      .subscribe((response) => {
+        this.allProductsWeekly = response;
+        this.dataSource.data = this.allProductsWeekly as AllItems[];
+      },
+        error => {
+          // this.alertService.error(error.error.message, false);
+          // console.log(error);
+        });
+  }
+
+  getMonthlyProduct() {
+   this.productMonthSubscription = this.categoryService.getProductReportCheckOutMonth(this.userToken)
+      .subscribe((response) => {
+        this.allProductsMonthly = response;
+        this.dataSourceMonth.data = this.allProductsMonthly as AllItems[];
+        this.getChartsMonth();
+      },
+        error => {
+          // this.alertService.error(error.error.message, false);
+          // console.log(error);
+        });
+  }
+
+  onSelect(event) {
+    console.log(event);
+  }
+
+  // tslint:disable-next-line: use-lifecycle-interface
+  // ngAfterViewChecked() {
+  //   if (this.previousWidthOfResizedDiv !== this.resizedDiv.nativeElement.clientWidth) {
+  //     this.analytics = [...analytics];
+  //   }
+  //   this.previousWidthOfResizedDiv = this.resizedDiv.nativeElement.clientWidth;
+
+  // }
 
   getChartData() {
-   this.dailyCheckoutSubscription= this.reportService.getDailyCheckoutReportChart(this.userToken)
+   this.dailyCheckoutSubscription = this.reportService.getDailyCheckoutReportChart(this.userToken)
       .subscribe((response) => {
         this.alldayChart = response;
       }, error => {
-        console.log(error);
+        // console.log(error);
         this.alldayChart = [
           {
             name: 'No sales',
             value: 0
           }
-        ]
-      })
+        ];
+      });
   }
   getChartsWeek() {
-   this.weeklyCheckoutSubscription= this.reportService.getWeekCheckoutReportChartDate(this.userToken)
+   this.weeklyCheckoutSubscription = this.reportService.getWeekCheckoutReportChartDate(this.userToken)
       .subscribe((response) => {
         this.allweekChart = response;
         this.ChartWeekly();
         this.getUserPerformanceWeek();
-      }, error => {       
-        console.log(error);
+      }, error => {
+        // console.log(error);
         this.allweekChart = [
           {
             name: 'No sales',
             value: 0
           }
         ]
-      })
+      });
   }
 
   getChartsMonth() {
-   this.monthlyCheckoutSubscription= this.reportService.getMonthCheckoutChartByDate(this.userToken)
+   this.monthlyCheckoutSubscription = this.reportService.getMonthCheckoutChartByDate(this.userToken)
       .subscribe((response) => {
-        this.allmonthChart = response;       
+        this.allmonthChart = response;
         this.ChartMonthly();
         this.getUserPerformanceMonth();
-      })
+      });
   }
 
   getUserPerformanceWeek() {
-   this.userWeekSubscription= this.reportService.getUserPerformanceWeek(this.userToken)
+   this.userWeekSubscription = this.reportService.getUserPerformanceWeek(this.userToken)
       .subscribe((response) => {
         this.userPerformanceWeek = response;
         // console.log('users', this.userPerformanceWeek)
       }, error => {
-        console.log(error.error.message);
-      })
+        // console.log(error.error.message);
+      });
   }
 
   getUserPerformanceMonth() {
-   this.userMonthSubscription= this.reportService.getUserPerformanceMonth(this.userToken)
+   this.userMonthSubscription = this.reportService.getUserPerformanceMonth(this.userToken)
       .subscribe((response) => {
         this.userPerformanceMonth = response;
         // console.log('users', this.userPerformanceMonth)
       }, error => {
-        console.log(error.error.message);
-      })
+        // console.log(error.error.message);
+      });
   }
 
   ChartWeekly() {
@@ -305,12 +305,12 @@ export class AdminReportsComponent implements OnInit {
   }
 
   weeklyChart() {
-    this.state = 'weekly'
-    this.getWeeklyProduct(); 
+    this.state = 'weekly';
+    this.getWeeklyProduct();
   }
 
   monthlyChart() {
-    this.state = 'monthly'
+    this.state = 'monthly';
     this.getMonthlyProduct();
   }
   productTable() {
@@ -335,43 +335,65 @@ export class AdminReportsComponent implements OnInit {
 
   // getting All items
 
-  getAllItemStore(){  
-   this.allItemsSubscription= this.itemService.getAllItemsIn(this.userToken)
-    .subscribe((response)=>{
-      this.allItems = response
-      this.dataSourceStore.data = this.allItems as AllItemsStore[]; 
-       
-      }),
-      error =>{
+  getAllItemStore() {
+   this.allItemsSubscription = this.itemService.getAllItemsIn(this.userToken)
+    .subscribe((response) => {
+      this.allItems = response;
+      this.dataSourceStore.data = this.allItems as AllItemsStore[];
+
+      } ,
+      error => {
         // this.alertService.error(error.error.message, false);
-        console.log(error)
-      }
+        // console.log(error);
+      });
   }
 
 
-  logs(){      
+  logs() {
       this.reportService.getLogs(this.userToken)
-      .subscribe((response)=>{
+      .subscribe((response) => {
         this.state = 'logs';
-          this.allLogs = response;
-          this.dataSourceLogs.data = this.allLogs as Logs[];
+        this.allLogs = response;
+        this.dataSourceLogs.data = this.allLogs as Logs[];
       },
-      error=>{
+      error => {
         this.alertService.error(error.error.message);
         console.log(error);
-      })
+      });
   }
-  
-  ngonDestroy(){
-    if(this.productWeekSubscription){
-  this.productWeekSubscription.unsubscribe();
-  this.productMonthSubscription.unsubscribe();
-  this.dailyCheckoutSubscription.unsubscribe();
-  this.weeklyCheckoutSubscription.unsubscribe();
-  this.monthlyCheckoutSubscription.unsubscribe();
-  this.userWeekSubscription.unsubscribe();
-  this.userMonthSubscription.unsubscribe();
-  this.allItemsSubscription.unsubscribe();
+
+  goToSummary() {
+   this.state =  'summary';
+
+  }
+
+goToStockRunning() {
+   this.state = 'stockRunning';
+}
+
+goToIncomes() {
+  this.state = 'income';
+}
+
+  // tslint:disable-next-line: use-lifecycle-interface
+  ngOnDestroy() {
+    if (this.productWeekSubscription) {
+      this.productWeekSubscription.unsubscribe();
+    } else if (this.productMonthSubscription) {
+      this.productMonthSubscription.unsubscribe();
+    } else if (this.dailyCheckoutSubscription) {
+      this.dailyCheckoutSubscription.unsubscribe();
+
+    } else if (this.weeklyCheckoutSubscription){
+      this.weeklyCheckoutSubscription.unsubscribe();
+    } else if (this.monthlyCheckoutSubscription) {
+      this.monthlyCheckoutSubscription.unsubscribe();
+    } else if (this.userWeekSubscription) {
+      this.userWeekSubscription.unsubscribe();
+    } else if (this.userMonthSubscription) {
+      this.userMonthSubscription.unsubscribe();
+    } else if (this.allItemsSubscription) {
+      this.allItemsSubscription.unsubscribe();
     }
   }
 

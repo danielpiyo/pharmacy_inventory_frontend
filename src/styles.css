@@ -86,3 +86,11 @@
   -webkit-font-feature-settings: 'liga';
   -webkit-font-smoothing: antialiased;
 }
+
+th{
+  border-left: gray solid 1px;
+  color: black;
+  font-weight: 500;
+  padding: 5px;
+  background-color: #D4D4D4;
+}

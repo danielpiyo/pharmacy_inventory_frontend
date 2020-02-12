@@ -8,7 +8,7 @@ import { AlertService } from 'src/app/_service';
 
 export interface AllItems {
   id: Number
-  category_id:Number
+  category_id: Number
   category: String
   name: string
   quantity: Number
@@ -26,17 +26,17 @@ export interface AllItems {
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-  allItems:any;
+  allItems: any;
   userToken: any;
   currentUser: User
-  public todoList:Array<any>;
-  public newTodoText:string = '';
+  public todoList: Array<any>;
+  public newTodoText: string = '';
 
   // items functionality
   allMyAssignedREquest: any;
   
 
-  public displayedColumns = ['number','Category', 'Name','Quantity', 'Price','CheckOut']
+  public displayedColumns = ['number', 'Category', 'Name', 'Quantity', 'Price', 'CheckOut']
 
 public dataSource = new MatTableDataSource<AllItems>();
   
@@ -61,24 +61,24 @@ public dataSource = new MatTableDataSource<AllItems>();
     this.getAllItems()
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
-    setInterval(()=>{
+    setInterval(() => {
       this.getAllItems()
-    },20000);
+    }, 20000);
   }
 
 // get Items
 getAllItems(){
   // console.log(this.userToken);
-  this.itemService.getAllItems({token:this.userToken})
-  .subscribe((response)=>{
-    this.allItems = response
-    this.dataSource.data = this.allItems as AllItems[]; 
-     
-    }),
-    error =>{
+  this.itemService.getAllItems({token: this.userToken})
+  .subscribe((response) => {
+    this.allItems = response;
+    this.dataSource.data = this.allItems as AllItems[];
+
+    },
+    error => {
       this.alertService.error(error.error.message, false);
-      console.log(error)
-    }
+      console.log(error);
+    });
 }
 
 applyFilter(filterValue: string) {
@@ -86,9 +86,9 @@ applyFilter(filterValue: string) {
 }
 
 // check out
-checkOutNow(item_id, category_id, quantity_from,item_price, name, category){
+checkOutNow(item_id, category_id, quantity_from, item_price, name, category){
   // console.log('selected',{item_id, category_id, quantity_from,item_price, name, category});
-  this.itemService.setDataToCheckOut(item_id, category_id, quantity_from,item_price, name, category);
+  this.itemService.setDataToCheckOut(item_id, category_id, quantity_from, item_price, name, category);
   this.itemService.showOpacity = true;
   setTimeout(() => {  // timeout for smooth transition
     this.itemService.showStep1 = true;

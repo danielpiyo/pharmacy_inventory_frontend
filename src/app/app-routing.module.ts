@@ -22,34 +22,38 @@ import { ChangePriceComponent } from './admin-dashboard/change-price/change-pric
 import { SalesReportComponent } from './cashier/sales-report/sales-report.component';
 import { DiscountedItemComponent } from './admin-dashboard/discounted-item/discounted-item.component';
 import { DiscountedItemComponentChashier } from './cashier/discounted-item/discounted-item.component';
+import { AdminExpencesComponent } from './admin-dashboard/admin-expences/admin-expences.component';
+import { AdminExpireComponent } from './admin-dashboard/admin-expire/admin-expire.component';
 
 
 const routes: Routes = [
-  {path:'', component: LoginComponent},
-  {path:'cashier', component:DashboardComponent, canActivate:[AuthGuard], children:[
-    {path:'', component:HomeComponent},  
-    {path:'todo', component:TodoComponent, canActivate:[AuthGuard]},  
-    {path:'checkout', component:CheckoutComponent, canActivate:[AuthGuard]},
-    {path:'checkin', component: CheckinComponent, canActivate:[AuthGuard]},
-    {path:'categories', component:CategoriesComponent, canActivate:[AuthGuard]},
-    {path:'items', component:ItemsComponent, canActivate:[AuthGuard]},
-    {path:'user_report', component:SalesReportComponent, canActivate:[AuthGuard]},
-    {path:'discount', component:DiscountedItemComponentChashier, canActivate:[AuthGuard]},
+  {path: '', component: LoginComponent},
+  {path: 'cashier', component: DashboardComponent, canActivate: [AuthGuard], children: [
+    {path: '', component: HomeComponent},  
+    {path: 'todo', component: TodoComponent, canActivate: [AuthGuard]},  
+    {path: 'checkout', component: CheckoutComponent, canActivate: [AuthGuard]},
+    {path: 'checkin', component: CheckinComponent, canActivate: [AuthGuard]},
+    {path: 'categories', component: CategoriesComponent, canActivate: [AuthGuard]},
+    {path: 'items', component: ItemsComponent, canActivate: [AuthGuard]},
+    {path: 'user_report', component: SalesReportComponent, canActivate: [AuthGuard]},
+    {path: 'discount', component: DiscountedItemComponentChashier, canActivate: [AuthGuard]},
     // otherwise redirect to Cashier dashboard
     {path: '**', redirectTo: '' }
   ]},
-  {path:'admin', component:AdminDashboardComponent, canActivate:[AdminAuthGuard], children:[
-    {path:'', component:AdminHomeComponent, canActivate:[AdminAuthGuard]},
-    {path:'users', component:UsersComponent, canActivate:[AdminAuthGuard]},
-    {path:'categories', component:AdminCategoriesComponent, canActivate:[AdminAuthGuard]},
-    {path:'items', component:AdminItemsComponent, canActivate:[AdminAuthGuard]},
-    {path:'reports', component:AdminReportsComponent, canActivate:[AdminAuthGuard]},
-    {path:'checkin', component:AdminCheckinComponent, canActivate:[AdminAuthGuard]},
-    {path:'checkout', component:AdminCheckoutComponent, canActivate:[AdminAuthGuard]},
-    {path:'info', component:InfoCardsComponent, canActivate:[AdminAuthGuard]},
-    {path:'changePrice', component: ChangePriceComponent, canActivate:[AdminAuthGuard]},
-    {path:'item_discount', component:DiscountedItemComponent, canActivate:[AdminAuthGuard]},
-    // otherwise redirect to AdminDashboard
+  {path: 'admin', component: AdminDashboardComponent, canActivate: [AdminAuthGuard], children: [
+    {path: '', component: AdminHomeComponent, canActivate: [AdminAuthGuard]},
+    {path: 'users', component: UsersComponent, canActivate: [AdminAuthGuard]},
+    {path: 'categories', component: AdminCategoriesComponent, canActivate: [AdminAuthGuard]},
+    {path: 'items', component: AdminItemsComponent, canActivate: [AdminAuthGuard]},
+    {path: 'reports', component: AdminReportsComponent, canActivate: [AdminAuthGuard]},
+    {path: 'checkin', component: AdminCheckinComponent, canActivate: [AdminAuthGuard]},
+    {path: 'checkout', component: AdminCheckoutComponent, canActivate: [AdminAuthGuard]},
+    {path: 'info', component: InfoCardsComponent, canActivate: [AdminAuthGuard]},
+    {path: 'changePrice', component: ChangePriceComponent, canActivate: [AdminAuthGuard]},
+    {path: 'item_discount', component: DiscountedItemComponent, canActivate: [AdminAuthGuard]},
+    {path: 'expences', component: AdminExpencesComponent, canActivate: [AdminAuthGuard]},
+    {path: 'expired', component: AdminExpireComponent, canActivate: [AdminAuthGuard]},
+    // otherwise redirect to AdminDashboard,
     {path: '**', redirectTo: '' }
   ]},
  // otherwise redirect to Login

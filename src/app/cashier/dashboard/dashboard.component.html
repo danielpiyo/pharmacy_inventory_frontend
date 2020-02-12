@@ -1,6 +1,6 @@
 <div fxLayout="row" class="dashbaordNav" fxHide.lt-sm>
     <div fxFlex="60" style="margin-left: 20px">
-      <h3 class="panel-title">Zyptech InvPos</h3>
+      <h3 class="panel-title">Zyptech Pharmacy</h3>
     </div>
     <div fxFlex="25">
   
@@ -27,7 +27,7 @@
   
         <!-- main left menu -->
   
-        <ul class="main-menu" fxHide.lt-sm>
+        <ul class="main-menu" >
           <li> <a routerLink="/cashier" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"> 
               <mat-icon class="mat-18">list</mat-icon>
               Dashboard</a>            
@@ -41,17 +41,17 @@
           <li><a routerLink="/cashier/items" routerLinkActive="active"
               [routerLinkActiveOptions]="{exact: true}">
               <mat-icon class="mat-18">receipt</mat-icon>
-              Items</a>
+              Medicine</a>
           </li>
           <li><a routerLink="/cashier/discount" routerLinkActive="active"
             [routerLinkActiveOptions]="{exact: true}">
             <mat-icon class="mat-18">receipt</mat-icon>
-            Dsc Items</a>
+            Discounted</a>
         </li>
           <li><a routerLink="/cashier/checkin" routerLinkActive="active"
             [routerLinkActiveOptions]="{exact: true}">
             <mat-icon class="mat-18">trending_down</mat-icon>
-            CheckIn</a>
+            Stock In</a>
          </li>      
          <!-- <li><a routerLink="/cashier/todo" routerLinkActive="active"
           [routerLinkActiveOptions]="{exact: true}">
@@ -61,52 +61,12 @@
        <li><a routerLink="/cashier/user_report" routerLinkActive="active"
         [routerLinkActiveOptions]="{exact: true}">
         <mat-icon class="mat-18">date_range</mat-icon>
-        My Reports</a>
+        My Sales Reports</a>
      </li>  
           <li>
             <button mat-raised-button (click)="logout()"> <mat-icon class="mat-19">settings_power</mat-icon>LogOut</button>
           </li>
-        </ul>
-  
-  
-        <mat-accordion fxHide fxShow.lt-sm>
-          <mat-expansion-panel>
-            <mat-expansion-panel-header>
-              <mat-panel-title>
-                <mat-icon aria-hidden="false" aria-label="Example home icon">menu</mat-icon>
-  
-              </mat-panel-title>
-  
-            </mat-expansion-panel-header>
-  
-            <mat-card >
-              <mat-nav-list>
-                <mat-list-item>
-                  <a matLine routerLink="/cashier" routerLinkActive="active"
-                    [routerLinkActiveOptions]="{exact: true}">Dashboard</a>
-                </mat-list-item>
-                
-                <mat-list-item>
-                  <a matLine routerLink="/cashier/categories" routerLinkActive="active"
-                    [routerLinkActiveOptions]="{exact: true}">Categories</a>
-                </mat-list-item>
-                <mat-list-item>
-                  <a matLine routerLink="/cashier/items" routerLinkActive="active"
-                    [routerLinkActiveOptions]="{exact: true}">Items</a>
-                </mat-list-item>
-                <mat-list-item>
-                    <a matLine routerLink="/cashier/checkin" routerLinkActive="active"
-                      [routerLinkActiveOptions]="{exact: true}">CheckIn</a>
-                  </mat-list-item>
-               
-                <mat-list-item>
-                  <button (click)="logout()">LogOut</button>
-                </mat-list-item>
-              </mat-nav-list>
-            </mat-card>
-          </mat-expansion-panel>
-        </mat-accordion>
-  
+        </ul> 
   
       </div>
       <div fxFlex="80" class="content-holder">

@@ -114,4 +114,9 @@ export class ItemsService {
   sendMail( mail: Mail) {
     return this.http.post(`${environment.baseUrl}/sendMail`, mail);
   }
+
+  // getExpiredProducts
+  getExpiredItems(userToken: UserToken) {
+    return this.http.post(`${environment.baseUrl}/ExpiredItems`, userToken);
+  }
 }

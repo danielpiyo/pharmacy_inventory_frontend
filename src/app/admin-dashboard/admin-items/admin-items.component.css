@@ -99,3 +99,7 @@
      -webkit-hyphens: auto;
      hyphens: auto;
    }
+
+   mat-form-field{
+     margin-right: 3%;
+   }

@@ -14,11 +14,15 @@
                     Category: {{data.category}} 
                     </mat-card-header> <br>
                     <mat-card-content>
-                        Product Name: {{data.name}}
+                        Medicine Name: {{data.name}}
                         <hr><br>
-                        Product Buying Price: {{data.item_buying_price}}
+                        Controlled: {{data.controlled_status}}
                         <hr> <br>
-                        Product Selling Price: {{data.item_price}}
+                        Buying Price: {{data.item_buying_price}}
+                        <hr> <br>
+                        Selling Price: {{data.item_price}}
+                        <hr> <br>
+                        Expiry Date: {{data.expire_date | date: 'dd/MM/yyyy'}}
                         <hr> <br>
                         <div *ngIf="data.discount_yn=='N'">
                             Discount Allowed: NO <hr> <br>
@@ -26,7 +30,9 @@
                         <div *ngIf="data.discount_yn=='Y'">
                                 Discount Allowed: YES <hr> <br>
                             </div>
-                        Product Quantity: {{data.quantity_from}}
+                        Stock Quantity: {{data.quantity_from}}
+                        <hr> <br>
+                        Supplier: {{data.suplier}}
                     </mat-card-content> 
                     <textarea name="" id="" cols="38" rows="5" readonly>{{data.description}}</textarea>
                 </mat-card>

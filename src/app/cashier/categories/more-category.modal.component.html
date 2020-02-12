@@ -3,7 +3,7 @@
     <div class="float-content panel-info" fxLayout="column">
         <div class="panel-heading" fxLayout="row">
             <div fxFlex="50">
-                <h4 class="panel-title">Items of Category</h4>
+                <h4 class="panel-title">List of Medicines for this Category</h4>
             </div>
             <div fxFlex="40">
                 <mat-form-field style="text-align: left;">
@@ -26,7 +26,7 @@
                 </ng-container>
 
                 <ng-container matColumnDef="ProductName">
-                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Product Name </th>
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Product </th>
                     <td mat-cell *matCellDef="let element"> {{element.name }} </td>
                 </ng-container>
 

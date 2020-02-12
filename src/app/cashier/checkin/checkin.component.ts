@@ -7,16 +7,16 @@ import { ItemsService, AlertService } from 'src/app/_service';
 import { AmountToAdd, TocheckIn } from 'src/app/_model/checkIn';
 
 export interface AllItems {
-  id: Number
-  category_id:Number
-  category: String
-  name: string
-  quantity: Number
-  price: Number,
-  description: String
-  createdBy: String
-  created_date: Date
-  
+  id: number;
+  category_id: number;
+  category: string;
+  name: string;
+  quantity: number;
+  price: number;
+  description: string;
+  createdBy: string;
+  created_date: Date;
+
 }
 
 @Component({
@@ -26,20 +26,20 @@ export interface AllItems {
 })
 export class CheckinComponent implements OnInit {
 
-  allItems:any;
+  allItems: any;
   userToken: any;
-  currentUser: User
-  public todoList:Array<any>;
-  public newTodoText:string = '';
+  currentUser: User;
+  public todoList: Array<any>;
+  public newTodoText = '';
 
   // items functionality
   allMyAssignedREquest: any;
-  
 
-  public displayedColumns = ['number','Category', 'Name','Quantity', 'Price','CheckIn']
+
+  public displayedColumns = ['number', 'Category', 'Name', 'Quantity', 'Price', 'CheckIn'];
 
 public dataSource = new MatTableDataSource<AllItems>();
-  
+
 
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
@@ -47,37 +47,37 @@ public dataSource = new MatTableDataSource<AllItems>();
 
 
   constructor(
-    private router: Router, 
-    public dialog: MatDialog,   
+    private router: Router,
+    public dialog: MatDialog,
     public itemService: ItemsService,
     private alertService: AlertService
-  ) { 
-    this.currentUser = JSON.parse(localStorage.getItem('currentUser'));    
+  ) {
+    this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
     this.userToken = JSON.parse(localStorage.getItem('currentToken'));
   }
 
   ngOnInit() {
-    this.getAllItems()
+    this.getAllItems();
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
-    setInterval(() => { 
-      this.getAllItems(); 
+    setInterval(() => {
+      this.getAllItems();
         }, 20000);
-  } 
+  }
 
 // get Items
-getAllItems(){
+getAllItems() {
   // console.log(this.userToken);
-  this.itemService.getAllItemsIn({token:this.userToken})
-  .subscribe((response)=>{
-    this.allItems = response
-    this.dataSource.data = this.allItems as AllItems[]; 
-     
-    }),
-    error =>{
+  this.itemService.getAllItemsIn({token: this.userToken})
+  .subscribe((response) => {
+    this.allItems = response;
+    this.dataSource.data = this.allItems as AllItems[];
+
+    },
+    error => {
       this.alertService.error(error.error.message, false);
-      console.log(error)
-    }
+      console.log(error);
+    });
 }
 
 applyFilter(filterValue: string) {
@@ -86,22 +86,25 @@ applyFilter(filterValue: string) {
 
 // check in
 
-checkinNow(item_id, category_id, quantity_from,item_price, name, category){
-  // console.log('selected',{item_id, category_id, quantity_from,item_price, name, category});  
+// tslint:disable-next-line: variable-name
+checkinNow(item_id, category_id, quantity_from, item_price, name, buying_price) {
+  // console.log('selected',{item_id, category_id, quantity_from,item_price, name, category});
+  // tslint:disable-next-line: no-use-before-declare
   this.dialog.open(CheckinModal, {
     data: {
-     category_id: category_id,
-     item_id: item_id,
-     quantity_from: quantity_from,     
-     item_price:item_price,
-     name: name
+     category_id,
+     item_id,
+     quantity_from,
+     item_price,
+     name,
+     buying_price
     }
   });
 }
 
 }
 
-// child component 
+// child component
 @Component({
   // tslint:disable-next-line: component-selector
   selector: 'checkin-modal',
@@ -119,47 +122,44 @@ export class CheckinModal {
     public dialogRef: MatDialogRef<CheckinModal>,
     private alertService: AlertService,
     private router: Router,
-    private itemService: ItemsService,     
+    private itemService: ItemsService,
     @Inject(MAT_DIALOG_DATA) public data: any) {
       this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
       this.currentToken = JSON.parse(localStorage.getItem('currentToken'));
   }
 
-  
   onNoClick(): void {
     this.dialogRef.close();
   }
 
-  submitCheckIn(){
+  submitCheckIn() {
     this.loading = true;
-    if(this.checkInModel.toadd == null){
+    if (this.checkInModel.toadd == null) {
       this.loading = false;
       this.alertService.error('The Items to checkIn can not be empty');
-    }
-    else if(this.checkInModel.toadd < 1){
+    } else if (this.checkInModel.toadd < 1) {
       this.loading = false;
       this.alertService.error('The Items to checkIn can not be less than one');
-    }
-   else{
+    } else {
     this.dataToCheckIn.category_id = this.data.category_id;
     this.dataToCheckIn.item_id = this.data.item_id;
     this.dataToCheckIn.item_price = this.data.item_price;
     this.dataToCheckIn.quantity_from = this.data.quantity_from;
     this.dataToCheckIn.quantity_to = this.data.quantity_from + this.checkInModel.toadd;
     this.dataToCheckIn.token = this.currentToken;
+    this.dataToCheckIn.buying_price = this.data.buying_price;
     // console.log('data ato checkin', this.dataToCheckIn);
     this.itemService.checkInItem(this.dataToCheckIn)
-    .subscribe((response)=>{
+    .subscribe((response) => {
       // console.log('responseCheckin', response);
       this.alertService.success(`You have Succesfully CheckedIn additional  ${this.checkInModel.toadd} item for ${this.data.name}`);
       this.onNoClick();
-      this.router.navigate(['/cashier/checkin']);      
+      this.router.navigate(['/cashier/checkin']);
     },
-    error=>{
+    error => {
       console.log(error);
       this.alertService.error(error.error.message, false);
-    })
+    });
    }
   }
-  
 }

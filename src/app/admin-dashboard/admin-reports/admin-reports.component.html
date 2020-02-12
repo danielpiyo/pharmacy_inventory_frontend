@@ -1,17 +1,54 @@
-<perfect-scrollbar style="width: 100%; height: 65vh;">
+<perfect-scrollbar style="width: 100%; height: 90vh;">
 
     <div fxLayout="row wrap">
 
         <div fxFlex="100" fxFlex.gt-sm="100" class="flex-p panel-info">
             <div fxLayoutAlign="left" class="panel-heading">
-                <button mat-raised-button color="primary" (click)="weeklyChart()">Weekly Report</button> ||
-                <button mat-raised-button color="primary" (click)="monthlyChart()">Monthly Report</button>||
-                <button mat-raised-button color="primary" (click)="productTable()">Product(InStore) Report</button> ||
-                <button mat-raised-button color="primary" (click)="logs()">Logs</button>
-                
+
+                <div fxLayout="row" fxLayout.lt-sm="column" class="dashboard-holder ">
+
+                    <div fxFlex="17.6" fxFlexOffset="2.5">
+                        <mat-card class="users" (click)="goToSummary()">
+                            Sales Summary
+                        </mat-card>
+                    </div>
+                    <div fxFlex="16.6" fxFlexOffset="2.5">
+                        <mat-card class="tt-equip" (click)="weeklyChart()">
+                            Weekly Sales
+                        </mat-card>
+                    </div>
+                    <div fxFlex="16.6" fxFlexOffset="2.5">
+                        <mat-card class="store" (click)="monthlyChart()">
+                            Monthly Sales
+                        </mat-card>
+                    </div>
+                    <div fxFlex="16.6" fxFlexOffset="2.5">
+                        <mat-card class="users" (click)="productTable()">
+                            Product Reports
+                        </mat-card>
+                    </div>
+                    <div fxFlex="16.6" fxFlexOffset="2.5">
+                        <mat-card class="tt-equip" (click)="logs()">
+                            Stock Logs
+                        </mat-card>
+                    </div>
+                    <div fxFlex="16.6" fxFlexOffset="2.5">
+                        <mat-card class="store" (click)="goToStockRunning()">
+                            Out of Stock
+                        </mat-card> 
+                    </div>
+                    <div fxFlex="16.6" fxFlexOffset="2.5">
+                        <mat-card class="store" (click)="goToIncomes()">
+                           Expences & Income
+                        </mat-card>
+                    </div>
+
+                </div>
+
             </div>
             <div class="w-100 h-200p" #resizedDiv>
                 <div fxFlex="100" class="international panel-info" *ngIf="state=='weekly'">
+                        <div class="panel-heading">Graphical Summary Report (Weekly)</div>
                     <ngx-charts-bar-vertical-2d [scheme]="colorScheme1" [results]="multi_salesWeekly"
                         [gradient]="gradient1" [xAxis]="showXAxis1" [yAxis]="showYAxis1" [legend]="showLegend1"
                         [showXAxisLabel]="showXAxisLabel1" [showYAxisLabel]="showYAxisLabel1" [xAxisLabel]="xAxisLabel1"
@@ -20,12 +57,33 @@
                 </div>
 
                 <div fxFlex="100" class="international panel-info" *ngIf="state=='monthly'">
+                    <div class="panel-heading">Graphical Summary Report (Monthly)</div>
                     <ngx-charts-area-chart [scheme]="colorScheme1" [results]="multi_salesMonthly" [gradient]="gradient1"
                         [xAxis]="showXAxis1" [yAxis]="showYAxis1" [legend]="showLegend1"
                         [showXAxisLabel]="showXAxisLabel1" [showYAxisLabel]="showYAxisLabel1" [xAxisLabel]="xAxisLabel1"
                         [yAxisLabel]="yAxisLabel1" (select)="onSelect($event)">
                     </ngx-charts-area-chart>
+                    
                 </div>
+
+                <!-- summery -->
+                <div fxFlex="100" class="international panel-info" *ngIf="state=='summary'">
+                    <div class="panel-heading">Monthly Sales Summary</div>
+                    <app-sales-summary></app-sales-summary>
+                    <div class="panel-heading"><h2></h2></div>
+                </div>
+                <!-- stock running out -->
+                <div fxFlex="100" class="international panel-info" *ngIf="state=='stockRunning'">
+                    <app-item-balance></app-item-balance>
+                    <div class="panel-heading"><h2></h2></div>
+                </div>
+
+                <!-- expences and Income -->
+                <div fxFlex="100" class="international panel-info" *ngIf="state=='income'">
+                    <app-admin-incomes></app-admin-incomes>
+                    <div class="panel-heading"><h2></h2></div>
+                </div>
+
                 <div fxFlex="100" class="international panel-info" *ngIf="state=='product'">
                     <!-- all items instore -->
 
@@ -34,16 +92,16 @@
                         <div class="float-content panel-info" fxLayout="column">
                             <div class="panel-heading" fxLayout="row">
                                 <div fxFlex="50">
-                                    <h4 class="panel-title">Items In Store</h4>
+                                    <h4 class="panel-title">Products In Store</h4>
                                 </div>
                                 <div fxFlex="20">
-                                  
+
                                 </div>
                                 <div fxFlex="30">
-                                        <mat-form-field style="text-align: left;">
-                                                <input matInput (keyup)="applyFilter($event.target.value)"
-                                                    placeholder="Search Here">
-                                            </mat-form-field>
+                                    <mat-form-field style="text-align: left;">
+                                        <input matInput (keyup)="applyFilter($event.target.value)"
+                                            placeholder="Search Here">
+                                    </mat-form-field>
                                 </div>
                             </div>
 
@@ -61,13 +119,13 @@
                                     </ng-container>
 
                                     <ng-container matColumnDef="name">
-                                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Product Name </th>
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Product </th>
                                         <td mat-cell *matCellDef="let element"> {{element.name }} </td>
                                     </ng-container>
 
 
                                     <ng-container matColumnDef="quantity">
-                                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Quantity</th>
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Stock Balance</th>
                                         <td mat-cell *matCellDef="let element"> {{element.quantity}} </td>
                                     </ng-container>
 
@@ -82,7 +140,7 @@
                                     </ng-container>
 
                                     <ng-container matColumnDef="purchase_cost">
-                                        <th mat-header-cell *matHeaderCellDef>Purchase Cost</th>
+                                        <th mat-header-cell *matHeaderCellDef>Total Cost</th>
                                         <td mat-cell *matCellDef="let element"> {{element.purchase_cost }} </td>
                                     </ng-container>
 
@@ -107,131 +165,128 @@
 
                 </div>
 
-            <!-- logs -->
-            <div fxFlex="100" class="international panel-info" *ngIf="state=='logs'">
+                <!-- logs -->
+                <div fxFlex="100" class="international panel-info" *ngIf="state=='logs'">
 
-                <div class="admin-child-container">
+                    <div class="admin-child-container">
 
-                    <div class="float-content panel-info" fxLayout="column">
-                        <div class="panel-heading" fxLayout="row">
-                            <div fxFlex="50">
-                                <h4 class="panel-title">All Logs</h4>
-                            </div>
-                            <div fxFlex="20">
-                                
-                            </div>
-                            <div fxFlex="30">
+                        <div class="float-content panel-info" fxLayout="column">
+                            <div class="panel-heading" fxLayout="row">
+                                <div fxFlex="50">
+                                    <h4 class="panel-title">All Logs</h4>
+                                </div>
+                                <div fxFlex="20">
+
+                                </div>
+                                <div fxFlex="30">
                                     <mat-form-field style="text-align: left;">
-                                            <input matInput (keyup)="applyFilter($event.target.value)"
-                                                placeholder="Search Here">
-                                        </mat-form-field>
+                                        <input matInput (keyup)="applyFilter($event.target.value)"
+                                            placeholder="Search Here">
+                                    </mat-form-field>
+                                </div>
                             </div>
+
+                            <ng-scrollbar>
+
+                                <table mat-table [dataSource]="dataSourceLogs" matSort>
+                                    <ng-container matColumnDef="number">
+                                        <th mat-header-cell *matHeaderCellDef> No </th>
+                                        <td mat-cell *matCellDef="let element; let pager = index;"> {{pager + 1}} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="Type">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Transaction Type </th>
+                                        <td mat-cell *matCellDef="let element"> {{element.log_name}} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="Item">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Product</th>
+                                        <td mat-cell *matCellDef="let element"> {{element.item }} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="From">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header> From</th>
+                                        <td mat-cell *matCellDef="let element">
+                                            <div *ngIf="element.log_name=='Check Out'">
+                                                {{element.quantity_from}}
+                                            </div>
+                                            <div *ngIf="element.log_name=='Check In'">
+                                                {{element.quantity_from}}
+                                            </div>
+                                            <div *ngIf="element.log_name=='Price Changed'">
+                                                {{element.price_from}}
+                                            </div>
+                                        </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="To">
+                                        <th mat-header-cell *matHeaderCellDef>To </th>
+                                        <td mat-cell *matCellDef="let element">
+                                            <div *ngIf="element.log_name=='Check Out'">
+                                                {{element.quantity_to}}
+                                            </div>
+                                            <div *ngIf="element.log_name=='Check In'">
+                                                {{element.quantity_to}}
+                                            </div>
+                                            <div *ngIf="element.log_name=='Price Changed'">
+                                                {{element.price_to}}
+                                            </div>
+                                        </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="Value">
+                                        <th mat-header-cell *matHeaderCellDef>Value </th>
+                                        <td mat-cell *matCellDef="let element">
+                                            <div *ngIf="element.log_name=='Check Out'">
+                                                {{element.sold_amount}}
+                                            </div>
+                                            <div *ngIf="element.log_name=='Check In'">
+                                                {{element.value_added_items}}
+                                            </div>
+                                            <div *ngIf="element.log_name=='Price Changed'">
+                                                0
+                                            </div>
+                                        </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="User">
+                                        <th mat-header-cell *matHeaderCellDef>User</th>
+                                        <td mat-cell *matCellDef="let element"> {{element.user }} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="Date">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Date </th>
+                                        <td mat-cell *matCellDef="let element">
+                                            {{element.created_date | date: 'dd/MM/yyyy, h:m a' }} </td>
+                                    </ng-container>
+
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumnsLogs"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumnsLogs;"></tr>
+
+                                </table>
+                                <!-- <mat-paginator [pageSizeOptions]="[5, 10, 15]" showFirstLastButtons></mat-paginator> -->
+                            </ng-scrollbar>
+
+
                         </div>
 
-                        <ng-scrollbar>
-
-                            <table mat-table [dataSource]="dataSourceLogs" matSort>
-                                <ng-container matColumnDef="number">
-                                    <th mat-header-cell *matHeaderCellDef> No </th>
-                                    <td mat-cell *matCellDef="let element; let pager = index;"> {{pager + 1}} </td>
-                                </ng-container>
-                                
-                                <ng-container matColumnDef="Type">
-                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Log Type </th>
-                                    <td mat-cell *matCellDef="let element"> {{element.log_name}} </td>
-                                </ng-container>
-                                
-                                <ng-container matColumnDef="Item">
-                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Item Name </th>
-                                    <td mat-cell *matCellDef="let element"> {{element.item }} </td>
-                                </ng-container>
-
-
-                                <ng-container matColumnDef="From">
-                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> From</th>
-                                    <td mat-cell *matCellDef="let element">
-                                        <div *ngIf="element.log_name=='Check Out'">
-                                            {{element.quantity_from}}
-                                        </div>
-                                        <div *ngIf="element.log_name=='Check In'">
-                                                {{element.quantity_from}}
-                                        </div>
-                                        <div *ngIf="element.log_name=='Price Changed'">
-                                                {{element.price_from}}
-                                        </div>
-                                    </td>
-                                </ng-container>
-
-                                <ng-container matColumnDef="To">
-                                    <th mat-header-cell *matHeaderCellDef>To </th>
-                                    <td mat-cell *matCellDef="let element"> 
-                                            <div *ngIf="element.log_name=='Check Out'">
-                                                    {{element.quantity_to}}
-                                                </div>
-                                                <div *ngIf="element.log_name=='Check In'">
-                                                        {{element.quantity_to}}
-                                                </div>
-                                                <div *ngIf="element.log_name=='Price Changed'">
-                                                        {{element.price_to}}
-                                                </div>    
-                                    </td>
-                                </ng-container>
-
-                                <ng-container matColumnDef="Value">
-                                    <th mat-header-cell *matHeaderCellDef>Value </th>
-                                    <td mat-cell *matCellDef="let element">
-                                            <div *ngIf="element.log_name=='Check Out'">
-                                                    {{element.sold_amount}}
-                                                </div>
-                                                <div *ngIf="element.log_name=='Check In'">
-                                                        {{element.value_added_items}}
-                                                </div>
-                                                <div *ngIf="element.log_name=='Price Changed'">
-                                                        0
-                                                </div>  
-                                    </td>
-                                </ng-container>
-
-                                <ng-container matColumnDef="User">
-                                    <th mat-header-cell *matHeaderCellDef>User</th>
-                                    <td mat-cell *matCellDef="let element"> {{element.user }} </td>
-                                </ng-container>
-
-                                <ng-container matColumnDef="Date">
-                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Date </th>
-                                    <td mat-cell *matCellDef="let element"> {{element.created_date | date: 'dd/MM/yyyy, h:m a' }} </td>
-                                </ng-container>
-
-                                <tr mat-header-row *matHeaderRowDef="displayedColumnsLogs"></tr>
-                                <tr mat-row *matRowDef="let row; columns: displayedColumnsLogs;"></tr>
-
-                            </table>
-                            <!-- <mat-paginator [pageSizeOptions]="[5, 10, 15]" showFirstLastButtons></mat-paginator> -->
-                        </ng-scrollbar>
-
+                        <hr>
 
                     </div>
-
-                    <hr>
-
                 </div>
-            </div>
 
             </div>
 
         </div>
     </div>
-    <hr>
-    <div>
-        <mat-paginator [pageSizeOptions]="[5, 10, 15]" showFirstLastButtons></mat-paginator>
-    </div>
+   
     <!-- lower section weekly -->
     <div fxLayout="row wrap" *ngIf="state=='weekly'">
         <div fxFlex="100" fxFlex.gt-sm="79" class="flex-p panel-info">
             <div fxLayoutAlign="left" class="panel-heading">
-                <h3>Weekly Products Sale's Statistics</h3>
+                <h3>Weekly Sales Report</h3>
             </div>
-            <div class="w-100 h-200p" #resizedDiv>              
+            <div class="w-100 h-200p" #resizedDiv>
 
                 <div style="text-align: right; background-color: rgb(204, 227, 241);">
                     <mat-form-field>
@@ -250,40 +305,39 @@
                                 <td mat-cell *matCellDef="let element; let pager = index;"> {{pager + 1}}. </td>
                             </ng-container>
                             <!--  
-                    <ng-container matColumnDef="Category">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="mymat-header"> Category Name</th>
-                        <td mat-cell *matCellDef="let element"> {{element.category}} </td>
-                    </ng-container> -->
+                        <ng-container matColumnDef="Category">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="mymat-header"> Category Name</th>
+                            <td mat-cell *matCellDef="let element"> {{element.category}} </td>
+                        </ng-container> -->
 
                             <ng-container matColumnDef="Item">
-                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="mymat-header"> Product Name
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="mymat-header"> Product
                                 </th>
                                 <td mat-cell *matCellDef="let element"> {{element.item}} </td>
                             </ng-container>
 
                             <ng-container matColumnDef="createdBy">
-                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="mymat-header"> User Name
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="mymat-header"> SoldBy
                                 </th>
                                 <td mat-cell *matCellDef="let element"> {{element.createdBy}} </td>
                             </ng-container>
                             <ng-container matColumnDef="initialItemsNumber">
-                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="mymat-header"> Qty.Before
-                                    Sale </th>
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="mymat-header"> Stck.Before
+                                </th>
                                 <td mat-cell *matCellDef="let element"> {{element.initialItemsNumber}} </td>
                             </ng-container>
                             <ng-container matColumnDef="finalItemsNumber">
-                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="mymat-header"> Qty.After
-                                    Sale </th>
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="mymat-header"> Stck.After
+                                </th>
                                 <td mat-cell *matCellDef="let element"> {{element.finalItemsNumber}} </td>
                             </ng-container>
                             <ng-container matColumnDef="created_date">
-                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="mymat-header"> Time of
-                                    Selling</th>
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="mymat-header"> Time</th>
                                 <td mat-cell *matCellDef="let element"> {{element.created_date | date: 'dd , h:mm a'}}
                                 </td>
                             </ng-container>
                             <ng-container matColumnDef="Total">
-                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="mymat-header"> Amount Sold
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="mymat-header"> Total Sold
                                 </th>
                                 <td mat-cell *matCellDef="let element"> {{element.amountSOld }} </td>
                             </ng-container>
@@ -320,7 +374,7 @@
     <div fxLayout="row wrap" *ngIf="state=='monthly'">
         <div fxFlex="100" fxFlex.gt-sm="79" class="flex-p panel-info">
             <div fxLayoutAlign="left" class="panel-heading">
-                <h3>Monthly Products Sale's Statistics</h3>
+                <h3>Monthly Sales Reports</h3>
             </div>
             <div class="w-100 h-200p" #resizedDiv>
                 <div style="text-align: right; background-color: rgb(204, 227, 241);">
@@ -341,39 +395,38 @@
                             </ng-container>
 
                             <!-- <ng-container matColumnDef="Category">
-                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="mymat-header"> Category Name</th>
-                            <td mat-cell *matCellDef="let element"> {{element.category}} </td>
-                        </ng-container> -->
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="mymat-header"> Category Name</th>
+                                <td mat-cell *matCellDef="let element"> {{element.category}} </td>
+                            </ng-container> -->
 
                             <ng-container matColumnDef="Item">
-                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="mymat-header"> Product Name
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="mymat-header"> Product
                                 </th>
                                 <td mat-cell *matCellDef="let element"> {{element.item}} </td>
                             </ng-container>
 
                             <ng-container matColumnDef="createdBy">
-                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="mymat-header"> User Name
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="mymat-header"> SoldBy
                                 </th>
                                 <td mat-cell *matCellDef="let element"> {{element.createdBy}} </td>
                             </ng-container>
                             <ng-container matColumnDef="initialItemsNumber">
                                 <th mat-header-cell *matHeaderCellDef mat-sort-header class="mymat-header"> Qty.Before
-                                    Sale </th>
+                                </th>
                                 <td mat-cell *matCellDef="let element"> {{element.initialItemsNumber}} </td>
                             </ng-container>
                             <ng-container matColumnDef="finalItemsNumber">
                                 <th mat-header-cell *matHeaderCellDef mat-sort-header class="mymat-header"> Qty.After
-                                    Sale </th>
+                                </th>
                                 <td mat-cell *matCellDef="let element"> {{element.finalItemsNumber}} </td>
                             </ng-container>
                             <ng-container matColumnDef="created_date">
-                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="mymat-header"> Time of
-                                    Sellng</th>
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="mymat-header"> Time</th>
                                 <td mat-cell *matCellDef="let element"> {{element.created_date | date: 'dd , h:mm a'}}
                                 </td>
                             </ng-container>
                             <ng-container matColumnDef="Total">
-                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="mymat-header"> Amount Sold
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="mymat-header"> Total Sold
                                 </th>
                                 <td mat-cell *matCellDef="let element"> {{element.amountSOld }} </td>
                             </ng-container>
@@ -405,4 +458,10 @@
 
         </div>
     </div>
+
 </perfect-scrollbar>
+
+<hr>
+<div>
+    <mat-paginator [pageSizeOptions]="[5, 10, 15]" showFirstLastButtons></mat-paginator>
+</div>

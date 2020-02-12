@@ -7,6 +7,7 @@
             <button (click)="onNoClick()" mat-raised-button color="warn" > <mat-icon class="mat-18">clear</mat-icon></button>
         </div>
     </div>
+    <perfect-scrollbar style="width: 100%; height: 60vh;">
     <mat-card>
         <div class="opportunity-container">
             <mat-card class="panel panel-info">
@@ -14,22 +15,29 @@
                     Category: {{data.category}}
                 </mat-card-header> <br>
                 <mat-card-content>
-                    Product Name: {{data.name}}
-                    <hr> <br>
-                    Product Price: {{data.item_price}}
-                    <hr> <br>
-                    <div *ngIf="data.discount_yn=='N'">
-                        Discount Allowed: NO
+                        Medicine Name: {{data.name}}
+                        <hr><br>
+                        Controlled: {{data.controlled_status}}
                         <hr> <br>
-                    </div>
-                    <div *ngIf="data.discount_yn=='Y'">
-                        Discount Allowed: YES
+                        Buying Price: {{data.item_buying_price}}
                         <hr> <br>
-                    </div>
-                    Product Quantity: {{data.quantity_from}}
-                </mat-card-content>
+                        Selling Price: {{data.item_price}}
+                        <hr> <br>
+                        Expiry Date: {{data.expire_date | date: 'dd/MM/yyyy'}}
+                        <hr> <br>
+                        <div *ngIf="data.discount_yn=='N'">
+                            Discount Allowed: NO <hr> <br>
+                        </div>
+                        <div *ngIf="data.discount_yn=='Y'">
+                                Discount Allowed: YES <hr> <br>
+                            </div>
+                        Stock Quantity: {{data.quantity_from}}
+                        <hr> <br>
+                        Supplier: {{data.suplier}}
+                    </mat-card-content> 
                 <textarea name="" id="" cols="38" rows="5" readonly>{{data.description}}</textarea>
             </mat-card>
         </div>
     </mat-card>
+</perfect-scrollbar>
 </div>

@@ -34,10 +34,13 @@ export class ItemBalanceComponent implements OnInit {
         this.available = 'no';
         console.log(error);
       });
+ 
   }
 
+  
+
   viewMore() {
-    this.dialog.open(MoreItemModal, { width: '90%' });
+    this.dialog.open(MoreItemModal, { width: '95%' });
   }
 
 }

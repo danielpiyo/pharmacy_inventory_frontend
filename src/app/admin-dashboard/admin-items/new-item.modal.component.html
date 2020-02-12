@@ -21,20 +21,27 @@
             <mat-form-field appearance="outline">
                 <mat-label>Product Name</mat-label>
                 <input matInput name="name" [(ngModel)]="newItemModel.name">
-            </mat-form-field> <br>
+            </mat-form-field> 
             <mat-form-field appearance="outline">
                 <mat-label>Quantity</mat-label>
                 <input matInput type="number" name="quantity" [(ngModel)]="newItemModel.quantity" readonly/>
-            </mat-form-field>
+            </mat-form-field> 
 
             <mat-form-field appearance="outline">
                 <mat-label>Buying Price</mat-label>
                 <input type="number" matInput name="buying_price" [(ngModel)]="newItemModel.buying_price">
-            </mat-form-field>
-            <br>
+            </mat-form-field> <br>
+            
             <mat-form-field appearance="outline">
                 <mat-label>Selling Price</mat-label>
                 <input type="number" matInput name="price" [(ngModel)]="newItemModel.price">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+                    <mat-label>Expiry date</mat-label>
+                    <input matInput [matDatepicker]="picker" name="expire_date" [(ngModel)]="expireDateModel.expire_date">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
             </mat-form-field>
 
             <mat-form-field appearance="outline">
@@ -43,8 +50,20 @@
                         <mat-option value='N'>NO</mat-option>
                         <mat-option value='Y'>YES</mat-option>
                     </mat-select>
-                </mat-form-field><br>
-                
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Controlled</mat-label>
+                    <mat-select placeholder="Select" [(ngModel)]="newItemModel.contolled_status" name="contolled_status">
+                        <mat-option value='Controlled'>YES</mat-option>
+                        <mat-option value='Uncontrolled'>NO</mat-option>
+                    </mat-select>
+                </mat-form-field> <br>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Supplier</mat-label>
+                    <input type="text" matInput name="suplier" [(ngModel)]="newItemModel.suplier">                   
+                </mat-form-field>
                     
             <mat-form-field appearance="outline">
                 <mat-label>Description</mat-label>
@@ -52,7 +71,7 @@
             </mat-form-field>            
                 
             <hr>
-            <p style="color: red;"><Strong>N/B:</Strong><i>One Quantity of This item will be CheckedIn by default. <br> Please Add the rest through CheckIn</i></p>
+            <!-- <p style="color: red;"><Strong>N/B:</Strong><i>One Quantity of This item will be CheckedIn by default. <br> Please Add the rest through CheckIn</i></p> -->
             <mat-card mat-dialog-actions>
                 <button mat-button color="warn" (click)="onNoClick()">CANCEL</button>
                 <button mat-button color="primary" (click)="addNewItem()">SUBMIT</button>

@@ -1,27 +1,29 @@
-import { Component, OnInit, ViewChild, Inject } from '@angular/core';
+import { Component, OnInit, ViewChild, Inject, OnDestroy } from '@angular/core';
 import { User } from 'src/app/_model/user';
 import { MatTableDataSource, MatSort, MatPaginator, MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Router } from '@angular/router';
 import { ItemsService, AlertService, CategoriesService } from 'src/app/_service';
 import { TocheckIn, AmountToAdd } from 'src/app/_model/checkIn';
-import { NewItem, EditItem } from 'src/app/_model/itemNew.model';
+import { NewItem, EditItem, Expirydate } from 'src/app/_model/itemNew.model';
 import { ItemAndCategoryToDelete } from 'src/app/_model/item.model';
 import { Subscription} from 'rxjs';
 
 
 export interface AllItems {
-  id: Number
-  category_id:Number
-  category: String
-  name: string
-  quantity: Number
+  id: Number;
+  category_id: Number;
+  category: String;
+  name: string;
+  quantity: Number;
   buying_price: Number;
-  price: Number
-  description: String
-  createdBy: String
-  created_date: Date
-  discount_yn:String
-  
+  price: Number;
+  description: String;
+  createdBy: String;
+  created_date: Date;
+  discount_yn: String;
+  contolled_status: string;
+  suplier: string;
+
 }
 
 @Component({
@@ -32,19 +34,20 @@ export interface AllItems {
 export class AdminItemsComponent implements OnInit {
 
   itemsSubscription: Subscription;
-  interval:any;
-  allItems:any;
+  interval: any;
+  allItems: any;
   userToken: any;
-  currentUser: User
-  public todoList:Array<any>;
-  public newTodoText:string = '';
- 
-  
+  currentUser: User;
+  public todoList: Array<any>;
+  public newTodoText = '';
 
-  public displayedColumns = ['number','Category', 'Name','Quantity', 'Buying_Price', 'Price','details', 'edit', 'delete']
+
+
+  public displayedColumns = ['number', 'Category', 'Name', 'controlled', 'Quantity',
+                             'Buying_Price', 'Price', 'suplier', 'details', 'edit', 'delete'];
 
 public dataSource = new MatTableDataSource<AllItems>();
-  
+
 
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
@@ -52,36 +55,36 @@ public dataSource = new MatTableDataSource<AllItems>();
 
 
   constructor(
-    private router: Router,   
-    public dialog: MatDialog,  
+    private router: Router,
+    public dialog: MatDialog,
     public itemService: ItemsService,
     private alertService: AlertService
-  ) { 
-    this.currentUser = JSON.parse(localStorage.getItem('currentUser'));    
+  ) {
+    this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
     this.userToken = JSON.parse(localStorage.getItem('currentToken'));
   }
 
   ngOnInit() {
-    this.getAllItems()
-    this.interval = setInterval(() => { 
-      this.getAllItems(); 
+    this.getAllItems();
+    this.interval = setInterval(() => {
+      this.getAllItems();
         }, 20000);
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
   }
 
 // get Items
-getAllItems(){  
- this.itemsSubscription= this.itemService.getAllItemsIn({token:this.userToken})
-  .subscribe((response)=>{
-    this.allItems = response
-    this.dataSource.data = this.allItems as AllItems[]; 
-     
-    }),
-    error =>{
+getAllItems() {
+ this.itemsSubscription = this.itemService.getAllItemsIn({token: this.userToken})
+  .subscribe((response) => {
+    this.allItems = response;
+    this.dataSource.data = this.allItems as AllItems[];
+
+    },  error => {
       this.alertService.error(error.error.message, false);
-      console.log(error)
-    }
+      console.log(error);
+    });
+
 }
 
 applyFilter(filterValue: string) {
@@ -89,62 +92,74 @@ applyFilter(filterValue: string) {
 }
 
 // check out
-getDetails(item_id, category_id, quantity_from, item_buying_price,item_price, name, category, description, createdBy, created_date,discount_yn){
+// tslint:disable-next-line: variable-name
+getDetails(item_id, category_id, quantity_from, item_buying_price, item_price,
+           name, category, description, createdBy, created_date, discount_yn, suplier, controlled_status, expire_date) {
   // console.log('selected',{item_id, category_id, quantity_from,item_price, name, category});
+  // tslint:disable-next-line: no-use-before-declare
   this.dialog.open(AdminDetailsModal, {
     data: {
-     category_id: category_id,
-     item_id: item_id,
-     quantity_from: quantity_from,
-     item_buying_price:item_buying_price,     
-     item_price:item_price,
-     name: name,
-     category: category,
-     description: description,
-     createdBy:createdBy,
-     created_date: created_date,
-     discount_yn:discount_yn
+     category_id,
+     item_id,
+     quantity_from,
+     item_buying_price,
+     item_price,
+     name,
+     category,
+     description,
+     createdBy,
+     created_date,
+     discount_yn,
+     suplier,
+     controlled_status,
+     expire_date
     }
   });
 }
 
-addNew(){
-  this.dialog.open(NewItemModal) 
+addNew() {
+  // tslint:disable-next-line: no-use-before-declare
+  this.dialog.open(NewItemModal, {width: '80%'});
 }
 
-deleteNow(id, name){
-  this.dialog.open(AdminDeleteItemModal,{
-    data:{
-      id: id,
-      name: name
+deleteNow(id, name) {
+  // tslint:disable-next-line: no-use-before-declare
+  this.dialog.open(AdminDeleteItemModal, {
+    data: {
+      id,
+      name
     }
-  })
+  });
 }
 
-editNow(id, category_id, quantity,buying_price, price, category, name, description,discount_yn){
+// tslint:disable-next-line: variable-name
+editNow(id, category_id, quantity, buying_price, price, category, name, description, discount_yn) {
+  // tslint:disable-next-line: no-use-before-declare
   this.dialog.open(AdminEditDetailsModal, {
     data: {
-     category_id: category_id,
+     category_id,
      category_id_from: category_id,
      item_id: id,
      quantity_to: quantity,
-     quantity_from:quantity,     
-     price:price,
-     item_name_from: name,   
+     quantity_from: quantity,
+     price,
+     item_name_from: name,
      item_name_to: name,
-     category: category,  
+     category,
      description_from: description,
      description_to: description,
      buying_price_from: buying_price,
      buying_price_to: buying_price,
-     discount_yn_before:discount_yn,
+     discount_yn_before: discount_yn,
      discount_yn_after: discount_yn
-   
+
     }
   });
 }
-ngonDestroy(){
-  if(this.itemsSubscription){
+
+// tslint:disable-next-line: use-lifecycle-interface
+ngOnDestroy() {
+  if (this.itemsSubscription) {
     this.itemsSubscription.unsubscribe();
   }
 }
@@ -166,7 +181,7 @@ export class AdminDetailsModal {
   currentToken: any;
 
   constructor(
-    public dialogRef: MatDialogRef<AdminDetailsModal>,  
+    public dialogRef: MatDialogRef<AdminDetailsModal>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
       this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
       this.currentToken = JSON.parse(localStorage.getItem('currentToken'));
@@ -185,24 +200,29 @@ export class AdminDetailsModal {
   // tslint:disable-next-line: component-selector
   selector: 'new-item-modal',
   templateUrl: 'new-item.modal.component.html',
+  styleUrls: ['./admin-items.component.css']
 })
 // tslint:disable-next-line: component-class-suffix
 export class NewItemModal {
   loading = false;
   allCategories: any;
-  newItemModel: NewItem = new NewItem()
+  newItemModel: NewItem = new NewItem();
+  expireDateModel: Expirydate  = new Expirydate();
   dataToCheckIn: TocheckIn = new TocheckIn();
   checkInModel: AmountToAdd = new AmountToAdd();
   currentUser: User;
   currentToken: any;
   categorySubscription: Subscription;
+  exYear: any;
+  exDay: any;
+  exMonth: any;
 
   constructor(
     public dialogRef: MatDialogRef<NewItemModal>,
     private alertService: AlertService,
     private router: Router,
     private itemService: ItemsService,
-    private categoryServices:CategoriesService,     
+    private categoryServices: CategoriesService,
     @Inject(MAT_DIALOG_DATA) public data: any) {
       this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
       this.currentToken = JSON.parse(localStorage.getItem('currentToken'));
@@ -214,35 +234,40 @@ export class NewItemModal {
     this.dialogRef.close();
   }
 
-getCategories(){
- this.categorySubscription= this.categoryServices.getAllCategories({token:this.currentToken})
-  .subscribe((response)=>{
-    this.allCategories = response
+getCategories() {
+ this.categorySubscription = this.categoryServices.getAllCategories({token: this.currentToken})
+  .subscribe((response) => {
+    this.allCategories = response;
     // console.log('categories', this.allCategories)
-  },error=>{
+  }, error => {
     this.alertService.error(error.error.message, false);
     console.log(error);
-  })
+  });
 }
 
-addNewItem(){
+addNewItem() {
   this.loading = true;
   this.newItemModel.token = this.currentToken;
-  // console.log('NewItem', this.newItemModel);
+  this.exYear =  this.expireDateModel.expire_date.getFullYear();
+  this.exDay = this.expireDateModel.expire_date.getDay();
+  this.exMonth = this.expireDateModel.expire_date.getMonth();
+  this.newItemModel.expire_date = this.exYear + '-' + this.exMonth + '-' + this.exDay;
+  console.log('NewItem', this.newItemModel);
   this.itemService.addNewItem(this.newItemModel)
-  .subscribe(()=>{
+  .subscribe(() => {
     this.loading = false;
-    this.alertService.success(`You have succesfuly Added Item: ${this.newItemModel.name}`,false );
+    this.alertService.success(`You have succesfuly Added Product: ${this.newItemModel.name}`, false );
     this.onNoClick();
-    this.router.navigate(['/admin/items'])
-  },error=>{
+    this.router.navigate(['/admin/items']);
+  }, error => {
+    console.log(error);
     this.loading = false;
     this.alertService.error(error.error.message, false);
-    })
+    });
 }
-  
-ngonDestroy(){
-  if(this.categorySubscription){
+
+ngonDestroy() {
+  if (this.categorySubscription) {
     this.categorySubscription.unsubscribe();
   }
 }
@@ -262,8 +287,8 @@ export class AdminEditDetailsModal {
   checkInModel: AmountToAdd = new AmountToAdd();
   currentUser: User;
   currentToken: any;
-  allCategories:any;
-  editItemModel: EditItem = new EditItem()
+  allCategories: any;
+  editItemModel: EditItem = new EditItem();
   loading = false;
   categorySubscription: Subscription;
   updateItemSubscription: Subscription;
@@ -272,8 +297,8 @@ export class AdminEditDetailsModal {
     public dialogRef: MatDialogRef<AdminEditDetailsModal>,
     private alertService: AlertService,
     private router: Router,
-    private itemService: ItemsService,  
-    private categoryServices:CategoriesService,      
+    private itemService: ItemsService,
+    private categoryServices: CategoriesService,
     @Inject(MAT_DIALOG_DATA) public data: any) {
       this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
       this.currentToken = JSON.parse(localStorage.getItem('currentToken'));
@@ -283,42 +308,42 @@ export class AdminEditDetailsModal {
   onNoClick(): void {
     this.dialogRef.close();
   }
-  getCategories(){
-   this.categorySubscription= this.categoryServices.getAllCategories({token:this.currentToken})
-    .subscribe((response)=>{
-      this.allCategories = response     
-    },error=>{
+  getCategories() {
+   this.categorySubscription = this.categoryServices.getAllCategories({token: this.currentToken})
+    .subscribe((response) => {
+      this.allCategories = response;
+    }, error => {
       this.alertService.error(error.error.message, false);
       console.log(error);
-    })
+    });
   }
 
-  updateItem(){
-    this.loading = true;    
-    this.editItemModel = this.data;  
-    this.editItemModel.token = this.currentToken;   ;
-  this.updateItemSubscription=  this.itemService.editItem(this.editItemModel)
-    .subscribe(()=>{
+  updateItem() {
+    this.loading = true;
+    this.editItemModel = this.data;
+    this.editItemModel.token = this.currentToken;
+    this.updateItemSubscription =  this.itemService.editItem(this.editItemModel)
+    .subscribe(() => {
       this.loading = false;
       // console.log(response);
       this.alertService.success(`You have succesfully updated ${this.editItemModel.item_name_from}`, false);
-      this.onNoClick()
-      this.router.navigate(['/admin/items'])
+      this.onNoClick();
+      this.router.navigate(['/admin/items']);
     },
-    error=>{
+    error => {
       this.loading = false;
       this.alertService.error(error.error.message, false);
       console.log(error);
-    })
+    });
   }
 
-  ngonDestroy(){
-    if(this.categorySubscription||this.updateItemSubscription){
+  ngonDestroy() {
+    if (this.categorySubscription || this.updateItemSubscription) {
       this.categorySubscription.unsubscribe();
       this.updateItemSubscription.unsubscribe();
     }
   }
-  
+
 }
 
 
@@ -329,45 +354,45 @@ export class AdminEditDetailsModal {
   templateUrl: 'admin-delete-details.modal.component.html',
 })
 // tslint:disable-next-line: component-class-suffix
-export class AdminDeleteItemModal {  
-  
+export class AdminDeleteItemModal {
+
   currentToken: any;
   itemTodetete: ItemAndCategoryToDelete = new ItemAndCategoryToDelete();
   loading = false;
-  
+
 
   constructor(
     public dialogRef: MatDialogRef<AdminDeleteItemModal>,
     private alertService: AlertService,
     private router: Router,
-    private itemService: ItemsService,  
-    private categoryServices:CategoriesService,      
-    @Inject(MAT_DIALOG_DATA) public data: any) {     
+    private itemService: ItemsService,
+    private categoryServices: CategoriesService,
+    @Inject(MAT_DIALOG_DATA) public data: any) {
       this.currentToken = JSON.parse(localStorage.getItem('currentToken'));
-      
+
   }
 
   onNoClick(): void {
     this.dialogRef.close();
   }
 
-  deleteNow(){
-    this.loading= true;
+  deleteNow() {
+    this.loading = true;
     this.itemTodetete.id = this.data.id;
-    this.itemTodetete.token = this.currentToken;    
+    this.itemTodetete.token = this.currentToken;
     this.itemService.deleteItem(this.itemTodetete)
-    .subscribe((res)=>{
-      this.loading =false;
+    .subscribe((res) => {
+      this.loading = false;
       this.alertService.success(`You have succesfuly deleted: ${name}`);
       this.onNoClick();
-      this.router.navigate(['/admin/items'])
+      this.router.navigate(['/admin/items']);
     },
-    error=>{
+    error => {
       this.loading = false;
       this.alertService.error(`${error.error.message} when deleting ${name}`);
     });
-  
+
   }
 
-  
+
 }

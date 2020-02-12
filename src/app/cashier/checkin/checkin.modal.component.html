@@ -1,7 +1,7 @@
 <div class="panel panel-info">
     <div class="panel-heading">
         <div>
-            CheckIn {{data.name}}
+            Stock in Product {{data.name}}
         </div>       
        <div style="text-align: right;">
         <button (click)="onNoClick()" mat-raised-button color="warn" > <mat-icon class="mat-18">clear</mat-icon></button>
@@ -17,7 +17,7 @@
                 <input matInput  name="name" [(ngModel)]="data.name" readonly>
             </mat-form-field>
             <mat-form-field appearance="outline">
-                <mat-label>Current Quantity</mat-label>
+                <mat-label>Current Stock</mat-label>
                 <input matInput name="quantity_from" [(ngModel)]="data.quantity_from" readonly>
             </mat-form-field>
 

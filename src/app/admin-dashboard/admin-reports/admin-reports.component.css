@@ -111,3 +111,36 @@
    .mymat-header{
        font-weight: bold;
    }
+
+   /* report dashboard */
+   .users{
+    height: 5vh !important;
+    background-color: #42A5F5;
+    color: white
+}
+.tt-equip{
+    height: 5vh !important;
+    background-color: rgb(70, 60, 219);
+    color: white
+}
+.store{
+    height: 5vh !important;
+    background-color: rgb(236, 149, 78);
+    color: white
+}
+.repair{
+    height: 5vh !important;
+    background-color: rgb(91, 216, 98);
+    color: white
+}
+.damaged{
+    height: 5vh !important;
+    background-color: rgb(236, 110, 93);
+    color: white
+}
+.international {
+  height: 50vh;
+}
+table {
+  width: 100%;
+}
