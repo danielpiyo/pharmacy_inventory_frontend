@@ -56,6 +56,17 @@ export class AdminExpencesComponent implements OnInit {
       });
   }
 
+  applyFilter(filterValue: string) {
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+  
+  editNow(a,b,c,d) {
+
+  }
+
+  deleteNow(a,b) {
+
+  }
   // add new expence
   addNew() {
     // tslint:disable-next-line: no-use-before-declare

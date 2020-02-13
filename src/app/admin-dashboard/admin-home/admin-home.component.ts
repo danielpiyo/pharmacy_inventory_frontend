@@ -96,7 +96,7 @@ export class AdminHomeComponent implements OnInit {
       this.getWeeklyReports();
       this.getMonthlyReports();
       this.getDailyReportsDiscount();
-    }, 20000);
+    }, 120000);
     //
     this.getChartData();
     this.getChartsWeek();

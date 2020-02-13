@@ -46,11 +46,6 @@ import { AdminCheckoutComponent } from './admin-dashboard/admin-checkout/admin-c
 import { AppSettings } from './admin-dashboard/admin-home/app.settings';
 import { InfoCardsComponent } from './admin-dashboard/info-cards/info-cards.component';
 import { BubbleComponent } from './admin-dashboard/bubble/bubble.component';
-import { ModalModule } from 'ngx-bootstrap/modal';
-// tslint:disable-next-line: max-line-length
-import { NgIdleKeepaliveModule } from '@ng-idle/keepalive'; // this includes the core NgIdleModule but includes keepalive providers for easy wireup
-import { MomentModule } from 'angular2-moment'; // optional, provides moment-style pipes for date formatting
-
 
 import { PerfectScrollbarModule } from 'ngx-perfect-scrollbar';
 import { PERFECT_SCROLLBAR_CONFIG } from 'ngx-perfect-scrollbar';
@@ -63,15 +58,11 @@ import { DiscountedItemComponentChashier } from './cashier/discounted-item/disco
 import { DiscountedItemComponent } from './admin-dashboard/discounted-item/discounted-item.component';
 import { CheckoutDiscountedItemComponent } from './checkout-discounted-item/checkout-discounted-item.component';
 import { SalesSummaryComponent } from './admin-dashboard/admin-reports/sales-summary/sales-summary.component';
-import { AppService } from './_service/app.service';
-import { BsModalService } from 'ngx-bootstrap/modal';
-import { BsModalRef } from 'ngx-bootstrap/modal';
-import { ModalDirective } from 'ngx-bootstrap/modal';
 import { AdminExpencesComponent, AdminNewExpencesModal } from './admin-dashboard/admin-expences/admin-expences.component';
 import { ExpencesService } from './_service/expences.service';
 import { AdminIncomesComponent } from './admin-dashboard/admin-incomes/admin-incomes.component';
 import { AdminExpireComponent } from './admin-dashboard/admin-expire/admin-expire.component';
-
+import { BnNgIdleService } from 'bn-ng-idle'; // import bn-ng-idle service
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true
@@ -105,12 +96,10 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     ChangePriceComponent, ChangePriceModal, ItemBalanceComponent, DeleteCategoryModal,
     MoreItemModal, DiscountedItemComponentChashier, CheckedInModel, AdminDeleteItemModal,
     SalesReportComponent, MoreCategoriesModal, DiscountedItemComponent,
-     CheckoutDiscountedItemComponent, SalesSummaryComponent, AdminExpencesComponent, AdminNewExpencesModal, AdminIncomesComponent, AdminExpireComponent
+     CheckoutDiscountedItemComponent, SalesSummaryComponent, AdminExpencesComponent,
+      AdminNewExpencesModal, AdminIncomesComponent, AdminExpireComponent
   ],
   imports: [
-    NgIdleKeepaliveModule.forRoot(),
-    MomentModule,
-    ModalModule.forRoot(),
     FormsModule, ReactiveFormsModule, HttpClientModule, FlexLayoutModule,
     BrowserModule, routing,
     BrowserAnimationsModule, MatSidenavModule, MatAutocompleteModule,
@@ -131,7 +120,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   providers: [{
     provide: PERFECT_SCROLLBAR_CONFIG,
     useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG
-  }, AppService, BsModalService,
+  }, BnNgIdleService,
     AppSettings, LoginService, AlertService, AuthGuard, AdminAuthGuard, TodoService,
      ItemsService, CheckoutService, CategoriesService, ExpencesService],
   bootstrap: [AppComponent]
