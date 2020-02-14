@@ -19,12 +19,7 @@
 <div class="container panel panel-info">
 
   <div fxLayout="row" fxLayout.lt-sm="column">
-    <div fxFlex="20" fxFlexOffset="2.5" class="blue-menu blue-background shadow">
-
-      <h2 class="blue-title">
-        <span>Welcome</span>
-      </h2>
-
+    <div fxFlex="22" fxFlexOffset="2.5" class="blue-menu blue-background shadow">
       <!-- main left menu fxHide.lt-sm -->
 
       <ul class="main-menu" >
@@ -52,19 +47,19 @@
         </li>
         <li><a routerLink="/admin/item_discount" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
           <mat-icon class="mat-18">receipt</mat-icon>
-         Dicounted 
+         Disc.Medicine
         </a>
       </li>
         <li>
             <a routerLink="/admin/changePrice" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
               <mat-icon class="mat-18">settings</mat-icon>
-              Settings
+              Change Price
             </a>
           </li> 
         <li>
           <a routerLink="/admin/checkin" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
             <mat-icon class="mat-18">store</mat-icon>
-            Cash Sale
+            Sale / Store
           </a>
         </li>  
         <li>
@@ -92,10 +87,10 @@
       </ul>
 
     </div>
-    <div fxFlex="80" class="content-holder">
+    <div fxFlex="78" class="content-holder">
       <mat-card>
         <alert></alert>
-        <hr>
+       
         <router-outlet></router-outlet>
       </mat-card>
 

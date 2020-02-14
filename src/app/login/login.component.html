@@ -2,9 +2,14 @@
     <mat-card>
         <alert></alert>
     </mat-card>
-    <div class="p-body"> 
 
-        <div class="login-container">
+    <div fxLayout="column"> 
+            <div class="p-body" fxLayout="row" fxLayoutGap="2%" fxLayout.lt-sm="column">
+          
+                    <div fxFlex="20" fxFlexOffset="2"></div>
+
+
+        <div class="login-container" fxFlex="60">
             <mat-card class="login-form" [formGroup]="loginForm">
                     
                 <mat-form-field appearance="outline" >
@@ -25,4 +30,8 @@
             </mat-card>
         </div> 
     </div>
+    <div fxFlex="20" fxFlexOffset="2"></div>
+
+    </div>
+    
 </div>

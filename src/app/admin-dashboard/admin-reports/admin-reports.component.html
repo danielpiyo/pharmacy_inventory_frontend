@@ -1,4 +1,4 @@
-<perfect-scrollbar style="width: 100%; height: 90vh;">
+<perfect-scrollbar style="width: 100%; height: 75vh;">
 
     <div fxLayout="row wrap">
 
@@ -69,13 +69,11 @@
                 <!-- summery -->
                 <div fxFlex="100" class="international panel-info" *ngIf="state=='summary'">
                     <div class="panel-heading">Monthly Sales Summary</div>
-                    <app-sales-summary></app-sales-summary>
-                    <div class="panel-heading"><h2></h2></div>
+                    <app-sales-summary></app-sales-summary>                   
                 </div>
                 <!-- stock running out -->
                 <div fxFlex="100" class="international panel-info" *ngIf="state=='stockRunning'">
-                    <app-item-balance></app-item-balance>
-                    <div class="panel-heading"><h2></h2></div>
+                    <app-item-balance></app-item-balance>                   
                 </div>
 
                 <!-- expences and Income -->
@@ -283,19 +281,24 @@
     <!-- lower section weekly -->
     <div fxLayout="row wrap" *ngIf="state=='weekly'">
         <div fxFlex="100" fxFlex.gt-sm="79" class="flex-p panel-info">
-            <div fxLayoutAlign="left" class="panel-heading">
-                <h3>Weekly Sales Report</h3>
-            </div>
-            <div class="w-100 h-200p" #resizedDiv>
-
-                <div style="text-align: right; background-color: rgb(204, 227, 241);">
-                    <mat-form-field>
-                        <mat-label>Search Product</mat-label>
-                        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search Here">
-                    </mat-form-field>
+    
+            <div class="w-100 h-200p panel-info" #resizedDiv>
+    
+                <div class="panel-heading" fxLayout="row">
+                    <div fxFlex="50">
+                        <h4 class="panel-title">Weekly Sales Report</h4>
+                    </div>
+                    <div fxFlex="20">
+    
+                    </div>
+                    <div fxFlex="30">
+                        <mat-form-field style="text-align: left;">
+                            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search Here">
+                        </mat-form-field>
+                    </div>
                 </div>
-
-                <mat-card>
+    
+                <div>
 
                     <ng-scrollbar>
 
@@ -347,7 +350,7 @@
                         </table>
                         <!-- <mat-paginator [pageSizeOptions]="[5, 10, 15]" showFirstLastButtons></mat-paginator> -->
                     </ng-scrollbar>
-                </mat-card>
+                </div>
             </div>
 
         </div>
@@ -372,21 +375,25 @@
 
     <!-- lower section monthly -->
     <div fxLayout="row wrap" *ngIf="state=='monthly'">
-        <div fxFlex="100" fxFlex.gt-sm="79" class="flex-p panel-info">
-            <div fxLayoutAlign="left" class="panel-heading">
-                <h3>Monthly Sales Reports</h3>
-            </div>
-            <div class="w-100 h-200p" #resizedDiv>
-                <div style="text-align: right; background-color: rgb(204, 227, 241);">
-                    <mat-form-field>
-                        <mat-label>Search Product</mat-label>
-                        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search Here">
-                    </mat-form-field>
+        <div fxFlex="100" fxFlex.gt-sm="79" class="flex-p">
+    
+            <div class="w-100 h-200p panel-info" #resizedDiv>
+                <div class="panel-heading" fxLayout="row">
+                    <div fxFlex="50">
+                        <h4 class="panel-title">Monthly Sales Reports</h4>
+                    </div>
+                    <div fxFlex="20">
+    
+                    </div>
+                    <div fxFlex="30">
+                        <mat-form-field style="text-align: left;">
+                            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search Here">
+                        </mat-form-field>
+                    </div>
                 </div>
-
-                <mat-card>
-
-                    <ng-scrollbar>
+    
+                <div>     
+                      <ng-scrollbar>
 
                         <table mat-table [dataSource]="dataSourceMonth" matSort>
                             <ng-container matColumnDef="number">
@@ -437,7 +444,7 @@
                         <!-- <mat-paginator [pageSizeOptions]="[5, 10, 15]" showFirstLastButtons></mat-paginator> -->
 
                     </ng-scrollbar>
-                </mat-card>
+                </div>
             </div>
         </div>
 

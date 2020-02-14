@@ -18,7 +18,7 @@
 
 .h2-header {
   font-weight: 300 !important;
-  color: #707070;
+  color: white;
   margin-bottom: 0 !important;
   margin-left: 1% !important;
 }
@@ -88,16 +88,28 @@
 
 /* // style second metrics on the dashboard */
 .blue-solid {
-  color: #ffffff !important;
-  background-color: #d9edf7;
+  height: 10vh!important;
+  background-color: #ec954e;
+  color: #fff;
+  border-radius: 4px;
 }
 
+.amount {
+  background-color: whitesmoke;
+  border-radius: 6px;
+}
 .white-solid {
-  background-color: #d9edf7;
+  background-color: #5bd862;
+  color: #fff;
+  border-radius: 4px;
+  height: 10vh;
 }
 
 .yellow-solid {
-  background-color: #d9edf7;
+  height: 10vh!important;
+  background-color: #42a5f5;
+  color: #fff;
+  border-radius: 4px;
 }
 .section-1-cnt .stats {
   font-size: 3em !important;
@@ -322,5 +334,5 @@ table{
  }
  
  .summary_day_week_month {
-   height: 50vh;
+   height: 40vh;
  }

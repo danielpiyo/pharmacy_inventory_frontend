@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { BnNgIdleService } from 'bn-ng-idle'; // import it to your component
 import { Router } from '@angular/router';
 import { LoginService, AlertService } from './_service';
+import { UserToken } from './_model/user';
 
 
 @Component({
@@ -13,6 +14,7 @@ export class AppComponent {
   title = 'pharmacy';
   year: any;
   idleState = 'Not started.';
+  userToken: UserToken = new UserToken();
 
   constructor(
     private loginService: LoginService,
@@ -20,6 +22,8 @@ export class AppComponent {
     private bnIdle: BnNgIdleService,
     private alertService: AlertService) {
     this.year =  this.year = (new Date()).getFullYear();
+    this.userToken.token = JSON.parse(localStorage.getItem('currentToken'));
+    // console.log('this.userToken.token', this.userToken.token);
     this.timeOut();
 
   }
@@ -29,7 +33,9 @@ export class AppComponent {
       if (res) {
           console.log('session expired');
           this.logout();
-          this.alertService.error('You have beeen Loged Out due to 5Minutes of inactivity. Please Login Again to proceed', true);
+          if (this.userToken.token != null) {
+            this.alertService.error('You have beeen Loged Out due to 5Minutes of inactivity. Please Login Again to proceed', true);
+          }
       }
     });
   }

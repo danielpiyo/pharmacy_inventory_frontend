@@ -63,6 +63,7 @@ import { ExpencesService } from './_service/expences.service';
 import { AdminIncomesComponent } from './admin-dashboard/admin-incomes/admin-incomes.component';
 import { AdminExpireComponent } from './admin-dashboard/admin-expire/admin-expire.component';
 import { BnNgIdleService } from 'bn-ng-idle'; // import bn-ng-idle service
+import { PanelMenuModule } from 'primeng/panelmenu';
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
   suppressScrollX: true
@@ -110,7 +111,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     MatInputModule, MatDialogModule, MatProgressBarModule,
     MatTooltipModule, MatDatepickerModule, MatCheckboxModule,
     MatExpansionModule, MatSlideToggleModule, MatProgressSpinnerModule, NgxDonutChartModule,
-    MatNativeDateModule, NgScrollbarModule, MatTabsModule, MatFormFieldModule, PerfectScrollbarModule
+    MatNativeDateModule, NgScrollbarModule, MatTabsModule, MatFormFieldModule, PerfectScrollbarModule, PanelMenuModule
   ],
   entryComponents: [
     CheckinModal, DetailsModal, CategoryModal, AdminDetailsModal, AdminCheckinModal, AdminNewExpencesModal,
