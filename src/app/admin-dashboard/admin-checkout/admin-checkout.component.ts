@@ -79,7 +79,7 @@ export class AdminCheckoutComponent implements OnInit {
       // this.generatePdf()
       // console.log('CheckoutResponce', response);
       this.alertService.success('CheckOut was Succesfull', true);
-      this.router.navigate(['/admin/checkin']);
+      this.router.navigate(['/admin/items']);
     },
     error => {
       this.loading = false;

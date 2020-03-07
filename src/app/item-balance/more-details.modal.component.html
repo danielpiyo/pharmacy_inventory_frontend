@@ -6,9 +6,13 @@
                 <h4 class="panel-title">Products with Low stock Levels & their performance</h4>
             </div>
             <div fxFlex="30">
-                <mat-form-field style="text-align: left;">
+                <!-- <mat-form-field style="text-align: left;">
                     <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search Here">
-                </mat-form-field>
+                </mat-form-field> -->
+                <div fxFlex fxLayout="row" fxLayoutAlign="start center">
+                        <mat-icon>search</mat-icon>
+                        <input class="search" (keyup)="applyFilter($event.target.value)" placeholder="Search for a product">
+                    </div>
             </div>
             <div fxFlex="20">
                 <div style="text-align: right;">

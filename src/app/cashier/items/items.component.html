@@ -3,12 +3,16 @@
   <div class="float-content panel-primary" fxLayout="column">
     <div class="panel-heading" fxLayout="row">
       <div fxFlex="50">
-        <h4 class="panel-title">Stocked Product List</h4>
+        <h4 class="panel-title">List of products in current Stock</h4>
       </div>
       <div fxFlex="50">
-        <mat-form-field style="text-align: left;">
+        <!-- <mat-form-field style="text-align: left;">
           <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search Here">
-        </mat-form-field>
+        </mat-form-field> -->
+        <div fxFlex fxLayout="row" fxLayoutAlign="start center">
+            <mat-icon>search</mat-icon>
+            <input class="search" (keyup)="applyFilter($event.target.value)" placeholder="Search for a product">
+        </div>
       </div>
     </div>
 

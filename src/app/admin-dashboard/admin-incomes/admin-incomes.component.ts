@@ -89,6 +89,7 @@ export class AdminIncomesComponent implements OnInit {
         console.log('ProfitLoss', this.profitLoss);
       }, error => {
         this.totalMonthlyExpence = 0;
+        this.profitLoss = (this.allMonthlyIncome - this.totalMonthlyExpence);
         console.log(error);
       });
   }

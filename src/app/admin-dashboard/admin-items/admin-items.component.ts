@@ -10,17 +10,17 @@ import { Subscription} from 'rxjs';
 
 
 export interface AllItems {
-  id: Number;
-  category_id: Number;
-  category: String;
+  id: number;
+  category_id: number;
+  category: string;
   name: string;
-  quantity: Number;
-  buying_price: Number;
-  price: Number;
-  description: String;
-  createdBy: String;
+  quantity: number;
+  buying_price: number;
+  price: number;
+  description: string;
+  createdBy: string;
   created_date: Date;
-  discount_yn: String;
+  discount_yn: string;
   contolled_status: string;
   suplier: string;
 
@@ -44,7 +44,7 @@ export class AdminItemsComponent implements OnInit {
 
 
   public displayedColumns = ['number', 'Category', 'Name', 'controlled', 'Quantity',
-                             'Buying_Price', 'Price', 'suplier', 'details', 'edit', 'delete'];
+                             'Buying_Price', 'Price', 'suplier', 'CheckOut', 'details', 'edit', 'delete'];
 
 public dataSource = new MatTableDataSource<AllItems>();
 
@@ -68,7 +68,7 @@ public dataSource = new MatTableDataSource<AllItems>();
     this.getAllItems();
     this.interval = setInterval(() => {
       this.getAllItems();
-        }, 20000);
+        }, 50000);
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
   }
@@ -91,7 +91,18 @@ applyFilter(filterValue: string) {
   this.dataSource.filter = filterValue.trim().toLowerCase();
 }
 
-// check out
+// checkout
+// tslint:disable-next-line: variable-name
+checkOutNow(item_id, category_id, quantity_from, item_price, name, category) {
+  // console.log('selected',{item_id, category_id, quantity_from,item_price, name, category});
+  this.itemService.setDataToCheckOut(item_id, category_id, quantity_from, item_price, name, category);
+  this.itemService.showOpacity = true;
+  setTimeout(() => {  // timeout for smooth transition
+    this.itemService.showStep1 = true;
+  }, 500);
+}
+
+
 // tslint:disable-next-line: variable-name
 getDetails(item_id, category_id, quantity_from, item_buying_price, item_price,
            name, category, description, createdBy, created_date, discount_yn, suplier, controlled_status, expire_date) {
@@ -161,6 +172,8 @@ editNow(id, category_id, quantity, buying_price, price, category, name, descript
 ngOnDestroy() {
   if (this.itemsSubscription) {
     this.itemsSubscription.unsubscribe();
+    this.itemService.showOpacity = false;
+    this.itemService.showStep1 = false;
   }
 }
 
@@ -247,10 +260,14 @@ getCategories() {
 
 addNewItem() {
   this.loading = true;
+  console.log('date', this.expireDateModel.expire_date);
   this.newItemModel.token = this.currentToken;
   this.exYear =  this.expireDateModel.expire_date.getFullYear();
+  console.log('year', this.exYear);
   this.exDay = this.expireDateModel.expire_date.getDay();
+  console.log('day', this.exDay);
   this.exMonth = this.expireDateModel.expire_date.getMonth();
+  console.log('month', this.exMonth);
   this.newItemModel.expire_date = this.exYear + '-' + this.exMonth + '-' + this.exDay;
   console.log('NewItem', this.newItemModel);
   this.itemService.addNewItem(this.newItemModel)

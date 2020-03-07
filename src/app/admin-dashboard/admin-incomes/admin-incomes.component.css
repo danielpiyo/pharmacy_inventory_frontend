@@ -1,3 +1,8 @@
 .summery {
     height: 42vh;
 }
+.expence-income{
+    background-color: goldenrod;
+    color: white;
+    border-radius: 4px;
+}

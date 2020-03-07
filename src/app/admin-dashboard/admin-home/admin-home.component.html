@@ -7,9 +7,9 @@
     </div>
 
     <div class="row-float-sections colored-tiles" fxLayout="row" fxLayoutGap="2%" fxLayout.lt-sm="column">
-      <div class="tile-1 white-solid shadow " fxFlex="30" fxFlexOffset="2">
+      <div class="tile-1 white-solid shadow " fxFlex="28" fxFlexOffset="2">
         <div class="stats1-title " >
-          <mat-card-header class="h2-header" matTooltip="Daily Sales">
+          <mat-card-header class="h2-header" matTooltip="Daily Sales for products without Discount">
             Day's Sale <mat-icon>timeline</mat-icon>
             <!-- <mat-icon aria-hidden="false" aria-label="Example home icon">add</mat-icon> -->
           </mat-card-header>
@@ -20,7 +20,7 @@
       </div> 
       <div class=" blue-solid shadow" fxFlex="35">
         <div class="stats1-title " >
-          <mat-card-header class="h2-header" matTooltip="All Weekly sales">
+          <mat-card-header class="h2-header" matTooltip="Weekly sales for products without Discount">
             Week's Sale <mat-icon>timeline</mat-icon>
             <!-- <mat-icon aria-hidden="false" aria-label="Example home icon">add</mat-icon> -->
           </mat-card-header>
@@ -29,10 +29,10 @@
           </mat-card-content>
         </div>
       </div>
-      <div class="shadow yellow-solid" fxFlex="35">
+      <div class="shadow yellow-solid" fxFlex="37">
         <div class="stats1-title ">
-          <mat-card-header class="h2-header" matTooltip="All Monthly Sales">
-            Month's Sale <mat-icon>timeline</mat-icon>
+          <mat-card-header class="h2-header" matTooltip="Monthly Sales for products without Discount">
+            Month Sale <mat-icon>timeline</mat-icon>
             <!-- <mat-icon aria-hidden="false" aria-label="Example home icon">add</mat-icon> -->
           </mat-card-header>
           <mat-card-content class="amount">
@@ -59,7 +59,7 @@
           </mat-card>
       </div> 
       <div class="section-1-cnt yellow-tile shadow invoice-due panel-info" fxFlex="35">
-        <mat-card class="panel-info stats1-title">
+        <mat-card class="panel-info stats1-title" matTooltip="Daily Sold products (Discounted + Undiscounted)">
           <button mat-raised-button color="primary" class=" panel-heading" matBadge="{{totalCheckOutToday}}" matBadgePosition="before"
             matBadgeColor="accent">
             Sold Products(Today)
@@ -70,7 +70,7 @@
         </mat-card>
       </div>
       <div class="section-1-cnt yellow-tile shadow invoice-paid panel-info" fxFlex="35">
-        <mat-card class="panel-info stats1-title">
+        <mat-card class="panel-info stats1-title" matTooltip="Daily Sales for products with Discount">
           <button mat-raised-button color="primary" class=" panel-heading" matBadge="{{allDiscount}}" matBadgePosition="before"
             matBadgeColor="accent">
             Discounted Products (Today)

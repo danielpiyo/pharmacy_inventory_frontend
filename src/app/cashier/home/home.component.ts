@@ -1,22 +1,22 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { User, UserToken } from 'src/app/_model/user';
 import { Router } from '@angular/router';
 import { TodoService } from 'src/app/_service/todo.service';
 import { MatTableDataSource, MatSort, MatPaginator } from '@angular/material';
 import { ItemsService } from 'src/app/_service/items.service';
 import { AlertService } from 'src/app/_service';
+import { Subscription } from 'rxjs';
 
 export interface AllItems {
-  id: Number
-  category_id: Number
-  category: String
-  name: string
-  quantity: Number
-  price: Number,
-  description: String
-  createdBy: String
-  created_date: Date
-  
+  id: number;
+  category_id: number;
+  category: string;
+  name: string;
+  quantity: number;
+  price: number;
+  description: string;
+  createdBy: string;
+  created_date: Date;
 }
 
 
@@ -28,18 +28,17 @@ export interface AllItems {
 export class HomeComponent implements OnInit {
   allItems: any;
   userToken: any;
-  currentUser: User
+  currentUser: User;
   public todoList: Array<any>;
-  public newTodoText: string = '';
+  public newTodoText = '';
+  itemSubscription: Subscription;
 
   // items functionality
   allMyAssignedREquest: any;
-  
 
-  public displayedColumns = ['number', 'Category', 'Name', 'Quantity', 'Price', 'CheckOut']
+  public displayedColumns = ['number', 'Category', 'Name', 'Quantity', 'Price', 'CheckOut'];
 
 public dataSource = new MatTableDataSource<AllItems>();
-  
 
   @ViewChild(MatSort, { static: true }) sort: MatSort;
 
@@ -51,25 +50,25 @@ public dataSource = new MatTableDataSource<AllItems>();
     private toDoService: TodoService,
     public itemService: ItemsService,
     private alertService: AlertService
-  ) { 
-    this.currentUser = JSON.parse(localStorage.getItem('currentUser'))
-    this.todoList = this.toDoService.getTodoList()
+  ) {
+    this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    this.todoList = this.toDoService.getTodoList();
     this.userToken = JSON.parse(localStorage.getItem('currentToken'));
   }
 
   ngOnInit() {
-    this.getAllItems()
+    this.getAllItems();
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
     setInterval(() => {
-      this.getAllItems()
+      this.getAllItems();
     }, 20000);
   }
 
 // get Items
-getAllItems(){
+getAllItems() {
   // console.log(this.userToken);
-  this.itemService.getAllItems({token: this.userToken})
+  this.itemSubscription = this.itemService.getAllItems({token: this.userToken})
   .subscribe((response) => {
     this.allItems = response;
     this.dataSource.data = this.allItems as AllItems[];
@@ -86,13 +85,20 @@ applyFilter(filterValue: string) {
 }
 
 // check out
-checkOutNow(item_id, category_id, quantity_from, item_price, name, category){
+// tslint:disable-next-line: variable-name
+checkOutNow(item_id, category_id, quantity_from, item_price, name, category) {
   // console.log('selected',{item_id, category_id, quantity_from,item_price, name, category});
   this.itemService.setDataToCheckOut(item_id, category_id, quantity_from, item_price, name, category);
   this.itemService.showOpacity = true;
   setTimeout(() => {  // timeout for smooth transition
     this.itemService.showStep1 = true;
-  }, 500)
+  }, 500);
 }
 
+// tslint:disable-next-line: use-lifecycle-interface
+ngOnDestroy() {
+  if (this.itemSubscription) {
+    this.itemSubscription.unsubscribe();
+  }
+}
 }

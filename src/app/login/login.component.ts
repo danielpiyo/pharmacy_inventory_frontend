@@ -35,19 +35,19 @@ export class LoginComponent implements OnInit {
     this.loginForm = this.fb.group({
       email: ['', [
         Validators.required,
-        Validators.pattern("[^ @]*@[^ @]*")]],
+        Validators.pattern('[^ @]*@[^ @]*')]],
       password: ['', Validators.required]
-    })
+    });
   }
 
   loginUser() {
-    this.loading = true
+    this.loading = true;
     const formData = this.loginForm.value;
 
     const payload: Login = {
       email: formData.email,
       password: formData.password
-    }
+    };
     this.loginSubscription = this.loginService.logIn(payload)
       .subscribe((data: LoginResponse) => {
         this.currentPerson = data.user;
@@ -58,11 +58,11 @@ export class LoginComponent implements OnInit {
           this.appService.setUserLoggedIn(true);
           switch (this.currentPerson.role) {
             case 'user':
-              this.alertService.success('You have succesfully Loged In as a Cashier')
+              this.alertService.success('You have succesfully Loged In as a Cashier');
               this.router.navigate(['/cashier']);
               break;
             case 'admin':
-              this.alertService.success('You have succesfully Loged In as an Administrator')
+              this.alertService.success('You have succesfully Loged In as an Administrator');
               this.router.navigate(['/admin']);
               this.loading = false;
               break;
@@ -71,14 +71,15 @@ export class LoginComponent implements OnInit {
       }, error => {
         this.loading = false;
         this.alertService.error(error.error.message);
-        console.log(error)
-      })
+        console.log(error);
+      });
   }
 
   public hasError = (controlName: string, errorName: string) => {
     return this.loginForm.controls[controlName].hasError(errorName);
   }
 
+  // tslint:disable-next-line: use-lifecycle-interface
   ngOnDestroy() {
     if (this.loginSubscription) {
       this.loginSubscription.unsubscribe();

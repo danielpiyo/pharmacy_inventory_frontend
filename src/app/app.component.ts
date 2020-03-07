@@ -29,12 +29,12 @@ export class AppComponent {
   }
 
   timeOut() {
-    this.bnIdle.startWatching(300).subscribe((res) => {
+    this.bnIdle.startWatching(360).subscribe((res) => {
       if (res) {
           console.log('session expired');
           this.logout();
           if (this.userToken.token != null) {
-            this.alertService.error('You have beeen Loged Out due to 5Minutes of inactivity. Please Login Again to proceed', true);
+            this.alertService.error('You have beeen Loged Out due to inactivity. Please Login Again to proceed', true);
           }
       }
     });

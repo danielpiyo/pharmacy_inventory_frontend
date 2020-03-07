@@ -63,7 +63,7 @@ public dataSource = new MatTableDataSource<AllItems>();
     this.getAllItems();
     this.interval = setInterval(() => {
       this.getAllItems();
-  }, 10000);
+  }, 50000);
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
   }
@@ -71,7 +71,7 @@ public dataSource = new MatTableDataSource<AllItems>();
 // get Items
 getAllItems() {
   // console.log(this.userToken);
- this.itemsSubscription = this.itemService.getAllItems({token: this.userToken})
+ this.itemsSubscription = this.itemService.getAllItemsIn({token: this.userToken})
   .subscribe((response) => {
     this.allItems = response;
     this.dataSource.data = this.allItems as AllItems[];

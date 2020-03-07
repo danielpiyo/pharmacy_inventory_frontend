@@ -7,7 +7,7 @@
             <button (click)="onNoClick()" mat-raised-button color="warn" > <mat-icon class="mat-18">clear</mat-icon></button>
            </div>        
         </div>
-        <mat-card>     
+        <div>     
             <div class="opportunity-container">
                 <mat-card class="panel panel-info">
                     <mat-card-header class="panel-heading">
@@ -15,27 +15,31 @@
                     </mat-card-header> <br>
                     <mat-card-content>
                         Medicine Name: {{data.name}}
-                        <hr><br>
-                        Controlled: {{data.controlled_status}}
-                        <hr> <br>
+                        <hr>                        
+                        <div *ngIf="data.controlled_status=='Controlled'">
+                            Controlled: Yes <hr> <br>
+                        </div>
+                        <div *ngIf="data.controlled_status !=='Controlled'">
+                            Controlled: No <hr>
+                            </div>                        
                         Buying Price: {{data.item_buying_price}}
-                        <hr> <br>
+                        <hr> 
                         Selling Price: {{data.item_price}}
-                        <hr> <br>
+                        <hr> 
                         Expiry Date: {{data.expire_date | date: 'dd/MM/yyyy'}}
-                        <hr> <br>
+                        <hr> 
                         <div *ngIf="data.discount_yn=='N'">
-                            Discount Allowed: NO <hr> <br>
+                            Discount Allowed: NO <hr>
                         </div>
                         <div *ngIf="data.discount_yn=='Y'">
-                                Discount Allowed: YES <hr> <br>
+                                Discount Allowed: YES <hr>
                             </div>
                         Stock Quantity: {{data.quantity_from}}
-                        <hr> <br>
+                        <hr>
                         Supplier: {{data.suplier}}
                     </mat-card-content> 
                     <textarea name="" id="" cols="38" rows="5" readonly>{{data.description}}</textarea>
                 </mat-card>
             </div>
-        </mat-card>
+        </div>
     </div>

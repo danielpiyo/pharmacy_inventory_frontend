@@ -3,9 +3,15 @@
     <div class="float-content panel-primary" fxLayout="column">
         <div class="panel-heading" fxLayout="row">
             <div fxFlex="50"><h4 class="panel-title">CheckIn more Items</h4></div>
-            <div fxFlex="50"><mat-form-field style="text-align: left;">
+            <div fxFlex="50">
+              <!-- <mat-form-field style="text-align: left;">
                 <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Search Here">
-              </mat-form-field></div>
+              </mat-form-field> -->
+              <div fxFlex fxLayout="row" fxLayoutAlign="start center">
+                  <mat-icon>search</mat-icon>
+                  <input class="search" (keyup)="applyFilter($event.target.value)" placeholder="Search for a product">
+              </div>
+            </div>
         </div>
         
         <ng-scrollbar> 

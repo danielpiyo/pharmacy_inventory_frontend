@@ -1,9 +1,10 @@
-import { Component, OnInit, ViewChild, Inject } from '@angular/core';
+import { Component, OnInit, ViewChild, Inject, OnDestroy } from '@angular/core';
 import { User } from 'src/app/_model/user';
 import { MatTableDataSource, MatSort, MatPaginator, MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Router } from '@angular/router';
 import { ItemsService, AlertService } from 'src/app/_service';
 import { TocheckIn, AmountToAdd } from 'src/app/_model/checkIn';
+import { Subscription } from 'rxjs';
 
 
 export interface AllItems {
@@ -34,6 +35,7 @@ export class ItemsComponent implements OnInit {
   currentUser: User;
   public todoList: Array<any>;
   public newTodoText = '';
+  itemSubscription: Subscription;
 
   // items functionality
   allMyAssignedREquest: any;
@@ -68,7 +70,7 @@ public dataSource = new MatTableDataSource<AllItems>();
 // get Items
 getAllItems() {
   // console.log(this.userToken);
-  this.itemService.getAllItemsIn({token: this.userToken})
+ this.itemSubscription = this.itemService.getAllItemsIn({token: this.userToken})
   .subscribe((response) => {
     this.allItems = response;
     this.dataSource.data = this.allItems as AllItems[];
@@ -110,7 +112,12 @@ getDetails(item_id, category_id, quantity_from, item_buying_price, item_price,
   });
 }
 
-
+// tslint:disable-next-line: use-lifecycle-interface
+ngOnDestroy() {
+  if (this.itemSubscription) {
+    this.itemSubscription.unsubscribe();
+  }
+}
 }
 
 

@@ -1,10 +1,11 @@
-import { Component, OnInit, ViewChild, Inject } from '@angular/core';
+import { Component, OnInit, ViewChild, Inject, OnDestroy } from '@angular/core';
 import { User } from 'src/app/_model/user';
 import { MatTableDataSource, MatSort, MatPaginator, MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
 import { AllItems } from '../home/home.component';
 import { Router } from '@angular/router';
 import { ItemsService, AlertService } from 'src/app/_service';
 import { AmountToAdd, TocheckIn } from 'src/app/_model/checkIn';
+import { Subscription } from 'rxjs';
 
 export interface AllItems {
   id: number;
@@ -31,6 +32,7 @@ export class CheckinComponent implements OnInit {
   currentUser: User;
   public todoList: Array<any>;
   public newTodoText = '';
+  itemSubscription: Subscription;
 
   // items functionality
   allMyAssignedREquest: any;
@@ -62,13 +64,13 @@ public dataSource = new MatTableDataSource<AllItems>();
     this.dataSource.paginator = this.paginator;
     setInterval(() => {
       this.getAllItems();
-        }, 20000);
+        }, 50000);
   }
 
 // get Items
 getAllItems() {
   // console.log(this.userToken);
-  this.itemService.getAllItemsIn({token: this.userToken})
+  this.itemSubscription = this.itemService.getAllItemsIn({token: this.userToken})
   .subscribe((response) => {
     this.allItems = response;
     this.dataSource.data = this.allItems as AllItems[];
@@ -101,6 +103,12 @@ checkinNow(item_id, category_id, quantity_from, item_price, name, buying_price) 
     }
   });
 }
+// tslint:disable-next-line: use-lifecycle-interface
+ngOnDestroy() {
+  if (this.itemSubscription) {
+    this.itemSubscription.unsubscribe();
+  }
+}
 
 }
 
@@ -109,6 +117,7 @@ checkinNow(item_id, category_id, quantity_from, item_price, name, buying_price) 
   // tslint:disable-next-line: component-selector
   selector: 'checkin-modal',
   templateUrl: 'checkin.modal.component.html',
+  styleUrls: ['./checkin.component.css']
 })
 // tslint:disable-next-line: component-class-suffix
 export class CheckinModal {
